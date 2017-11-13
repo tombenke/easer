@@ -1,7 +1,7 @@
 eauth
 =====
 
-![experimental](http://badges.github.io/stability-badges/dist/experimental.svg)](http://github.com/badges/stability-badges)
+![experimental](http://badges.github.io/stability-badges/dist/experimental.svg)
 
 A simple, generic express server with built-in authentication and authorization.
 
