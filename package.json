@@ -1,0 +1,64 @@
+{
+  "name": "eauth",
+  "description": "simple express server with authentication and authorization",
+  "version": "1.0.0",
+  "tags": [
+    "rest",
+    "api",
+    "web"
+  ],
+  "author": {
+    "name": "Tamás Benke",
+    "email": "tombenke@gmail.com"
+  },
+  "bugs": {
+    "url": "https://github.com/tombenke/eauth/issues"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/tombenke/eauth",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/tombenke/eauth.git"
+  },
+  "main": "server/index.js",
+  "dependencies": {
+    "bcrypt-nodejs": "latest",
+    "body-parser": "~1.15.2",
+    "cookie-parser": "~1.4.3",
+    "connect-flash": "~0.1.1",
+    "connect-ensure-login": "^0.1.1",
+    "ejs": "~2.5.2",
+    "express": "~4.14.0",
+    "express-session": "~1.14.1",
+    "method-override": "~2.3.6",
+    "mongoose": "~4.6.1",
+    "morgan": "~1.7.0",
+    "passport": "~0.3.2",
+    "passport-local": "~1.0.0",
+    "passport-facebook": "~2.1.1",
+    "passport-twitter": "~1.0.4",
+    "passport-google-oauth": "~1.0.0"
+  },
+  "devDependencies": {
+    "coveralls": "^2.11.15",
+    "cross-env": "^2.x.x",
+    "eslint": "^3.10.2",
+    "istanbul": "1.0.0-alpha.2",
+    "mocha": "^2.x.x",
+    "mocha-lcov-reporter": "^1.2.0",
+    "pre-push": "^0.1.1",
+    "superagent": "^3.1.0"
+  },
+  "scripts": {
+    "start": "node server/index.js",
+    "lint": "eslint server/**.js",
+    "test": "cross-env NODE_ENV=test mocha --recursive 'server/**/*.spec.js'",
+    "test:watch": "npm test -- --watch",
+    "coverage": "NODE_ENV=test istanbul cover _mocha -- recursive --timeout 15000 'server/**/*.spec.js'",
+    "coveralls": "NODE_ENV=test istanbul cover _mocha --report lcovonly -- recursive --timeout 15000 'lib/**/*.spec.js' -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
+  },
+  "pre-push": [
+    "lint",
+    "test"
+  ]
+}

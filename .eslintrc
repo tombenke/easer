@@ -1,0 +1,16 @@
+{
+    "extends": "eslint:recommended",
+    "env": {
+        "node": true,
+        "mocha": true,
+        "es6": true
+    },
+    "rules": {
+        no-trailing-spaces: ["error", { "skipBlankLines": true }],
+        no-unused-vars: ["error", { "args": "none", "varsIgnorePattern": "should|api|monitoring" }],
+        comma-spacing: ["error", { "before": false, "after": true }],
+        key-spacing: ["error", { "beforeColon": false }],
+        no-console: 0,
+        indent: ["error", 4]
+    }
+}
