@@ -98,8 +98,9 @@ The password hash can be generated via the `bin/encpwd.js` CLI tool:
 
 Then copy the bcrypted result into the user's `password` field.
 
-Node: This is temporary, not really secure solution to the CLI tool, so make sure that nobody can see the screen and access to the console log.
-Also make sure that the users.yml is not placed to a publicly available place, nor into a folder, where the normal users can easily access to it.
+__Note: _This is temporary, not really secure solution to the CLI tool, so make sure that nobody can see the screen and access to the console log.
+Also make sure that the users.yml is not placed to a publicly available place, nor into a folder, where the normal users can easily access to it._
+__
 
 
 ### TODO
