@@ -14,13 +14,14 @@ exports.set = function(server, auth) {
     });
      */
 
-    server.post('/login', auth.authenticate('local', {
+    server.post('/login',
+        auth.authenticate('local', {
             successRedirect: '/private/',
             failureRedirect: '/login.html'
         }),
         function(req, res) {
             res.redirect('/');
-    });
+        });
 
     server.get('/logout', function(req, res) {
         req.logout();
@@ -30,7 +31,7 @@ exports.set = function(server, auth) {
     server.get('/private/profile', ensureLoggedIn('/login.html'),
         function(req, res) {
             res.render('profile', { user: req.user });
-    });
+        });
 
     server.use('/', express.static(__dirname + '/' + '../content/public/'))
     server.use('/private/', ensureLoggedIn('/login.html'), express.static(__dirname + '/' + '../content/private/'))

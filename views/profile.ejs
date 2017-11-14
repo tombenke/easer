@@ -25,6 +25,7 @@
                 <% if (user) { %>
                     <p>
                         <strong>id</strong>: <%= user.id %><br>
+                        <strong>full name</strong>: <%= user.fullName %><br>
                         <strong>username</strong>: <%= user.username %><br>
                         <strong>email</strong>: <% if (user.emails) { %> <%= user.emails[0].value %><br/> <% } %>
                     </p>

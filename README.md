@@ -50,13 +50,14 @@ Start the server:
 ```
 
 then open the [public landing page URL](http://localhost:3007).
-Login with the jack/secret username/password credentials,
+Login with the guest/guest username/password credentials,
 and see the user profile under the private pages.
 Logout, then try to access again to the private area, then you should be forwarded 
 to the login form again.
 
+Double check the server log, and you should see something like this:
+
 ```bash
-    Double check the server log, and you shoul see something like this:
     GET / 200 24.014 ms - 791
     GET /favicon.ico 404 4.760 ms - 24
     GET /login.html 304 7.633 ms - -
@@ -74,18 +75,24 @@ to the login form again.
 TBD.
 
 ### TODO
+- Implement simple CLI to generate crypted passwords.
 - Implement local user credentials flat file for authentication.
-- Make the module run both as a module and as a standalone server installed with `-g`.
 - Implement server configuration (content path, credentials, ACLs).
-- Implement simple CLI to generate crypted passwords in the user credentials file.
-- Implement the /profile service to provide porfile data for a static private page
+- Make the module run both as a module and as a standalone server installed with `-g`.
+- Implement password generator to work into the user credentials file.
+- Implement the /profile service to provide profile data for a static private page
   (eliminate ejs views).
-- Implement unit tests.
 - Implement ACL for authorization.
 - Select between HTTP/HTTPS.
+- Implement and add the microservice gw module (rest-ap spec based forwarding to seneca/hemera agent)
 
 ### References
 - [Passport - Simple, unobtrusive authentication for Node.js](http://www.passportjs.org/)
 - [jaredhanson/passport-local](https://github.com/jaredhanson/passport-local)
 - [Easy Node Authentication...](https://scotch.io/tutorials/easy-node-authentication-setup-and-local)
 - [Express over HTTPS](http://blog.mgechev.com/2014/02/19/create-https-tls-ssl-application-with-express-nodejs/)
+
+- [How To Safely Store A Password](https://codahale.com/how-to-safely-store-a-password/)
+- [bcrypt / wikipedia](https://en.wikipedia.org/wiki/Bcrypt)
+- [bcrypt / npmjs.org](https://www.npmjs.com/package/bcrypt)
+
