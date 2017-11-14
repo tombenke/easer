@@ -1,8 +1,10 @@
 #!/usr/bin/env node
-const password = require('../server/auth/password')
+const password = require('../lib/server/auth/password')
 
-//const ppwd = "12WWert gsdf SS-~"
+if (process.argv.length === 3) {
+    const ppwd = process.argv[2]
+    console.log(ppwd + ' >> ' + password.encript(ppwd))
+} else {
+    console.log('Usage: encpwd <password>')
+}
 
-//console.log(password.compare(ppwd, password.encript(ppwd)))
-const ppwd = process.argv[2]
-console.log(ppwd + ' >> ' + password.encript(ppwd))

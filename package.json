@@ -20,7 +20,7 @@
     "type": "git",
     "url": "http://github.com/tombenke/eauth.git"
   },
-  "main": "server/index.js",
+  "main": "lib/server/index.js",
   "dependencies": {
     "bcrypt": "^1.0.3",
     "bcrypt-nodejs": "latest",
@@ -28,6 +28,7 @@
     "connect-ensure-login": "^0.1.1",
     "connect-flash": "~0.1.1",
     "cookie-parser": "~1.4.3",
+    "datafile": "^1.0.0",
     "ejs": "~2.5.2",
     "expect": "^21.2.1",
     "express": "~4.14.0",
@@ -52,11 +53,11 @@
     "superagent": "^3.1.0"
   },
   "scripts": {
-    "start": "node server/index.js",
-    "lint": "eslint server/**.js",
-    "test": "cross-env NODE_ENV=test mocha --recursive 'server/**/*.spec.js'",
+    "start": "node lib/server/index.js",
+    "lint": "eslint lib/**.js",
+    "test": "cross-env NODE_ENV=test mocha --recursive 'lib/**/*.spec.js'",
     "test:watch": "npm test -- --watch",
-    "coverage": "NODE_ENV=test istanbul cover _mocha -- recursive --timeout 15000 'server/**/*.spec.js'",
+    "coverage": "NODE_ENV=test istanbul cover _mocha -- recursive --timeout 15000 'lib/**/*.spec.js'",
     "coveralls": "NODE_ENV=test istanbul cover _mocha --report lcovonly -- recursive --timeout 15000 'lib/**/*.spec.js' -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
   },
   "pre-push": [

@@ -72,12 +72,37 @@ Double check the server log, and you should see something like this:
 
 ### Server configuration
 
-TBD.
+`eauth` is configured through the followinf environment variables:
+
+- `EAUTH_PORT`: The port where the server will listen.
+- `EAUTH_VIEWSPATH`: The base path for the server-side view templates.
+- `EAUTH_CONTENTPATH_PUBLIC`: The base path for the public content.
+- `EAUTH_CONTENTPATH_PRIVATE`: The base path for the private pages.
+- `EAUTH_USERS`: YAML format file, which describes the user credentials.
+
+See [config/index.js](config/index.js) for default values.
+
+#### Managing user credentials
+
+See [config/defaults/users.yml](config/defaults/users.yml) as an example.
+
+To add a new user, simply create a new user object, in the `users.yml` file, and define the `username`, `email` and `fullName` values.
+The `id` field must be unique, that you can generate via the `uuidgen` utility.
+The password hash can be generated via the `bin/encpwd.js` CLI tool:
+
+
+```bash
+    bin/encpwd.js SeCRet-paZZw0rd
+    SeCRet-paZZw0rd >> $2a$10$j4flrJ4WTMG.disTrEZ4juEkn3pz20zvFuNYbt6gli3Qiuv5emTDe
+```
+
+Then copy the bcrypted result into the user's `password` field.
+
+Node: This is temporary, not really secure solution to the CLI tool, so make sure that nobody can see the screen and access to the console log.
+Also make sure that the users.yml is not placed to a publicly available place, nor into a folder, where the normal users can easily access to it.
+
 
 ### TODO
-- Implement simple CLI to generate crypted passwords.
-- Implement local user credentials flat file for authentication.
-- Implement server configuration (content path, credentials, ACLs).
 - Make the module run both as a module and as a standalone server installed with `-g`.
 - Implement password generator to work into the user credentials file.
 - Implement the /profile service to provide profile data for a static private page
