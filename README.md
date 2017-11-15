@@ -22,21 +22,35 @@ In order to run the server, you need to have the Node.js and npm installed on yo
 
 ## Installation
 
-Clone the [easer](https://github.com/tombenke/easer) server into a folder:
+The easer can be used both as a standalone application server as well as a server module, embedded into a bigger application.
 
+In case you want to use it as an application server, install in global mode:
+
+```bash
+    npm install -g easer
+```
+
+For development purposes clone the [easer](https://github.com/tombenke/easer) server into a folder:
+
+```bash
     clone git@github.com:/easer.git
+```
 
 Install the required dependencies:
 
+```bash
     cd easer
     npm install
+```
 
 
 ## Usage
 
 ### Start the server
 
-To start the server, execute the following command in the `server` folder:
+In global mode you can start the servier with the `easer-server` command.
+
+During development, execute the following command in the project folder:
 
 Start the server:
 
@@ -74,11 +88,11 @@ Double check the server log, and you should see something like this:
 
 `easer` is configured through the followinf environment variables:
 
-- `EAUTH_PORT`: The port where the server will listen.
-- `EAUTH_VIEWSPATH`: The base path for the server-side view templates.
-- `EAUTH_CONTENTPATH_PUBLIC`: The base path for the public content.
-- `EAUTH_CONTENTPATH_PRIVATE`: The base path for the private pages.
-- `EAUTH_USERS`: YAML format file, which describes the user credentials.
+- `EASER_PORT`: The port where the server will listen.
+- `EASER_VIEWSPATH`: The base path for the server-side view templates.
+- `EASER_CONTENTPATH_PUBLIC`: The base path for the public content.
+- `EASER_CONTENTPATH_PRIVATE`: The base path for the private pages.
+- `EASER_USERS`: YAML format file, which describes the user credentials.
 
 See [config/index.js](config/index.js) for default values.
 
@@ -103,13 +117,12 @@ Also make sure that the users.yml is not placed to a publicly available place, n
 
 
 ### TODO
-- Make the module run both as a module and as a standalone server installed with `-g`.
-- Implement password generator to work into the user credentials file.
 - Implement the /profile service to provide profile data for a static private page
   (eliminate ejs views).
+- Implement and add the microservice gw module (rest-api spec based forwarding to seneca/hemera agents via messaging middleware)
 - Implement ACL for authorization.
 - Select between HTTP/HTTPS.
-- Implement and add the microservice gw module (rest-ap spec based forwarding to seneca/hemera agent)
+- Implement password generator to work diretly into the user credentials file.
 
 ### References
 - [Passport - Simple, unobtrusive authentication for Node.js](http://www.passportjs.org/)

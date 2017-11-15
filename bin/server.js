@@ -51,12 +51,12 @@ const getGenericArgs = (options) => {
 // Setup the commands of the program
 program
     .version(thisPackage.version)
-    .description('Starts the sensorvis server')
+    .description(`Starts the ${thisPackage.name} server`)
 //    .option("-c, --config [config file name]", "The name of the config file to use", String, null)
 //    .option("-l, --log_level [log level]", "The log level of the server", String, null)
 //    .option("-p, --port [port]", "The port the sensorvis backend will listen", String, null)
 
 program.parse(process.argv)
-console.log('cliArgs: ', program)
-console.log(getConfig(getGenericArgs(program)))
+//console.log('cliArgs: ', program)
+//console.log(getConfig(getGenericArgs(program)))
 server.run(getConfig(getGenericArgs(program)))
