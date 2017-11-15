@@ -1,5 +1,5 @@
 {
-  "name": "eauth",
+  "name": "easer",
   "description": "simple express server with authentication and authorization",
   "version": "1.0.0",
   "tags": [
@@ -12,18 +12,18 @@
     "email": "tombenke@gmail.com"
   },
   "bugs": {
-    "url": "https://github.com/tombenke/eauth/issues"
+    "url": "https://github.com/tombenke/easer/issues"
   },
   "license": "MIT",
-  "homepage": "https://github.com/tombenke/eauth",
+  "homepage": "https://github.com/tombenke/easer",
   "repository": {
     "type": "git",
-    "url": "http://github.com/tombenke/eauth.git"
+    "url": "http://github.com/tombenke/easer.git"
   },
   "main": "lib/server/index.js",
   "bin": {
     "encpwd": "./bin/encpwd.js",
-    "eauth-server": "./bin/server.js"
+    "easer-server": "./bin/server.js"
   },
   "dependencies": {
     "bcrypt": "^1.0.3",
@@ -57,7 +57,7 @@
     "superagent": "^3.1.0"
   },
   "scripts": {
-    "start": "node lib/server/index.js",
+    "start": "node bin/server.js",
     "lint": "eslint lib/**.js",
     "test": "cross-env NODE_ENV=test mocha --recursive 'lib/**/*.spec.js'",
     "test:watch": "npm test -- --watch",

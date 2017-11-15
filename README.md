@@ -1,4 +1,4 @@
-eauth
+easer
 =====
 
 ![experimental](http://badges.github.io/stability-badges/dist/experimental.svg)
@@ -22,13 +22,13 @@ In order to run the server, you need to have the Node.js and npm installed on yo
 
 ## Installation
 
-Clone the [eauth](https://github.com/tombenke/eauth) server into a folder:
+Clone the [easer](https://github.com/tombenke/easer) server into a folder:
 
-    clone git@github.com:/eauth.git
+    clone git@github.com:/easer.git
 
 Install the required dependencies:
 
-    cd eauth
+    cd easer
     npm install
 
 
@@ -43,7 +43,7 @@ Start the server:
 ```bash
     $ npm start
 
-    > eauth@1.0.0 start /home/tombenke/sandbox/eauth
+    > easer@1.0.0 start /home/tombenke/topics/easer
     > node server/index.js
 
     Express server listening on port 3007
@@ -72,7 +72,7 @@ Double check the server log, and you should see something like this:
 
 ### Server configuration
 
-`eauth` is configured through the followinf environment variables:
+`easer` is configured through the followinf environment variables:
 
 - `EAUTH_PORT`: The port where the server will listen.
 - `EAUTH_VIEWSPATH`: The base path for the server-side view templates.
