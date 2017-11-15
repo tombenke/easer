@@ -21,6 +21,10 @@
     "url": "http://github.com/tombenke/eauth.git"
   },
   "main": "lib/server/index.js",
+  "bin": {
+    "encpwd": "./bin/encpwd.js",
+    "eauth-server": "./bin/server.js"
+  },
   "dependencies": {
     "bcrypt": "^1.0.3",
     "bcrypt-nodejs": "latest",

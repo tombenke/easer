@@ -1,5 +1,5 @@
 const path = require('path')
-const defaultsBasePath = path.resolve('config/defaults/')
+const defaultsBasePath = __dirname + '/defaults'
 
 module.exports = {
     users: process.env.EAUTH_USERS || defaultsBasePath + '/users.yml',
