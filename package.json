@@ -1,7 +1,7 @@
 {
   "name": "easer",
   "description": "simple express server with authentication and authorization",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "tags": [
     "rest",
     "api",
