@@ -22,7 +22,8 @@ In order to run the server, you need to have the Node.js and npm installed on yo
 
 ## Installation
 
-The easer can be used both as a standalone application server as well as a server module, embedded into a bigger application.
+The easer can be used both as a standalone application server as well as a server module,
+embedded into a bigger application.
 
 In case you want to use it as an application server, install in global mode:
 
@@ -48,7 +49,7 @@ Install the required dependencies:
 
 ### Start the server
 
-In global mode you can start the servier with the `easer-server` command.
+In global mode you can start the server with the `easer-server` command.
 
 During development, execute the following command in the project folder:
 
@@ -86,7 +87,7 @@ Double check the server log, and you should see something like this:
 
 ### Server configuration
 
-`easer` is configured through the followinf environment variables:
+`easer` is configured through the following environment variables:
 
 - `EASER_PORT`: The port where the server will listen.
 - `EASER_VIEWSPATH`: The base path for the server-side view templates.
@@ -100,7 +101,8 @@ See [config/index.js](config/index.js) for default values.
 
 See [config/defaults/users.yml](config/defaults/users.yml) as an example.
 
-To add a new user, simply create a new user object, in the `users.yml` file, and define the `username`, `email` and `fullName` values.
+To add a new user, simply create a new user object, in the `users.yml` file,
+and define the `username`, `email` and `fullName` values.
 The `id` field must be unique, that you can generate via the `uuidgen` utility.
 The password hash can be generated via the `bin/encpwd.js` CLI tool:
 
@@ -112,17 +114,21 @@ The password hash can be generated via the `bin/encpwd.js` CLI tool:
 
 Then copy the bcrypted result into the user's `password` field.
 
-__Note:__ _This is temporary, not really secure solution to the CLI tool, so make sure that nobody can see the screen and access to the console log.
-Also make sure that the users.yml is not placed to a publicly available place, nor into a folder, where the normal users can easily access to it._
+__Note:__ _This is temporary, not really secure solution to the CLI tool,
+so make sure that nobody can see the screen and access to the console log.
+Also make sure that the users.yml is not placed to a publicly available place,
+nor into a folder, where the normal users can easily access to it._
 
 
 ### TODO
+- Add public static pages and forwarding to 404 and 500
 - Implement the /profile service to provide profile data for a static private page
   (eliminate ejs views).
-- Implement and add the microservice gw module (rest-api spec based forwarding to seneca/hemera agents via messaging middleware)
+- Implement and add the microservice gw module
+  (rest-api spec based forwarding to seneca/hemera agents via messaging middleware)
 - Implement ACL for authorization.
 - Select between HTTP/HTTPS.
-- Implement password generator to work diretly into the user credentials file.
+- Implement password generator to work directly into the user credentials file.
 
 ### References
 - [Passport - Simple, unobtrusive authentication for Node.js](http://www.passportjs.org/)
