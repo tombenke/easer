@@ -1,10 +1,20 @@
 'use strict';
 
-var express = require('express');
-var ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn;
+var _express = require('express');
 
-exports.set = function (server, auth, config) {
+var _express2 = _interopRequireDefault(_express);
 
+var _connectEnsureLogin = require('connect-ensure-login');
+
+var _restapi = require('./restapi/');
+
+var _restapi2 = _interopRequireDefault(_restapi);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.set = function (server, auth, container) {
+
+    container.logger.info('Set default routes: /, /login, /logout, /private/, /private/profile');
     server.post('/login', auth.authenticate('local', {
         successRedirect: '/private/',
         failureRedirect: '/login.html'
@@ -17,10 +27,12 @@ exports.set = function (server, auth, config) {
         res.redirect('/');
     });
 
-    server.get('/private/profile', ensureLoggedIn('/login.html'), function (req, res) {
+    server.get('/private/profile', (0, _connectEnsureLogin.ensureLoggedIn)('/login.html'), function (req, res) {
         res.render('profile', { user: req.user });
     });
 
-    server.use('/', express.static(config.webServer.publicPagesPath));
-    server.use('/private/', ensureLoggedIn('/login.html'), express.static(config.webServer.privatePagesPath));
+    server.use('/', _express2.default.static(container.config.webServer.publicPagesPath));
+    var authGuard = (0, _connectEnsureLogin.ensureLoggedIn)('/login.html');
+    server.use('/private/', authGuard, _express2.default.static(container.config.webServer.privatePagesPath));
+    _restapi2.default.set(server, authGuard, container);
 };

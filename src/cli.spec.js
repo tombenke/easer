@@ -29,7 +29,12 @@ describe('cli', () => {
     })
 
     it('webServer', done => {
-        const processArgv = ['node', 'src/index.js', 'server', '-p', "3008", '-c', 'config.yml'];
+        const processArgv = [
+            'node', 'src/index.js', 'server',
+            '-p', "3008",
+            '-c', 'config.yml',
+            '-r', '/tmp/restApi'
+        ]
         const expected = {
             command: {
                 name: 'server',
@@ -38,7 +43,8 @@ describe('cli', () => {
             cliConfig: {
                 configFileName: "config.yml",
                 webServer: {
-                    port: "3008"
+                    port: "3008",
+                    restApiPath: "/tmp/restApi"
                 }
             }
         }

@@ -46,6 +46,12 @@ const parse = (defaults, processArgv=process.argv) => {
                     type: 'string',
                     default: defaults.webServer.port
                 })
+                .option("restApiPath", {
+                    alias: "r",
+                    desc: "The path to the REST API descriptors",
+                    type: 'string',
+                    default: defaults.webServer.restApiPath
+                })
                 .demandOption([]),
             argv => {
                 results = {
@@ -57,7 +63,8 @@ const parse = (defaults, processArgv=process.argv) => {
                     cliConfig: {
                         configFileName: argv.config,
                         webServer: {
-                            port: argv.port
+                            port: argv.port,
+                            restApiPath: argv.restApiPath
                         }
                     }
                 }

@@ -2,19 +2,19 @@
 /*jshint node: true */
 'use strict';
 
-const path = require('path')
-const express = require('express')
-const morgan = require('morgan')
-const cookieParser = require('cookie-parser')
-const bodyParser = require('body-parser')
-const session = require('express-session')
-const routes = require('./routes')
-const auth = require('./auth/index.js')
-const flash = require('connect-flash')
+import path from 'path'
+import express from 'express'
+import morgan from 'morgan'
+import cookieParser from 'cookie-parser'
+import bodyParser from 'body-parser'
+import session from 'express-session'
+import routes from './routes'
+import auth from './auth/index.js'
+import flash from 'connect-flash'
 import defaults from './config/'
 
-//const fs = require('fs')
-//const https = require('https')
+//const fs from 'fs'
+//const https from 'https'
 
 const mediator = (container, next) => {
     const config = container.config
@@ -40,7 +40,7 @@ const mediator = (container, next) => {
     server.use(auth.session()) // persistent login sessions
     server.use(flash()) // use connect-flash for flash messages stored in session
 
-    routes.set(server, auth, config)
+    routes.set(server, auth, container)
 
     // Start the server to listen, either a HTTPS or an HTTP one:
     /*

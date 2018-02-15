@@ -3,32 +3,57 @@
 /*jshint node: true */
 'use strict';
 
+var _path = require('path');
+
+var _path2 = _interopRequireDefault(_path);
+
+var _express = require('express');
+
+var _express2 = _interopRequireDefault(_express);
+
+var _morgan = require('morgan');
+
+var _morgan2 = _interopRequireDefault(_morgan);
+
+var _cookieParser = require('cookie-parser');
+
+var _cookieParser2 = _interopRequireDefault(_cookieParser);
+
+var _bodyParser = require('body-parser');
+
+var _bodyParser2 = _interopRequireDefault(_bodyParser);
+
+var _expressSession = require('express-session');
+
+var _expressSession2 = _interopRequireDefault(_expressSession);
+
+var _routes = require('./routes');
+
+var _routes2 = _interopRequireDefault(_routes);
+
+var _index = require('./auth/index.js');
+
+var _index2 = _interopRequireDefault(_index);
+
+var _connectFlash = require('connect-flash');
+
+var _connectFlash2 = _interopRequireDefault(_connectFlash);
+
 var _config = require('./config/');
 
 var _config2 = _interopRequireDefault(_config);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var path = require('path');
-var express = require('express');
-var morgan = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var session = require('express-session');
-var routes = require('./routes');
-var auth = require('./auth/index.js');
-var flash = require('connect-flash');
-
-
-//const fs = require('fs')
-//const https = require('https')
+//const fs from 'fs'
+//const https from 'https'
 
 var mediator = function mediator(container, next) {
     var config = container.config;
     container.logger.info('Setup webServer mediator');
 
     // Create a new Express application.
-    var server = express();
+    var server = (0, _express2.default)();
     var httpInstance = null;
 
     // Configure view engine to render EJS templates.
@@ -36,17 +61,17 @@ var mediator = function mediator(container, next) {
     server.set('view engine', 'ejs'); // set up ejs for templating
 
     // Configure the middlewares
-    server.use(morgan('dev')); // log every request to the console
-    server.use(cookieParser()); // read cookies (needed for auth)
-    server.use(bodyParser.urlencoded({ extended: true })); // get information from html forms
+    server.use((0, _morgan2.default)('dev')); // log every request to the console
+    server.use((0, _cookieParser2.default)()); // read cookies (needed for auth)
+    server.use(_bodyParser2.default.urlencoded({ extended: true })); // get information from html forms
 
     // required for passport
-    server.use(session({ secret: 'larger is dropped once', resave: false, saveUninitialized: false })); // session secret
-    auth.loadUsers(container), server.use(auth.initialize());
-    server.use(auth.session()); // persistent login sessions
-    server.use(flash()); // use connect-flash for flash messages stored in session
+    server.use((0, _expressSession2.default)({ secret: 'larger is dropped once', resave: false, saveUninitialized: false })); // session secret
+    _index2.default.loadUsers(container), server.use(_index2.default.initialize());
+    server.use(_index2.default.session()); // persistent login sessions
+    server.use((0, _connectFlash2.default)()); // use connect-flash for flash messages stored in session
 
-    routes.set(server, auth, config);
+    _routes2.default.set(server, _index2.default, container);
 
     // Start the server to listen, either a HTTPS or an HTTP one:
     /*

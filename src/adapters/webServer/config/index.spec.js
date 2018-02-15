@@ -1,7 +1,6 @@
 import { expect } from 'chai'
 import config from './index'
 import path from 'path'
-//import thisPackage from '../../../../package.json'
 
 before(done => { done() })
 after(done => { done() })
@@ -15,7 +14,8 @@ describe('server/config', () => {
                 privatePagesPath: path.resolve("./src/adapters/webServer/config/defaults/content/private/"),
                 publicPagesPath: path.resolve("./src/adapters/webServer/config/defaults/content/public/"),
                 users: path.resolve("./src/adapters/webServer/config/defaults/users.yml"),
-                viewsPath: path.resolve("./src/adapters/webServer/config/defaults/views/")
+                viewsPath: path.resolve("./src/adapters/webServer/config/defaults/views/"),
+                restApiPath: path.resolve("./src/adapters/webServer/config/defaults/restapi/services/")
             }
         }
         

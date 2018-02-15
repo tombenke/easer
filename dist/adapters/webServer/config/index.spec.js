@@ -12,8 +12,6 @@ var _path2 = _interopRequireDefault(_path);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-//import thisPackage from '../../../../package.json'
-
 before(function (done) {
     done();
 });
@@ -30,7 +28,8 @@ describe('server/config', function () {
                 privatePagesPath: _path2.default.resolve("./src/adapters/webServer/config/defaults/content/private/"),
                 publicPagesPath: _path2.default.resolve("./src/adapters/webServer/config/defaults/content/public/"),
                 users: _path2.default.resolve("./src/adapters/webServer/config/defaults/users.yml"),
-                viewsPath: _path2.default.resolve("./src/adapters/webServer/config/defaults/views/")
+                viewsPath: _path2.default.resolve("./src/adapters/webServer/config/defaults/views/"),
+                restApiPath: _path2.default.resolve("./src/adapters/webServer/config/defaults/restapi/services/")
             }
         };
 

@@ -1,8 +1,10 @@
-const express = require('express')
-const ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn
+import express from 'express'
+import { ensureLoggedIn } from 'connect-ensure-login'
+import restapi from './restapi/'
 
-exports.set = function(server, auth, config) {
+exports.set = function(server, auth, container) {
 
+    container.logger.info(`Set default routes: /, /login, /logout, /private/, /private/profile`)
     server.post('/login',
         auth.authenticate('local', {
             successRedirect: '/private/',
@@ -22,6 +24,8 @@ exports.set = function(server, auth, config) {
             res.render('profile', { user: req.user });
         });
 
-    server.use('/', express.static(config.webServer.publicPagesPath))
-    server.use('/private/', ensureLoggedIn('/login.html'), express.static(config.webServer.privatePagesPath))
+    server.use('/', express.static(container.config.webServer.publicPagesPath))
+    const authGuard = ensureLoggedIn('/login.html')
+    server.use('/private/', authGuard, express.static(container.config.webServer.privatePagesPath))
+    restapi.set(server, authGuard, container)
 }
