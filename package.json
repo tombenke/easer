@@ -1,11 +1,12 @@
 {
   "name": "easer",
-  "description": "simple express server with authentication and authorization",
-  "version": "1.0.2",
-  "tags": [
-    "rest",
-    "api",
-    "web"
+  "description": "A simple, generic express server with built-in authentication and authorization",
+  "version": "2.0.0",
+  "keywords": [
+    "cli",
+    "util",
+    "tool",
+    "utility"
   ],
   "author": {
     "name": "Tamás Benke",
@@ -15,33 +16,30 @@
     "url": "https://github.com/tombenke/easer/issues"
   },
   "license": "MIT",
-  "homepage": "https://github.com/tombenke/easer",
   "repository": {
     "type": "git",
     "url": "http://github.com/tombenke/easer.git"
   },
-  "main": "lib/server/index.js",
   "bin": {
-    "encpwd": "./bin/encpwd.js",
-    "easer-server": "./bin/server.js"
+    "easer": "./dist/app.js"
   },
+  "main": "dist/index",
   "dependencies": {
+    "datafile": "^3.2.0",
+    "lodash": "4.17.4",
+    "npac": "^1.3.2",
+    "yargs": "10.0.3",
     "bcrypt": "^1.0.3",
     "bcrypt-nodejs": "latest",
     "body-parser": "~1.15.2",
-    "commander": "^2.11.0",
     "connect-ensure-login": "^0.1.1",
     "connect-flash": "~0.1.1",
     "cookie-parser": "~1.4.3",
-    "datafile": "^1.0.0",
     "ejs": "~2.5.2",
     "expect": "^21.2.1",
     "express": "~4.14.0",
     "express-session": "~1.14.1",
-    "js-yaml": "^3.10.0",
-    "lodash": "^4.17.4",
     "method-override": "~2.3.6",
-    "mongoose": "~4.6.1",
     "morgan": "~1.7.0",
     "passport": "~0.3.2",
     "passport-facebook": "~2.1.1",
@@ -50,22 +48,47 @@
     "passport-twitter": "~1.0.4"
   },
   "devDependencies": {
-    "coveralls": "^2.11.15",
-    "cross-env": "^2.x.x",
-    "eslint": "^3.10.2",
+    "babel-cli": "6.16.0",
+    "babel-core": "6.26.0",
+    "babel-loader": "6.2.5",
+    "babel-plugin-transform-object-rest-spread": "6.20.2",
+    "babel-plugin-transform-es2015-parameters": "^6.24.1",
+    "babel-polyfill": "6.16.0",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-latest": "6.24.1",
+    "babel-register": "6.16.3",
+    "chai": "^4.1.2",
+    "coveralls": "^3.0.0",
+    "cross-env": "^5.1.1",
+    "eslint": "^3.13.1",
+    "expect": "^1.6.0",
+    "gulp": "^3.9.1",
+    "gulp-debug": "^3.1.0",
+    "gulp-markdown": "^1.2.0",
+    "gulp-mustache": "^3.0.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-through": "^0.4.0",
     "istanbul": "1.0.0-alpha.2",
-    "mocha": "^2.5.3",
-    "mocha-lcov-reporter": "^1.2.0",
+    "jsdoc": "^3.5.5",
+    "mocha": "^4.0.1",
+    "mocha-lcov-reporter": "^1.3.0",
     "pre-push": "^0.1.1",
-    "superagent": "^3.1.0"
+    "rimraf": "^2.6.2",
+    "should": "3.1.2",
+    "vinyl-buffer": "^1.0.0"
   },
   "scripts": {
-    "start": "node bin/server.js",
-    "lint": "eslint lib/**.js",
-    "test": "cross-env NODE_ENV=test mocha --recursive 'lib/**/*.spec.js'",
+    "build": "babel src --presets babel-preset-es2015 --out-dir dist && cp -r src/adapters/webServer/config/defaults/ dist/adapters/webServer/config/defaults/",
+    "lint": "eslint src/**.js",
+    "test": "cross-env NODE_ENV=test mocha --recursive --compilers js:babel-register 'src/**/*.spec.js'",
     "test:watch": "npm test -- --watch",
-    "coverage": "NODE_ENV=test istanbul cover _mocha -- recursive --timeout 15000 'lib/**/*.spec.js'",
-    "coveralls": "NODE_ENV=test istanbul cover _mocha --report lcovonly -- recursive --timeout 15000 'lib/**/*.spec.js' -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
+    "coverage": "NODE_ENV=test istanbul cover _mocha -- recursive --compilers js:babel-register --timeout 15000 'src/**/*.spec.js'",
+    "coveralls": "NODE_ENV=test istanbul cover _mocha --report lcovonly -- recursive --compilers js:babel-register --timeout 15000 'src/**/*.spec.js' -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
+    "docs": "rm -fr ./docs/api/* && jsdoc -c ./.jsdoc.json",
+    "docgen": "node_modules/.bin/gulp docgen",
+    "prepublishOnly": "npm run lint && npm run test && npm run build && npm run docs",
+    "all": "npm run lint && npm run coverage && npm run build && npm run docs"
   },
   "pre-push": [
     "lint",

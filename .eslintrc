@@ -1,16 +1,29 @@
 {
-    "extends": "eslint:recommended",
+    "extends": ["eslint:recommended"],
     "env": {
+        "es6": true,
         "node": true,
         "mocha": true,
-        "es6": true
+        "browser": true
     },
     "rules": {
-        no-trailing-spaces: ["error", { "skipBlankLines": true }],
-        no-unused-vars: ["error", { "args": "none", "varsIgnorePattern": "should|api|monitoring" }],
-        comma-spacing: ["error", { "before": false, "after": true }],
-        key-spacing: ["error", { "beforeColon": false }],
+        "no-trailing-spaces": ["error", { "skipBlankLines": true }],
+        "no-unused-vars": ["error", { "args": "none" }],
+        "comma-spacing": ["error", { "before": false, "after": true }],
         no-console: 0,
-        indent: ["error", 4]
+        "key-spacing": ["error", { "beforeColon": false }]
+    },
+    "parserOptions": {
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true,
+            "modules": true,
+            "spread" : true,
+            "restParams" : true
+        }
+    },
+    {
+        "plugins": [
+        ]
     }
 }

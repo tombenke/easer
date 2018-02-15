@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+<head>
+    <title>Node Authentication</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <style>
+        body { padding-top:80px; word-wrap:break-word; }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="page-header text-center">
+        <h1><span class="fa fa-user"></span> Profile Page</h1>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-4">
+        </div>
+        <div class="col-sm-4">
+            <div class="well">
+                <h3><span class="fa fa-user"></span> <%= user.username %></h3>
+
+                <% if (user) { %>
+                    <p>
+                        <strong>id</strong>: <%= user.id %><br>
+                        <strong>full name</strong>: <%= user.fullName %><br>
+                        <strong>username</strong>: <%= user.username %><br>
+                        <strong>email</strong>: <% if (user.email) { %> <%= user.email %><br/> <% } %>
+                    </p>
+
+                <% } %>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center">
+        <p>Logout to the public landing page:</p>
+        <a href="/logout" class="btn btn-default"><span class="fa fa-user"></span> Logout</a>
+        <!-- hr />
+        <p>Profile boilerplate page</p -->
+    </div>
+
+</div>
+</html>

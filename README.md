@@ -1,13 +1,18 @@
 easer
 =====
 
-![experimental](http://badges.github.io/stability-badges/dist/experimental.svg)
+[![experimental](http://badges.github.io/stability-badges/dist/experimental.svg)](http://github.com/badges/stability-badges)
+[![npm version][npm-badge]][npm-url]
+[![Build Status][travis-badge]][travis-url]
+[![Coveralls][BadgeCoveralls]][Coveralls]
+
+## About
 
 A simple, generic express server with built-in authentication and authorization.
 
 It is built on top of Express.js which runs on Node.js.
 
-It reads the  module, and provides a simple express server,
+It reads the rest-api module, and provides a simple express server,
 which echoes the mock data defined under the services.
 
 You can modify and extend this code as you like to fit your needs.
@@ -22,10 +27,7 @@ In order to run the server, you need to have the Node.js and npm installed on yo
 
 ## Installation
 
-The easer can be used both as a standalone application server as well as a server module,
-embedded into a bigger application.
-
-In case you want to use it as an application server, install in global mode:
+The `easer` is made to as a standalone application server, so it's preferred installation is:
 
 ```bash
     npm install -g easer
@@ -49,7 +51,7 @@ Install the required dependencies:
 
 ### Start the server
 
-In global mode you can start the server with the `easer-server` command.
+In global mode you can start the server with the `easer server` command.
 
 During development, execute the following command in the project folder:
 
@@ -95,20 +97,20 @@ Double check the server log, and you should see something like this:
 - `EASER_CONTENTPATH_PRIVATE`: The base path for the private pages.
 - `EASER_USERS`: YAML format file, which describes the user credentials.
 
-See [config/index.js](config/index.js) for default values.
+See [src/config/index.js](src/config/index.js) for default values.
 
 #### Managing user credentials
 
-See [config/defaults/users.yml](config/defaults/users.yml) as an example.
+See [src/config/defaults/users.yml](src/config/defaults/users.yml) as an example.
 
 To add a new user, simply create a new user object, in the `users.yml` file,
 and define the `username`, `email` and `fullName` values.
 The `id` field must be unique, that you can generate via the `uuidgen` utility.
-The password hash can be generated via the `bin/encpwd.js` CLI tool:
+The password hash can be generated via the `easer encpwd -p <password>` command:
 
 
 ```bash
-    bin/encpwd.js SeCRet-paZZw0rd
+    bin/easer encpwd -p SeCRet-paZZw0rd
     SeCRet-paZZw0rd >> $2a$10$j4flrJ4WTMG.disTrEZ4juEkn3pz20zvFuNYbt6gli3Qiuv5emTDe
 ```
 
@@ -118,7 +120,6 @@ __Note:__ _This is temporary, not really secure solution to the CLI tool,
 so make sure that nobody can see the screen and access to the console log.
 Also make sure that the users.yml is not placed to a publicly available place,
 nor into a folder, where the normal users can easily access to it._
-
 
 ### TODO
 - Add public static pages and forwarding to 404 and 500
@@ -140,3 +141,18 @@ nor into a folder, where the normal users can easily access to it._
 - [bcrypt / wikipedia](https://en.wikipedia.org/wiki/Bcrypt)
 - [bcrypt / npmjs.org](https://www.npmjs.com/package/bcrypt)
 
+## Get Help
+
+To learn more about the tool visit the [homepage](http://tombenke.github.io/easer/).
+
+---
+
+This project was generated from the [ncli-archetype](https://github.com/tombenke/ncli-archetype)
+project archetype, using the [kickoff](https://github.com/tombenke/kickoff) utility.
+
+[npm-badge]: https://badge.fury.io/js/easer.svg
+[npm-url]: https://badge.fury.io/js/easer
+[travis-badge]: https://api.travis-ci.org/tombenke/easer.svg
+[travis-url]: https://travis-ci.org/tombenke/easer
+[Coveralls]: https://coveralls.io/github/tombenke/easer?branch=master
+[BadgeCoveralls]: https://coveralls.io/repos/github/tombenke/easer/badge.svg?branch=master
