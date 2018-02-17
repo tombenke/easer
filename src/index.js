@@ -44,7 +44,7 @@ export const startEncpwd = (argv=process.argv, cb=null) => {
 export const startWebServer = (argv=process.argv, cb=null) => {
 
     // Use CLI to gain additional parameters, and command to execute
-    const { cliConfig, command } = webServerCli.parse(defaults, argv)
+    const { cliConfig/*, command*/ } = webServerCli.parse(defaults, argv)
 
     // Create the final configuration parameter set
     const config = npac.makeConfig(defaults, cliConfig, 'configFileName')

@@ -75,8 +75,7 @@ var startWebServer = exports.startWebServer = function startWebServer() {
 
     // Use CLI to gain additional parameters, and command to execute
     var _webServerCli$parse = _webServerCli2.default.parse(defaults, argv),
-        cliConfig = _webServerCli$parse.cliConfig,
-        command = _webServerCli$parse.command;
+        cliConfig = _webServerCli$parse.cliConfig;
 
     // Create the final configuration parameter set
 

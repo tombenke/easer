@@ -9,7 +9,7 @@ import {
 } from 'datafile'
 */
 
-import { startEncpwd, startWebServer } from './index'
+import { startEncpwd/*, startWebServer*/ } from './index'
 
 const testDirectory = path.resolve('./tmp')
 
