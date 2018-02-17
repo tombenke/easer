@@ -15,11 +15,11 @@ after(function (done) {
     done();
 });
 
-describe('encpwd.config', function () {
+describe('pmdsHemera.config', function () {
 
     it('#defaults', function (done) {
         var expected = {
-            encpwd: {}
+            pmds: {}
         };
 
         var defaults = _config2.default;

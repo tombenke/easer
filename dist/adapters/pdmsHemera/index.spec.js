@@ -6,13 +6,13 @@ var _npac2 = _interopRequireDefault(_npac);
 
 var _chai = require('chai');
 
-var _config = require('./config/');
+var _config = require('./config');
 
 var _config2 = _interopRequireDefault(_config);
 
 var _index = require('./index');
 
-var server = _interopRequireWildcard(_index);
+var pdms = _interopRequireWildcard(_index);
 
 var _lodash = require('lodash');
 
@@ -22,26 +22,26 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-describe('commands/server', function () {
+describe('pdms', function () {
 
     var config = _.merge({}, _config2.default, {/* Add command specific config parameters */});
 
-    it('#startup, #shutdown', function (done) {
-        var adapters = [_npac2.default.mergeConfig(config), _npac2.default.addLogger, server.startup];
+    it('#startup', function (done) {
+        var adapters = [_npac2.default.mergeConfig(config), _npac2.default.addLogger, pdms.startup];
 
-        var testServer = function testServer(container, next) {
-            container.logger.info('Run job to test server');
+        var testPdms = function testPdms(container, next) {
+            container.logger.info('Run job to test pdms');
             // TODO: Implement endpoint testing
             next(null, null);
         };
 
-        var shutdownServer = function shutdownServer(container, next) {
-            container.logger.info('Run job to shut down the server');
-            server.shutdown(container, next);
+        // TODO: Move shutdown into the shutdown list of npac, instead of using command
+        var shutdownPdms = function shutdownPdms(container, next) {
+            container.logger.info('Run job to stop pdms');
+            pdms.shutdown(container, next);
         };
 
-        // TODO: Move shutdown into the shutdown list of npac, instead of using command
-        _npac2.default.start(adapters, [testServer, shutdownServer], function (err, res) {
+        _npac2.default.start(adapters, [testPdms, shutdownPdms], function (err, res) {
             if (err) {
                 throw err;
             } else {

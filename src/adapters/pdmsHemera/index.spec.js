@@ -8,35 +8,26 @@ describe('pdms', () => {
 
     const config = _.merge({}, defaults, { /* Add command specific config parameters */ })
 
-    it('pdms - mediator', (done) => {
+    it('#startup', (done) => {
         const adapters = [
             npac.mergeConfig(config),
             npac.addLogger,
-            pdms.mediator,
-            {
-//                pdms: pdms.execute
-            }
+            pdms.startup
         ]
 
-        const startPdms = (context, next) => {
-            context.logger.info(`Run job to start pdms`)
-//            context.webPdms.start()
-            next(null, null)
-        }
-
-        const testPdms = (context, next) => {
-            context.logger.info(`Run job to test pdms`)
+        const testPdms = (container, next) => {
+            container.logger.info(`Run job to test pdms`)
             // TODO: Implement endpoint testing
             next(null, null)
         }
 
-        const stopPdms = (context, next) => {
-            context.logger.info(`Run job to stop pdms`)
-//            context.webPdms.stop()
-            next(null, null)
+        // TODO: Move shutdown into the shutdown list of npac, instead of using command
+        const shutdownPdms = (container, next) => {
+            container.logger.info(`Run job to stop pdms`)
+            pdms.shutdown(container, next)
         }
 
-        npac.start(adapters, [/*startPdms,*/ testPdms/*, stopPdms*/], (err, res) => {
+        npac.start(adapters, [testPdms, shutdownPdms], (err, res) => {
             if (err) {
                 throw(err)
             } else {

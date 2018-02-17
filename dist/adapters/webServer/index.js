@@ -47,14 +47,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 //const fs from 'fs'
 //const https from 'https'
+var httpInstance = null;
 
-var mediator = function mediator(container, next) {
+var startup = function startup(container, next) {
     var config = container.config;
     container.logger.info('Setup webServer mediator');
 
     // Create a new Express application.
     var server = (0, _express2.default)();
-    var httpInstance = null;
 
     // Configure view engine to render EJS templates.
     server.set('views', config.webServer.viewsPath);
@@ -82,45 +82,25 @@ var mediator = function mediator(container, next) {
         }, server).listen(4443)
     */
 
-    var start = function start() {
-        var config = container.config;
-
-        httpInstance = server.listen(config.webServer.port);
-
-        container.logger.info('Express server listening on port ' + config.webServer.port);
-    };
-
-    var stop = function stop() {
-        // TODO: implement
-        httpInstance.close();
-        container.logger.info("Express server is shutting down");
-    };
+    httpInstance = server.listen(config.webServer.port);
+    container.logger.info('Express server listening on port ' + config.webServer.port);
 
     // Call next setup function with the context extension
     next(null, {
         webServer: {
-            server: server,
-            start: start,
-            stop: stop
+            server: server
         }
     });
 };
 
-/**
- * 'server' http(s) server command implementation
- *
- * @arg {Object} container - Container context object, holds config data of the application and supporting functions.
- * @arg {Object} args - Command arguments object. Contains the name-value pairs of command arguments.
- *
- * @function
- */
-var execute = function execute(container, args) {
-    container.logger.debug('server.execute => ' + JSON.stringify(args, null, ''));
-    container.webServer.start();
+var shutdown = function shutdown(container, next) {
+    httpInstance.close();
+    container.logger.info("Express server is shutting down");
+    next(null, null);
 };
 
 module.exports = {
     defaults: _config2.default,
-    mediator: mediator,
-    execute: execute
+    startup: startup,
+    shutdown: shutdown
 };

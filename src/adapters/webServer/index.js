@@ -15,14 +15,14 @@ import defaults from './config/'
 
 //const fs from 'fs'
 //const https from 'https'
+let httpInstance = null
 
-const mediator = (container, next) => {
+const startup = (container, next) => {
     const config = container.config
     container.logger.info(`Setup webServer mediator`)
 
     // Create a new Express application.
     const server = express()
-    let httpInstance = null
 
     // Configure view engine to render EJS templates.
     server.set('views', config.webServer.viewsPath)
@@ -51,45 +51,25 @@ const mediator = (container, next) => {
         }, server).listen(4443)
     */
 
-    const start = () => {
-        const config = container.config
-
-        httpInstance = server.listen(config.webServer.port)
-
-        container.logger.info(`Express server listening on port ${config.webServer.port}`)
-    }
-
-    const stop = () => {
-        // TODO: implement
-        httpInstance.close()
-        container.logger.info("Express server is shutting down")
-    }
+    httpInstance = server.listen(config.webServer.port)
+    container.logger.info(`Express server listening on port ${config.webServer.port}`)
 
     // Call next setup function with the context extension
     next(null, {
         webServer: {
-            server: server,
-            start: start,
-            stop: stop
+            server: server
         }
     })
 }
 
-/**
- * 'server' http(s) server command implementation
- *
- * @arg {Object} container - Container context object, holds config data of the application and supporting functions.
- * @arg {Object} args - Command arguments object. Contains the name-value pairs of command arguments.
- *
- * @function
- */
-const execute = (container, args) => {
-    container.logger.debug(`server.execute => ${JSON.stringify(args, null, '')}`)
-    container.webServer.start()
+const shutdown = (container, next) => {
+    httpInstance.close()
+    container.logger.info("Express server is shutting down")
+    next(null, null)
 }
 
 module.exports = {
     defaults: defaults,
-    mediator: mediator,
-    execute: execute
+    startup: startup,
+    shutdown: shutdown
 }

@@ -25,7 +25,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var bcrypt = require('bcrypt');
 var saltRounds = 10;
 
-describe('commands/encpwd', function () {
+describe('encpwd', function () {
 
     var encpwdContainer = {
         config: _.merge({}, _config2.default, {/* Add command specific config parameters */})
@@ -36,7 +36,7 @@ describe('commands/encpwd', function () {
         args: { password: passwordToEncript }
     };
 
-    it('encpwd - execute', function (done) {
+    it('#execute', function (done) {
         var executives = { encpwd: encpwd.execute };
         var compare = function compare(plainTextPwd, pwdHash) {
             return bcrypt.compareSync(plainTextPwd, pwdHash);

@@ -63,7 +63,7 @@ describe('app', function () {
 
         var processArgv = ['node', 'src/index.js', 'encpwd', '--password', 'SecRetPWD0123!'];
 
-        (0, _index.start)(processArgv, function (err, res) {
+        (0, _index.startEncpwd)(processArgv, function (err, res) {
             (0, _chai.expect)(err).to.equal(null);
             done();
         });
@@ -77,7 +77,7 @@ describe('app', function () {
                     'server',
                     '--port', '3008'
                 ]
-                start(processArgv, (err, res) => {
+                startWebServer(processArgv, (err, res) => {
                     expect(err).to.equal(null)
                     done()
                 })

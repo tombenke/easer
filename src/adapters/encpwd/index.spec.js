@@ -6,7 +6,7 @@ import * as _ from 'lodash'
 const bcrypt = require('bcrypt')
 const saltRounds = 10
 
-describe('commands/encpwd', () => {
+describe('encpwd', () => {
 
     const encpwdContainer = {
         config: _.merge({}, defaults, { /* Add command specific config parameters */ })
@@ -17,7 +17,7 @@ describe('commands/encpwd', () => {
         args: { password: passwordToEncript }
     }
 
-    it('encpwd - execute', (done) => {
+    it('#execute', (done) => {
         const executives = { encpwd: encpwd.execute }
         const compare = (plainTextPwd, pwdHash) => bcrypt.compareSync(plainTextPwd, pwdHash)
 

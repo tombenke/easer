@@ -9,7 +9,7 @@ import {
 } from 'datafile'
 */
 
-import { start } from './index'
+import { startEncpwd, startWebServer } from './index'
 
 const testDirectory = path.resolve('./tmp')
 
@@ -54,7 +54,7 @@ describe('app', () => {
             '--password', 'SecRetPWD0123!'
         ]
 
-        start(processArgv, (err, res) => {
+        startEncpwd(processArgv, (err, res) => {
             expect(err).to.equal(null)
             done()
         })
@@ -68,7 +68,7 @@ describe('app', () => {
             'server',
             '--port', '3008'
         ]
-        start(processArgv, (err, res) => {
+        startWebServer(processArgv, (err, res) => {
             expect(err).to.equal(null)
             done()
         })

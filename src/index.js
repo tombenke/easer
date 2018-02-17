@@ -3,7 +3,8 @@
 'use strict';
 
 //import defaults from './adapters/server/config/'
-import cli from './cli'
+import encpwdCli from './encpwdCli'
+import webServerCli from './webServerCli'
 import adapters from './adapters/'
 import npac from 'npac'
 import _ from 'lodash'
@@ -18,10 +19,10 @@ const dumpCtx = (ctx, next) => {
 
 const defaults = _.merge({}, appDefaults, adapters.defaults)
 
-export const start = (argv=process.argv, cb=null) => {
+export const startEncpwd = (argv=process.argv, cb=null) => {
 
     // Use CLI to gain additional parameters, and command to execute
-    const { cliConfig, command } = cli.parse(defaults, argv)
+    const { cliConfig, command } = encpwdCli.parse(defaults, argv)
 
     // Create the final configuration parameter set
     const config = npac.makeConfig(defaults, cliConfig, 'configFileName')
@@ -30,12 +31,33 @@ export const start = (argv=process.argv, cb=null) => {
     const appAdapters = [
         npac.mergeConfig(config),
         npac.addLogger,
-        adapters.mediators.webServer,
         adapters.commands,
     ]
 
     // Define the jobs to execute: hand over the command got by the CLI.
     const jobs = [npac.makeCallSync(command)]
+
+    //Start the container
+    npac.start(appAdapters, jobs, cb)
+}
+
+export const startWebServer = (argv=process.argv, cb=null) => {
+
+    // Use CLI to gain additional parameters, and command to execute
+    const { cliConfig, command } = webServerCli.parse(defaults, argv)
+
+    // Create the final configuration parameter set
+    const config = npac.makeConfig(defaults, cliConfig, 'configFileName')
+
+    // Define the adapters and executives to add to the container
+    const appAdapters = [
+        npac.mergeConfig(config),
+        npac.addLogger,
+        adapters.mediators.webServer.startup
+    ]
+
+    // Define the jobs to execute: hand over the command got by the CLI.
+    const jobs = []
 
     //Start the container
     npac.start(appAdapters, jobs, cb)

@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import { defaults } from './adapters/'
-import cli from './cli'
+import webServerCli from './webServerCli'
 
 before(done => {
     done()
@@ -10,23 +10,7 @@ after(done => {
     done()
 })
 
-describe('cli', () => {
-
-    it('encpwd', done => {
-        const passwordToEncode = "secretPwd1922!"
-        const processArgv = ['node', 'src/index.js', 'encpwd', '-p', passwordToEncode];
-        const expected = {
-            command: {
-                name: 'encpwd',
-                args: { password: passwordToEncode }
-            },
-            cliConfig: {
-            }
-        }
-
-        expect(cli.parse(defaults, processArgv)).to.eql(expected)
-        done()
-    })
+describe('webServerCli', () => {
 
     it('webServer', done => {
         const processArgv = [
@@ -49,7 +33,7 @@ describe('cli', () => {
             }
         }
 
-        expect(cli.parse(defaults, processArgv)).to.eql(expected)
+        expect(webServerCli.parse(defaults, processArgv)).to.eql(expected)
         done()
     })
 })

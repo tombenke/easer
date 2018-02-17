@@ -4,9 +4,9 @@ import config from './config'
 before(done => { done() })
 after(done => { done() })
 
-describe('pmdsHemera/config', () => {
+describe('pmdsHemera.config', () => {
 
-    it('defaults', done => {
+    it('#defaults', done => {
         const expected = {
             pmds: {
             }

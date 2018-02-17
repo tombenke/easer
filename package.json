@@ -21,7 +21,8 @@
     "url": "http://github.com/tombenke/easer.git"
   },
   "bin": {
-    "easer": "./dist/app.js"
+    "encpwd": "./dist/encpwdApp.js",
+    "easer-server": "./dist/webServerApp.js"
   },
   "main": "dist/index",
   "dependencies": {

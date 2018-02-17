@@ -8,35 +8,26 @@ describe('commands/server', () => {
 
     const config = _.merge({}, defaults, { /* Add command specific config parameters */ })
 
-    it('server - mediator', (done) => {
+    it('#startup, #shutdown', (done) => {
         const adapters = [
             npac.mergeConfig(config),
             npac.addLogger,
-            server.mediator,
-            {
-                server: server.execute
-            }
+            server.startup
         ]
 
-        const startServer = (context, next) => {
-            context.logger.info(`Run job to start server`)
-            context.webServer.start()
-            next(null, null)
-        }
-
-        const testServer = (context, next) => {
-            context.logger.info(`Run job to test server`)
+        const testServer = (container, next) => {
+            container.logger.info(`Run job to test server`)
             // TODO: Implement endpoint testing
             next(null, null)
         }
 
-        const stopServer = (context, next) => {
-            context.logger.info(`Run job to stop server`)
-            context.webServer.stop()
-            next(null, null)
+        const shutdownServer = (container, next) => {
+            container.logger.info(`Run job to shut down the server`)
+            server.shutdown(container, next)
         }
 
-        npac.start(adapters, [startServer, stopServer], (err, res) => {
+        // TODO: Move shutdown into the shutdown list of npac, instead of using command
+        npac.start(adapters, [testServer, shutdownServer], (err, res) => {
             if (err) {
                 throw(err)
             } else {

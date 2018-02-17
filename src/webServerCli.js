@@ -11,28 +11,6 @@ const parse = (defaults, processArgv=process.argv) => {
     yargs(processArgv.slice(2))
 //        .exitProcess(false)
 
-        .command('encpwd', 'Encode password', yargs =>
-            yargs
-                .option("password", {
-                    alias: "p",
-                    desc: "The password to encode",
-                    type: 'string',
-                })
-                .demandOption(['password']),
-            argv => {
-                results = {
-                    command: {
-                        name: 'encpwd',
-                        args: {
-                            password: argv.password
-                        },
-                    },
-                    cliConfig: {
-                    }
-                }
-            }
-        )
-
         .command('server', 'Run the HTTP(S) server', yargs =>
             yargs
                 .option("config", {

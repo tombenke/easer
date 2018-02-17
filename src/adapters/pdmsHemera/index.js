@@ -5,9 +5,11 @@
 import path from 'path'
 import defaults from './config'
 
-const mediator = (container, next) => {
+//let pdmsInstance = null
+
+const startup = (container, next) => {
     const config = container.config
-    container.logger.info(`Setup pdmsHemera mediator`)
+    container.logger.info(`Setup pdmsHemera startup`)
 
     const start = () => {
         container.logger.info(`pdmsHemera started`)
@@ -20,28 +22,18 @@ const mediator = (container, next) => {
     // Call next setup function with the context extension
     next(null, {
         pmds: {
-//            server: server,
-            start: start,
-            stop: stop
         }
     })
 }
 
-/**
- * '???' http(s) ??? command implementation
- *
- * @arg {Object} container - Container context object, holds config data of the application and supporting functions.
- * @arg {Object} args - Command arguments object. Contains the name-value pairs of command arguments.
- *
- * @function
- */
-const execute = (container, args) => {
-    container.logger.debug(`???.execute => ${JSON.stringify(args, null, '')}`)
-//    container.pdms.start()
+const shutdown = (container, next) => {
+//    pdmsInstance.close()
+    container.logger.info("pdmsHemera is shutting down")
+    next(null, null)
 }
 
 module.exports = {
     defaults: defaults,
-    mediator: mediator,
-    execute: execute
+    startup: startup,
+    shutdown: shutdown
 }

@@ -17,10 +17,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 module.exports = {
     defaults: _lodash2.default.merge({}, _encpwd2.default.defaults, _webServer2.default.defaults),
     mediators: {
-        webServer: _webServer2.default.mediator
+        webServer: _webServer2.default
     },
     commands: {
-        encpwd: _encpwd2.default.execute,
-        server: _webServer2.default.execute
+        encpwd: _encpwd2.default.execute
     }
 };

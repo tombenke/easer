@@ -2,6 +2,6 @@
 /*jshint node: true */
 'use strict';
 
-import { start } from './index'
+import { startWebServer } from './index'
 
-start()
+startWebServer()

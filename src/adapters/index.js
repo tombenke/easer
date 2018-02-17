@@ -5,10 +5,9 @@ import _ from 'lodash'
 module.exports = {
     defaults: _.merge({}, encpwd.defaults, webServer.defaults),
     mediators: {
-        webServer: webServer.mediator
+        webServer: webServer
     },
     commands: {
-        encpwd: encpwd.execute,
-        server: webServer.execute
+        encpwd: encpwd.execute
     }
 }

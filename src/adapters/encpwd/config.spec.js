@@ -4,9 +4,9 @@ import config from './config'
 before(done => { done() })
 after(done => { done() })
 
-describe('encpwd/config', () => {
+describe('encpwd.config', () => {
 
-    it('defaults', done => {
+    it('#defaults', done => {
         const expected = {
             encpwd: {
             }
