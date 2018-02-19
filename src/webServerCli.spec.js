@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { defaults } from './adapters/'
+import webServer from './adapters/webServer/'
 import webServerCli from './webServerCli'
 
 before(done => {
@@ -28,12 +28,13 @@ describe('webServerCli', () => {
                 configFileName: "config.yml",
                 webServer: {
                     port: "3008",
-                    restApiPath: "/tmp/restApi"
+                    restApiPath: "/tmp/restApi",
+                    usePdms: false
                 }
             }
         }
 
-        expect(webServerCli.parse(defaults, processArgv)).to.eql(expected)
+        expect(webServerCli.parse(webServer.defaults, processArgv)).to.eql(expected)
         done()
     })
 })

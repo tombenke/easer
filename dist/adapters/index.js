@@ -19,7 +19,7 @@ var _lodash2 = _interopRequireDefault(_lodash);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 module.exports = {
-    defaults: _lodash2.default.merge({}, _encpwd2.default.defaults, _webServer2.default.defaults, _pdmsHemera2.default.defaults),
+    //    defaults: _.merge({}, /*encpwd.defaults, webServer.defaults, pdmsHemera.defaults*/),
     mediators: {
         webServer: _webServer2.default,
         pdms: _pdmsHemera2.default

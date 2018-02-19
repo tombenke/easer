@@ -2,7 +2,9 @@
 
 var _chai = require('chai');
 
-var _adapters = require('./adapters/');
+var _webServer = require('./adapters/webServer/');
+
+var _webServer2 = _interopRequireDefault(_webServer);
 
 var _webServerCli = require('./webServerCli');
 
@@ -31,12 +33,13 @@ describe('webServerCli', function () {
                 configFileName: "config.yml",
                 webServer: {
                     port: "3008",
-                    restApiPath: "/tmp/restApi"
+                    restApiPath: "/tmp/restApi",
+                    usePdms: false
                 }
             }
         };
 
-        (0, _chai.expect)(_webServerCli2.default.parse(_adapters.defaults, processArgv)).to.eql(expected);
+        (0, _chai.expect)(_webServerCli2.default.parse(_webServer2.default.defaults, processArgv)).to.eql(expected);
         done();
     });
 });

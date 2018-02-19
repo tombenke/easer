@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { defaults } from './adapters/'
+import encpwd from './adapters/encpwd/'
 import encpwdCli from './encpwdCli'
 
 before(done => {
@@ -24,7 +24,7 @@ describe('encpwdCli', () => {
             }
         }
 
-        expect(encpwdCli.parse(defaults, processArgv)).to.eql(expected)
+        expect(encpwdCli.parse(encpwd.defaults, processArgv)).to.eql(expected)
         done()
     })
 })

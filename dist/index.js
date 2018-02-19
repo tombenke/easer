@@ -3,8 +3,6 @@
 /*jshint node: true */
 'use strict';
 
-//import defaults from './adapters/server/config/'
-
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
@@ -18,9 +16,17 @@ var _webServerCli = require('./webServerCli');
 
 var _webServerCli2 = _interopRequireDefault(_webServerCli);
 
-var _adapters = require('./adapters/');
+var _pdmsHemera = require('./adapters/pdmsHemera/');
 
-var _adapters2 = _interopRequireDefault(_adapters);
+var _pdmsHemera2 = _interopRequireDefault(_pdmsHemera);
+
+var _encpwd = require('./adapters/encpwd/');
+
+var _encpwd2 = _interopRequireDefault(_encpwd);
+
+var _webServer = require('./adapters/webServer/');
+
+var _webServer2 = _interopRequireDefault(_webServer);
 
 var _npac = require('npac');
 
@@ -36,18 +42,22 @@ var _config2 = _interopRequireDefault(_config);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var dumpCtx = function dumpCtx(ctx, next) {
-    console.log('dumpCtx:', ctx);
-    next(null, ctx);
-};
-
-var defaults = _lodash2.default.merge({}, _config2.default, _adapters2.default.defaults);
+/*
+const dumpCtx = (ctx, next) => {
+    console.log('dumpCtx:')
+    next(null, ctx)
+}
+*/
 
 var startEncpwd = exports.startEncpwd = function startEncpwd() {
     var argv = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : process.argv;
     var cb = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
+
+    var defaults = _lodash2.default.merge({}, _config2.default, _encpwd2.default.defaults);
+
     // Use CLI to gain additional parameters, and command to execute
+
     var _encpwdCli$parse = _encpwdCli2.default.parse(defaults, argv),
         cliConfig = _encpwdCli$parse.cliConfig,
         command = _encpwdCli$parse.command;
@@ -58,7 +68,9 @@ var startEncpwd = exports.startEncpwd = function startEncpwd() {
     var config = _npac2.default.makeConfig(defaults, cliConfig, 'configFileName');
 
     // Define the adapters and executives to add to the container
-    var appAdapters = [_npac2.default.mergeConfig(config), _npac2.default.addLogger, _adapters2.default.commands];
+    var appAdapters = [_npac2.default.mergeConfig(config), _npac2.default.addLogger, {
+        encpwd: _encpwd2.default.execute
+    }];
 
     // Define the jobs to execute: hand over the command got by the CLI.
     var jobs = [_npac2.default.makeCallSync(command)];
@@ -71,7 +83,11 @@ var startWebServer = exports.startWebServer = function startWebServer() {
     var argv = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : process.argv;
     var cb = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
+
+    var defaults = _lodash2.default.merge({}, _config2.default, _webServer2.default.defaults);
+
     // Use CLI to gain additional parameters, and command to execute
+
     var _webServerCli$parse = _webServerCli2.default.parse(defaults, argv),
         cliConfig = _webServerCli$parse.cliConfig;
 
@@ -81,7 +97,7 @@ var startWebServer = exports.startWebServer = function startWebServer() {
     var config = _npac2.default.makeConfig(defaults, cliConfig, 'configFileName');
 
     // Define the adapters and executives to add to the container
-    var appAdapters = [_npac2.default.mergeConfig(config), _npac2.default.addLogger, dumpCtx, _adapters2.default.mediators.pdms.startup, _adapters2.default.mediators.webServer.startup];
+    var appAdapters = [_npac2.default.mergeConfig(config), _npac2.default.addLogger, _pdmsHemera2.default.startup, _webServer2.default.startup];
 
     // Define the jobs to execute: hand over the command got by the CLI.
     var jobs = [];

@@ -7,6 +7,10 @@ var _path = require('path');
 
 var _path2 = _interopRequireDefault(_path);
 
+var _lodash = require('lodash');
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
 var _express = require('express');
 
 var _express2 = _interopRequireDefault(_express);
@@ -50,7 +54,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var httpInstance = null;
 
 var startup = function startup(container, next) {
-    var config = container.config;
+    // Merges the defaults with the config coming from the outer world
+    var config = _lodash2.default.merge({}, _config2.default, { webServer: container.config.webServer || {} });
+    //    const config = container.config
     container.logger.info('Start up webServer');
 
     // Create a new Express application.

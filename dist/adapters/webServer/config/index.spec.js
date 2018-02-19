@@ -25,6 +25,7 @@ describe('server/config', function () {
         var expected = {
             webServer: {
                 port: 3007,
+                usePdms: false,
                 privatePagesPath: _path2.default.resolve("./src/adapters/webServer/config/defaults/content/private/"),
                 publicPagesPath: _path2.default.resolve("./src/adapters/webServer/config/defaults/content/public/"),
                 users: _path2.default.resolve("./src/adapters/webServer/config/defaults/users.yml"),

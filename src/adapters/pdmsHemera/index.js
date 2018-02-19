@@ -5,6 +5,7 @@
 import Hemera from 'nats-hemera'
 import nats from 'nats'
 import defaults from './config'
+import _ from 'lodash'
 
 let hemera = null
 
@@ -32,10 +33,11 @@ const mkHemeraLogger = (container) => {
 }
 
 const startup = (container, next) => {
-    const config = container.config
+    // Merges the defaults with the config coming from the outer world
+    const pdmsConfig = _.merge({}, defaults, { pdms: container.config.pdms || {} })
     container.logger.info(`Start up pdmsHemera`)
 
-    const natsConnection = nats.connect({ url: config.pdms.natsUri })
+    const natsConnection = nats.connect({ url: pdmsConfig.pdms.natsUri })
     hemera = new Hemera(natsConnection, {
         logLevel: container.logger.level,
         logger: mkHemeraLogger(container)
@@ -46,6 +48,7 @@ const startup = (container, next) => {
 
         // Call next setup function with the context extension
         next(null, {
+            config: pdmsConfig,
             pdms: {
                 add: hemera.add.bind(hemera),
                 act: hemera.act.bind(hemera)

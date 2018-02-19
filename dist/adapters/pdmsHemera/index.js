@@ -17,6 +17,10 @@ var _config = require('./config');
 
 var _config2 = _interopRequireDefault(_config);
 
+var _lodash = require('lodash');
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -66,10 +70,11 @@ var mkHemeraLogger = function mkHemeraLogger(container) {
 };
 
 var startup = function startup(container, next) {
-    var config = container.config;
+    // Merges the defaults with the config coming from the outer world
+    var pdmsConfig = _lodash2.default.merge({}, _config2.default, { pdms: container.config.pdms || {} });
     container.logger.info('Start up pdmsHemera');
 
-    var natsConnection = _nats2.default.connect({ url: config.pdms.natsUri });
+    var natsConnection = _nats2.default.connect({ url: pdmsConfig.pdms.natsUri });
     hemera = new _natsHemera2.default(natsConnection, {
         logLevel: container.logger.level,
         logger: mkHemeraLogger(container)
@@ -80,6 +85,7 @@ var startup = function startup(container, next) {
 
         // Call next setup function with the context extension
         next(null, {
+            config: pdmsConfig,
             pdms: {
                 add: hemera.add.bind(hemera),
                 act: hemera.act.bind(hemera)

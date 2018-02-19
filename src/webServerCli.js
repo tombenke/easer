@@ -30,6 +30,12 @@ const parse = (defaults, processArgv=process.argv) => {
                     type: 'string',
                     default: defaults.webServer.restApiPath
                 })
+                .option("usePdms", {
+                    alias: "u",
+                    desc: "Use Pattern Driven Micro-Service adapter to forward REST API calls",
+                    type: 'boolean',
+                    default: defaults.webServer.usePdms
+                })
                 .demandOption([]),
             argv => {
                 results = {
@@ -42,7 +48,8 @@ const parse = (defaults, processArgv=process.argv) => {
                         configFileName: argv.config,
                         webServer: {
                             port: argv.port,
-                            restApiPath: argv.restApiPath
+                            restApiPath: argv.restApiPath,
+                            usePdms: argv.usePdms
                         }
                     }
                 }

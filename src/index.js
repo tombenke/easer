@@ -2,24 +2,25 @@
 /*jshint node: true */
 'use strict';
 
-//import defaults from './adapters/server/config/'
 import encpwdCli from './encpwdCli'
 import webServerCli from './webServerCli'
-import adapters from './adapters/'
+import pdms from './adapters/pdmsHemera/'
+import encpwd from './adapters/encpwd/'
+import webServer from './adapters/webServer/'
 import npac from 'npac'
 import _ from 'lodash'
 import appDefaults from './config'
 
-
+/*
 const dumpCtx = (ctx, next) => {
-    console.log('dumpCtx:', ctx)
+    console.log('dumpCtx:')
     next(null, ctx)
 }
-
-
-const defaults = _.merge({}, appDefaults, adapters.defaults)
+*/
 
 export const startEncpwd = (argv=process.argv, cb=null) => {
+
+    const defaults = _.merge({}, appDefaults, encpwd.defaults)
 
     // Use CLI to gain additional parameters, and command to execute
     const { cliConfig, command } = encpwdCli.parse(defaults, argv)
@@ -31,7 +32,9 @@ export const startEncpwd = (argv=process.argv, cb=null) => {
     const appAdapters = [
         npac.mergeConfig(config),
         npac.addLogger,
-        adapters.commands,
+        {
+            encpwd: encpwd.execute
+        }
     ]
 
     // Define the jobs to execute: hand over the command got by the CLI.
@@ -43,6 +46,8 @@ export const startEncpwd = (argv=process.argv, cb=null) => {
 
 export const startWebServer = (argv=process.argv, cb=null) => {
 
+    const defaults = _.merge({}, appDefaults, webServer.defaults)
+
     // Use CLI to gain additional parameters, and command to execute
     const { cliConfig/*, command*/ } = webServerCli.parse(defaults, argv)
 
@@ -53,9 +58,8 @@ export const startWebServer = (argv=process.argv, cb=null) => {
     const appAdapters = [
         npac.mergeConfig(config),
         npac.addLogger,
-        dumpCtx,
-        adapters.mediators.pdms.startup,
-        adapters.mediators.webServer.startup
+        pdms.startup,
+        webServer.startup
     ]
 
     // Define the jobs to execute: hand over the command got by the CLI.

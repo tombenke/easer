@@ -29,6 +29,11 @@ var parse = function parse(defaults) {
             desc: "The path to the REST API descriptors",
             type: 'string',
             default: defaults.webServer.restApiPath
+        }).option("usePdms", {
+            alias: "u",
+            desc: "Use Pattern Driven Micro-Service adapter to forward REST API calls",
+            type: 'boolean',
+            default: defaults.webServer.usePdms
         }).demandOption([]);
     }, function (argv) {
         results = {
@@ -40,7 +45,8 @@ var parse = function parse(defaults) {
                 configFileName: argv.config,
                 webServer: {
                     port: argv.port,
-                    restApiPath: argv.restApiPath
+                    restApiPath: argv.restApiPath,
+                    usePdms: argv.usePdms
                 }
             }
         };

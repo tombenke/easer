@@ -3,6 +3,7 @@
 'use strict';
 
 import path from 'path'
+import _ from 'lodash'
 import express from 'express'
 import morgan from 'morgan'
 import cookieParser from 'cookie-parser'
@@ -18,7 +19,9 @@ import defaults from './config/'
 let httpInstance = null
 
 const startup = (container, next) => {
-    const config = container.config
+    // Merges the defaults with the config coming from the outer world
+    const config = _.merge({}, defaults, { webServer: container.config.webServer || {} })
+//    const config = container.config
     container.logger.info(`Start up webServer`)
 
     // Create a new Express application.

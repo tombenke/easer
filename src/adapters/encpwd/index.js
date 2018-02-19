@@ -2,6 +2,7 @@
 /*jshint node: true */
 'use strict';
 
+import _ from 'lodash'
 import bcrypt from 'bcrypt'
 import defaults from './config'
 
@@ -20,6 +21,7 @@ const encript = plainTextPwd => bcrypt.hashSync(plainTextPwd, saltRounds)
 module.exports = {
     defaults: defaults,
     execute: (container, args) => {
+        const encpwdConfig = _.merge({}, defaults, { encpwd: container.config.encpwd || {} })
         const encripted = encript(args.password)
         container.logger.info(`encpwd '${args.password}' => ${encripted}`)
         return encripted

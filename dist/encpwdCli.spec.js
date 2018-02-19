@@ -2,7 +2,9 @@
 
 var _chai = require('chai');
 
-var _adapters = require('./adapters/');
+var _encpwd = require('./adapters/encpwd/');
+
+var _encpwd2 = _interopRequireDefault(_encpwd);
 
 var _encpwdCli = require('./encpwdCli');
 
@@ -31,7 +33,7 @@ describe('encpwdCli', function () {
             cliConfig: {}
         };
 
-        (0, _chai.expect)(_encpwdCli2.default.parse(_adapters.defaults, processArgv)).to.eql(expected);
+        (0, _chai.expect)(_encpwdCli2.default.parse(_encpwd2.default.defaults, processArgv)).to.eql(expected);
         done();
     });
 });
