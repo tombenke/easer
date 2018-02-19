@@ -55,12 +55,21 @@ export const startWebServer = (argv=process.argv, cb=null) => {
     const config = npac.makeConfig(defaults, cliConfig, 'configFileName')
 
     // Define the adapters and executives to add to the container
-    const appAdapters = [
-        npac.mergeConfig(config),
-        npac.addLogger,
-        pdms.startup,
-        webServer.startup
-    ]
+    let appAdapters = []
+    if (config.webServer.usePdms) {
+        appAdapters = [
+            npac.mergeConfig(config),
+            npac.addLogger,
+            pdms.startup,
+            webServer.startup
+        ]
+    } else {
+        appAdapters = [
+            npac.mergeConfig(config),
+            npac.addLogger,
+            webServer.startup
+        ]
+    }
 
     // Define the jobs to execute: hand over the command got by the CLI.
     const jobs = []

@@ -97,7 +97,12 @@ var startWebServer = exports.startWebServer = function startWebServer() {
     var config = _npac2.default.makeConfig(defaults, cliConfig, 'configFileName');
 
     // Define the adapters and executives to add to the container
-    var appAdapters = [_npac2.default.mergeConfig(config), _npac2.default.addLogger, _pdmsHemera2.default.startup, _webServer2.default.startup];
+    var appAdapters = [];
+    if (config.webServer.usePdms) {
+        appAdapters = [_npac2.default.mergeConfig(config), _npac2.default.addLogger, _pdmsHemera2.default.startup, _webServer2.default.startup];
+    } else {
+        appAdapters = [_npac2.default.mergeConfig(config), _npac2.default.addLogger, _webServer2.default.startup];
+    }
 
     // Define the jobs to execute: hand over the command got by the CLI.
     var jobs = [];
