@@ -14,9 +14,9 @@ var _index = require('./index');
 
 var server = _interopRequireWildcard(_index);
 
-var _pdmsHemera = require('../pdmsHemera');
+var _npacPdmsHemeraAdapter = require('npac-pdms-hemera-adapter');
 
-var pdms = _interopRequireWildcard(_pdmsHemera);
+var pdms = _interopRequireWildcard(_npacPdmsHemeraAdapter);
 
 var _lodash = require('lodash');
 

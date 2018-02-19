@@ -16,9 +16,9 @@ var _webServerCli = require('./webServerCli');
 
 var _webServerCli2 = _interopRequireDefault(_webServerCli);
 
-var _pdmsHemera = require('./adapters/pdmsHemera/');
+var _npacPdmsHemeraAdapter = require('npac-pdms-hemera-adapter');
 
-var _pdmsHemera2 = _interopRequireDefault(_pdmsHemera);
+var _npacPdmsHemeraAdapter2 = _interopRequireDefault(_npacPdmsHemeraAdapter);
 
 var _encpwd = require('./adapters/encpwd/');
 
@@ -99,7 +99,7 @@ var startWebServer = exports.startWebServer = function startWebServer() {
     // Define the adapters and executives to add to the container
     var appAdapters = [];
     if (config.webServer.usePdms) {
-        appAdapters = [_npac2.default.mergeConfig(config), _npac2.default.addLogger, _pdmsHemera2.default.startup, _webServer2.default.startup];
+        appAdapters = [_npac2.default.mergeConfig(config), _npac2.default.addLogger, _npacPdmsHemeraAdapter2.default.startup, _webServer2.default.startup];
     } else {
         appAdapters = [_npac2.default.mergeConfig(config), _npac2.default.addLogger, _webServer2.default.startup];
     }

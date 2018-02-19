@@ -4,7 +4,7 @@
 
 import encpwdCli from './encpwdCli'
 import webServerCli from './webServerCli'
-import pdms from './adapters/pdmsHemera/'
+import pdms from 'npac-pdms-hemera-adapter'
 import encpwd from './adapters/encpwd/'
 import webServer from './adapters/webServer/'
 import npac from 'npac'

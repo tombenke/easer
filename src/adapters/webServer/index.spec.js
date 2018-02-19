@@ -2,7 +2,7 @@ import npac from 'npac'
 import { expect } from 'chai'
 import defaults from './config/'
 import * as server from './index'
-import * as pdms from '../pdmsHemera'
+import * as pdms from 'npac-pdms-hemera-adapter'
 import * as _ from 'lodash'
 
 describe('adapters/server', () => {
