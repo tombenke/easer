@@ -19,12 +19,6 @@ var _index = require('./index');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var testDirectory = _path2.default.resolve('./tmp');
-/*
-import {
-    loadJsonFileSync,
-    findFilesSync
-} from 'datafile'
-*/
 
 var destCleanup = function destCleanup(cb) {
     var dest = testDirectory;

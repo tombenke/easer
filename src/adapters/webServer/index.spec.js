@@ -2,16 +2,18 @@ import npac from 'npac'
 import { expect } from 'chai'
 import defaults from './config/'
 import * as server from './index'
+import * as pdms from '../pdmsHemera'
 import * as _ from 'lodash'
 
-describe('commands/server', () => {
+describe('adapters/server', () => {
 
-    const config = _.merge({}, defaults, { /* Add command specific config parameters */ })
+    const config = _.merge({}, defaults, pdms.defaults, { /* Add command specific config parameters */ })
 
     it('#startup, #shutdown', (done) => {
         const adapters = [
             npac.mergeConfig(config),
             npac.addLogger,
+            pdms.startup,
             server.startup
         ]
 
@@ -26,8 +28,13 @@ describe('commands/server', () => {
             server.shutdown(container, next)
         }
 
+        const shutdownPdms = (container, next) => {
+            container.logger.info(`Run job to shut down the pdms`)
+            pdms.shutdown(container, next)
+        }
+
         // TODO: Move shutdown into the shutdown list of npac, instead of using command
-        npac.start(adapters, [testServer, shutdownServer], (err, res) => {
+        npac.start(adapters, [testServer, shutdownServer, shutdownPdms], (err, res) => {
             if (err) {
                 throw(err)
             } else {

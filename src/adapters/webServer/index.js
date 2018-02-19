@@ -19,7 +19,7 @@ let httpInstance = null
 
 const startup = (container, next) => {
     const config = container.config
-    container.logger.info(`Setup webServer mediator`)
+    container.logger.info(`Start up webServer`)
 
     // Create a new Express application.
     const server = express()
@@ -64,7 +64,7 @@ const startup = (container, next) => {
 
 const shutdown = (container, next) => {
     httpInstance.close()
-    container.logger.info("Express server is shutting down")
+    container.logger.info("Shut down webServer")
     next(null, null)
 }
 

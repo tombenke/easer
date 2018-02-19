@@ -14,6 +14,10 @@ var _index = require('./index');
 
 var server = _interopRequireWildcard(_index);
 
+var _pdmsHemera = require('../pdmsHemera');
+
+var pdms = _interopRequireWildcard(_pdmsHemera);
+
 var _lodash = require('lodash');
 
 var _ = _interopRequireWildcard(_lodash);
@@ -22,12 +26,12 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-describe('commands/server', function () {
+describe('adapters/server', function () {
 
-    var config = _.merge({}, _config2.default, {/* Add command specific config parameters */});
+    var config = _.merge({}, _config2.default, pdms.defaults, {/* Add command specific config parameters */});
 
     it('#startup, #shutdown', function (done) {
-        var adapters = [_npac2.default.mergeConfig(config), _npac2.default.addLogger, server.startup];
+        var adapters = [_npac2.default.mergeConfig(config), _npac2.default.addLogger, pdms.startup, server.startup];
 
         var testServer = function testServer(container, next) {
             container.logger.info('Run job to test server');
@@ -40,8 +44,13 @@ describe('commands/server', function () {
             server.shutdown(container, next);
         };
 
+        var shutdownPdms = function shutdownPdms(container, next) {
+            container.logger.info('Run job to shut down the pdms');
+            pdms.shutdown(container, next);
+        };
+
         // TODO: Move shutdown into the shutdown list of npac, instead of using command
-        _npac2.default.start(adapters, [testServer, shutdownServer], function (err, res) {
+        _npac2.default.start(adapters, [testServer, shutdownServer, shutdownPdms], function (err, res) {
             if (err) {
                 throw err;
             } else {

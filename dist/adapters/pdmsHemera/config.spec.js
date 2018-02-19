@@ -19,7 +19,9 @@ describe('pmdsHemera.config', function () {
 
     it('#defaults', function (done) {
         var expected = {
-            pmds: {}
+            pdms: {
+                natsUri: "nats://demo.nats.io:4222"
+            }
         };
 
         var defaults = _config2.default;

@@ -4,7 +4,7 @@ var _datafile = require('datafile');
 
 var records = [];
 
-exports.loadUsers = function (container) {
+var loadUsers = function loadUsers(container) {
     records = (0, _datafile.loadJsonFileSync)(container.config.webServer.users).users;
     //container.logger.info(`users: ${container.config.webServer.users}, ${JSON.stringify(records, null, '')}`)
 };
@@ -21,9 +21,36 @@ var findByProp = function findByProp(prop, value, cb) {
     });
 };
 
-exports.findById = function (id, cb) {
+var findById = function findById(id, cb) {
     return findByProp('id', id, cb);
 };
-exports.findByUsername = function (username, cb) {
+
+var findByUsername = function findByUsername(username, cb) {
     return findByProp('username', username, cb);
+};
+
+var getProfile = function getProfile(id, cb) {
+    findById(id, function (err, userRecord) {
+        if (err) {
+            cb(err, null);
+        } else {
+            if (userRecord === null) {
+                cb(new Error('User with id: \'' + id + '\' not found'), null);
+            } else {
+                cb(null, {
+                    id: userRecord.id,
+                    fullName: userRecord.fullName,
+                    email: userRecord.email,
+                    avatar: userRecord.avatar || 'avatars/undefined.png'
+                });
+            }
+        }
+    });
+};
+
+module.exports = {
+    loadUsers: loadUsers,
+    findById: findById,
+    findByUsername: findByUsername,
+    getProfile: getProfile
 };

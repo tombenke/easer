@@ -2,13 +2,6 @@ import fs from 'fs'
 import rimraf from 'rimraf'
 import path from 'path'
 import { expect } from 'chai'
-/*
-import {
-    loadJsonFileSync,
-    findFilesSync
-} from 'datafile'
-*/
-
 import { startEncpwd/*, startWebServer*/ } from './index'
 
 const testDirectory = path.resolve('./tmp')

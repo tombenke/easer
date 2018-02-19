@@ -10,12 +10,12 @@ import npac from 'npac'
 import _ from 'lodash'
 import appDefaults from './config'
 
-/*
+
 const dumpCtx = (ctx, next) => {
     console.log('dumpCtx:', ctx)
     next(null, ctx)
 }
-*/
+
 
 const defaults = _.merge({}, appDefaults, adapters.defaults)
 
@@ -53,6 +53,8 @@ export const startWebServer = (argv=process.argv, cb=null) => {
     const appAdapters = [
         npac.mergeConfig(config),
         npac.addLogger,
+        dumpCtx,
+        adapters.mediators.pdms.startup,
         adapters.mediators.webServer.startup
     ]
 

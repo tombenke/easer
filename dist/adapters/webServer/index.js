@@ -51,7 +51,7 @@ var httpInstance = null;
 
 var startup = function startup(container, next) {
     var config = container.config;
-    container.logger.info('Setup webServer mediator');
+    container.logger.info('Start up webServer');
 
     // Create a new Express application.
     var server = (0, _express2.default)();
@@ -95,7 +95,7 @@ var startup = function startup(container, next) {
 
 var shutdown = function shutdown(container, next) {
     httpInstance.close();
-    container.logger.info("Express server is shutting down");
+    container.logger.info("Shut down webServer");
     next(null, null);
 };
 

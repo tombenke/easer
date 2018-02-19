@@ -8,7 +8,8 @@ describe('pmdsHemera.config', () => {
 
     it('#defaults', done => {
         const expected = {
-            pmds: {
+            pdms: {
+                natsUri: "nats://demo.nats.io:4222"
             }
         }
         

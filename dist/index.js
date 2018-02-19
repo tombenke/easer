@@ -36,12 +36,10 @@ var _config2 = _interopRequireDefault(_config);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/*
-const dumpCtx = (ctx, next) => {
-    console.log('dumpCtx:', ctx)
-    next(null, ctx)
-}
-*/
+var dumpCtx = function dumpCtx(ctx, next) {
+    console.log('dumpCtx:', ctx);
+    next(null, ctx);
+};
 
 var defaults = _lodash2.default.merge({}, _config2.default, _adapters2.default.defaults);
 
@@ -83,7 +81,7 @@ var startWebServer = exports.startWebServer = function startWebServer() {
     var config = _npac2.default.makeConfig(defaults, cliConfig, 'configFileName');
 
     // Define the adapters and executives to add to the container
-    var appAdapters = [_npac2.default.mergeConfig(config), _npac2.default.addLogger, _adapters2.default.mediators.webServer.startup];
+    var appAdapters = [_npac2.default.mergeConfig(config), _npac2.default.addLogger, dumpCtx, _adapters2.default.mediators.pdms.startup, _adapters2.default.mediators.webServer.startup];
 
     // Define the jobs to execute: hand over the command got by the CLI.
     var jobs = [];
