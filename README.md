@@ -97,6 +97,7 @@ Double check the server log, and you should see something like this:
    See [npac-pdms-hemera-adapter](https://www.npmjs.com/package/npac-pdms-hemera-adapter)
    for further details.
 - `PDMS_NATS_URI`: The NATS server uri used by the pdms adapter.
+  Default: "nats://demo.nats.io:4222".
 - `EASER_VIEWSPATH`: The base path for the server-side view templates.
 - `EASER_CONTENTPATH_PUBLIC`: The base path for the public content.
 - `EASER_CONTENTPATH_PRIVATE`: The base path for the private pages.

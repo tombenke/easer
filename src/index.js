@@ -46,7 +46,7 @@ export const startEncpwd = (argv=process.argv, cb=null) => {
 
 export const startWebServer = (argv=process.argv, cb=null) => {
 
-    const defaults = _.merge({}, appDefaults, webServer.defaults)
+    const defaults = _.merge({}, appDefaults, webServer.defaults, pdms.defaults)
 
     // Use CLI to gain additional parameters, and command to execute
     const { cliConfig/*, command*/ } = webServerCli.parse(defaults, argv)

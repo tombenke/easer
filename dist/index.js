@@ -84,7 +84,7 @@ var startWebServer = exports.startWebServer = function startWebServer() {
     var cb = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
 
-    var defaults = _lodash2.default.merge({}, _config2.default, _webServer2.default.defaults);
+    var defaults = _lodash2.default.merge({}, _config2.default, _webServer2.default.defaults, _npacPdmsHemeraAdapter2.default.defaults);
 
     // Use CLI to gain additional parameters, and command to execute
 
