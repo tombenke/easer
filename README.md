@@ -58,7 +58,7 @@ During development, execute the following command in the project folder:
 Start the server:
 
 ```bash
-    $ npm start
+    $ npm start ./dist/webServerApp.js
 
     > easer@1.0.0 start /home/tombenke/topics/easer
     > node server/index.js
@@ -92,10 +92,16 @@ Double check the server log, and you should see something like this:
 `easer` is configured through the following environment variables:
 
 - `EASER_PORT`: The port where the server will listen.
+- `EASER_USE_PDMS` If `true`, then uses the Pattern Driven Micro Service API
+   of the npac container. Default: `false`.
+   See [npac-pdms-hemera-adapter](https://www.npmjs.com/package/npac-pdms-hemera-adapter)
+   for further details.
 - `EASER_VIEWSPATH`: The base path for the server-side view templates.
 - `EASER_CONTENTPATH_PUBLIC`: The base path for the public content.
 - `EASER_CONTENTPATH_PRIVATE`: The base path for the private pages.
 - `EASER_USERS`: YAML format file, which describes the user credentials.
+- `EASER_RESTAPIPATH`: The base path to the rest api endpoint descriptors.
+  See [rest-tool](https://www.npmjs.com/package/rest-tool) for further details.
 
 See [src/config/index.js](src/config/index.js) for default values.
 
@@ -110,7 +116,7 @@ The password hash can be generated via the `easer encpwd -p <password>` command:
 
 
 ```bash
-    bin/easer encpwd -p SeCRet-paZZw0rd
+    ./dist/encpwdApp.js -p SeCRet-paZZw0rd
     SeCRet-paZZw0rd >> $2a$10$j4flrJ4WTMG.disTrEZ4juEkn3pz20zvFuNYbt6gli3Qiuv5emTDe
 ```
 
@@ -123,10 +129,6 @@ nor into a folder, where the normal users can easily access to it._
 
 ### TODO
 - Add public static pages and forwarding to 404 and 500
-- Implement the /profile service to provide profile data for a static private page
-  (eliminate ejs views).
-- Implement and add the microservice gw module
-  (rest-api spec based forwarding to seneca/hemera agents via messaging middleware)
 - Implement ACL for authorization.
 - Select between HTTP/HTTPS.
 - Implement password generator to work directly into the user credentials file.
