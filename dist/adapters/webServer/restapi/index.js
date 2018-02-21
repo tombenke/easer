@@ -44,7 +44,7 @@ var mkHandlerFun = function mkHandlerFun(endpoint, container) {
                 endpointDesc: endpoint,
                 req: req
             }, function (err, resp) {
-                container.logger.info('RES ', resp.uri);
+                container.logger.info('RES ' + JSON.stringify(resp, null, ''));
                 if (err) {
                     res.status(500).json(err);
                 } else {

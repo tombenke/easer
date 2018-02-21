@@ -27,6 +27,6 @@ module.exports = {
         version: _package2.default.version
     },
     configFileName: 'config.yml',
-    logLevel: process.env.TESTCLI_LOG_LEVEL || 'info',
+    logLevel: process.env.EASER_LOG_LEVEL || 'info',
     installDir: _path2.default.resolve('./')
 };
