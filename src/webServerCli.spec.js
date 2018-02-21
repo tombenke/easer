@@ -50,7 +50,7 @@ describe('webServerCli', () => {
             '-p', "3008",
             '-c', 'config.yml',
             '-r', '/tmp/restApi',
-            '-u',
+            '-u'
         ]
         const defaults = _.merge({}, webServer.defaults, pdms.defaults)
         const expected = {
