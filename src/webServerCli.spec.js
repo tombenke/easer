@@ -14,7 +14,7 @@ describe('webServerCli', () => {
 
     it('webServer', done => {
         const processArgv = [
-            'node', 'src/index.js', 'server',
+            'node', 'src/index.js', // 'server',
             '-p', "3008",
             '-c', 'config.yml',
             '-r', '/tmp/restApi'

@@ -1,4 +1,8 @@
 {
-    "id": 1,
-    "data": "Some mock data of the resource"
+    "id": "5f5157ba-61a2-4bd9-a763-90076442a166",
+    "username": "guest",
+    "fullName": "Guest",
+    "password": "$2a$10$kxyNmDMbVv8Vm9R8uoreJ.p2.r5.sU3EYiUa7ztaut4mogIuPekDC",
+    "email": "guest@guest.com",
+    "avatar": "guest.png"
 }

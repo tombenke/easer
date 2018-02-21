@@ -14,7 +14,10 @@ describe('encpwdCli', () => {
 
     it('encpwd', done => {
         const passwordToEncode = "secretPwd1922!"
-        const processArgv = ['node', 'src/index.js', 'encpwd', '-p', passwordToEncode];
+        const processArgv = [
+            'node', 'src/index.js', // 'encpwd',
+            '-p', passwordToEncode
+        ]
         const expected = {
             command: {
                 name: 'encpwd',
