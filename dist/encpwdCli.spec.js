@@ -24,7 +24,8 @@ describe('encpwdCli', function () {
 
     it('encpwd', function (done) {
         var passwordToEncode = "secretPwd1922!";
-        var processArgv = ['node', 'src/index.js', 'encpwd', '-p', passwordToEncode];
+        var processArgv = ['node', 'src/index.js', // 'encpwd',
+        '-p', passwordToEncode];
         var expected = {
             command: {
                 name: 'encpwd',

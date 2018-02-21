@@ -32,6 +32,12 @@ const parse = (defaults, processArgv=process.argv) => {
             type: 'boolean',
             default: defaults.webServer.usePdms
         })
+        .option("natsUri", {
+            alias: "n",
+            desc: "NATS server URI used by the pdms adapter.",
+            type: 'string',
+            default: defaults.pdms.natsUri
+        })
         .demandOption([])
         .showHelpOnFail(false, 'Specify --help for available options')
         .help()
@@ -49,6 +55,9 @@ const parse = (defaults, processArgv=process.argv) => {
                 port: argv.port,
                 restApiPath: argv.restApiPath,
                 usePdms: argv.usePdms
+            },
+            pdms: {
+                natsUri: argv.natsUri
             }
         }
     }

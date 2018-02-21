@@ -43,21 +43,21 @@
 
 
     <section>
-        <article><h1>easer</h1><p><a href="http://github.com/badges/stability-badges"><img src="http://badges.github.io/stability-badges/dist/experimental.svg" alt="experimental"></a><br><a href="https://badge.fury.io/js/easer"><img src="https://badge.fury.io/js/easer.svg" alt="npm version"></a><br><a href="https://travis-ci.org/tombenke/easer"><img src="https://api.travis-ci.org/tombenke/easer.svg" alt="Build Status"></a><br><a href="https://coveralls.io/github/tombenke/easer?branch=master"><img src="https://coveralls.io/repos/github/tombenke/easer/badge.svg?branch=master" alt="Coveralls"></a></p>
+        <article><h1>easer</h1><p><a href="http://github.com/badges/stability-badges"><img src="http://badges.github.io/stability-badges/dist/unstable.svg" alt="unstable"></a><br><a href="https://badge.fury.io/js/easer"><img src="https://badge.fury.io/js/easer.svg" alt="npm version"></a><br><a href="https://travis-ci.org/tombenke/easer"><img src="https://api.travis-ci.org/tombenke/easer.svg" alt="Build Status"></a><br><a href="https://coveralls.io/github/tombenke/easer?branch=master"><img src="https://coveralls.io/repos/github/tombenke/easer/badge.svg?branch=master" alt="Coveralls"></a></p>
 <h2>About</h2><p>A simple, generic express server with built-in authentication and authorization.</p>
 <p>It is built on top of Express.js which runs on Node.js.</p>
 <p>It reads the rest-api module, and provides a simple express server,<br>which echoes the mock data defined under the services.</p>
 <p>You can modify and extend this code as you like to fit your needs.</p>
 <p>Note: It is in experimental stage, and its features under development and matter of continuous change.</p>
 <h2>Prerequisites</h2><p>In order to run the server, you need to have the Node.js and npm installed on your machine.</p>
-<h2>Installation</h2><p>The <code>easer</code> is made to as a standalone application server, so it's preferred installation is:</p>
+<h2>Installation</h2><p>The <code>easer</code> is made to act as a standalone application server, so it's preferred installation is:</p>
 <pre class="prettyprint source lang-bash"><code>    npm install -g easer</code></pre><p>For development purposes clone the <a href="https://github.com/tombenke/easer">easer</a> server into a folder:</p>
 <pre class="prettyprint source lang-bash"><code>    clone git@github.com:/easer.git</code></pre><p>Install the required dependencies:</p>
 <pre class="prettyprint source lang-bash"><code>    cd easer
     npm install</code></pre><h2>Usage</h2><h3>Start the server</h3><p>In global mode you can start the server with the <code>easer server</code> command.</p>
 <p>During development, execute the following command in the project folder:</p>
 <p>Start the server:</p>
-<pre class="prettyprint source lang-bash"><code>    $ npm start
+<pre class="prettyprint source lang-bash"><code>    $ npm start ./dist/webServerApp.js
 
     > easer@1.0.0 start /home/tombenke/topics/easer
     > node server/index.js
@@ -76,21 +76,21 @@
     GET /login.html 304 1.980 ms - -</code></pre><h3>Server configuration</h3><p><code>easer</code> is configured through the following environment variables:</p>
 <ul>
 <li><code>EASER_PORT</code>: The port where the server will listen.</li>
+<li><code>EASER_USE_PDMS</code> If <code>true</code>, then uses the Pattern Driven Micro Service API<br> of the npac container. Default: <code>false</code>.<br> See <a href="https://www.npmjs.com/package/npac-pdms-hemera-adapter">npac-pdms-hemera-adapter</a><br> for further details.</li>
 <li><code>EASER_VIEWSPATH</code>: The base path for the server-side view templates.</li>
 <li><code>EASER_CONTENTPATH_PUBLIC</code>: The base path for the public content.</li>
 <li><code>EASER_CONTENTPATH_PRIVATE</code>: The base path for the private pages.</li>
 <li><code>EASER_USERS</code>: YAML format file, which describes the user credentials.</li>
+<li><code>EASER_RESTAPIPATH</code>: The base path to the rest api endpoint descriptors.<br>See <a href="https://www.npmjs.com/package/rest-tool">rest-tool</a> for further details.</li>
 </ul>
 <p>See <a href="src/config/index.js">src/config/index.js</a> for default values.</p>
 <h4>Managing user credentials</h4><p>See <a href="src/config/defaults/users.yml">src/config/defaults/users.yml</a> as an example.</p>
 <p>To add a new user, simply create a new user object, in the <code>users.yml</code> file,<br>and define the <code>username</code>, <code>email</code> and <code>fullName</code> values.<br>The <code>id</code> field must be unique, that you can generate via the <code>uuidgen</code> utility.<br>The password hash can be generated via the <code>easer encpwd -p &lt;password&gt;</code> command:</p>
-<pre class="prettyprint source lang-bash"><code>    bin/easer encpwd -p SeCRet-paZZw0rd
+<pre class="prettyprint source lang-bash"><code>    ./dist/encpwdApp.js -p SeCRet-paZZw0rd
     SeCRet-paZZw0rd >> $2a$10$j4flrJ4WTMG.disTrEZ4juEkn3pz20zvFuNYbt6gli3Qiuv5emTDe</code></pre><p>Then copy the bcrypted result into the user's <code>password</code> field.</p>
 <p><strong>Note:</strong> <em>This is temporary, not really secure solution to the CLI tool,<br>so make sure that nobody can see the screen and access to the console log.<br>Also make sure that the users.yml is not placed to a publicly available place,<br>nor into a folder, where the normal users can easily access to it.</em></p>
 <h3>TODO</h3><ul>
 <li>Add public static pages and forwarding to 404 and 500</li>
-<li>Implement the /profile service to provide profile data for a static private page<br>(eliminate ejs views).</li>
-<li>Implement and add the microservice gw module<br>(rest-api spec based forwarding to seneca/hemera agents via messaging middleware)</li>
 <li>Implement ACL for authorization.</li>
 <li>Select between HTTP/HTTPS.</li>
 <li>Implement password generator to work directly into the user credentials file.</li>
@@ -119,7 +119,7 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#execute">execute</a></li></ul>
+    <h2><a href="index.html">Home</a></h2>
 </nav>
 
 <br class="clear">

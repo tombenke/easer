@@ -1,4 +1,6 @@
+import _ from 'lodash'
 import { expect } from 'chai'
+import pdms from 'npac-pdms-hemera-adapter'
 import webServer from './adapters/webServer/'
 import webServerCli from './webServerCli'
 
@@ -19,6 +21,7 @@ describe('webServerCli', () => {
             '-c', 'config.yml',
             '-r', '/tmp/restApi'
         ]
+        const defaults = _.merge({}, webServer.defaults, pdms.defaults)
         const expected = {
             command: {
                 name: 'server',
@@ -30,11 +33,14 @@ describe('webServerCli', () => {
                     port: "3008",
                     restApiPath: "/tmp/restApi",
                     usePdms: false
+                },
+                pdms: {
+                    natsUri: "nats://demo.nats.io:4222"
                 }
             }
         }
 
-        expect(webServerCli.parse(webServer.defaults, processArgv)).to.eql(expected)
+        expect(webServerCli.parse(defaults, processArgv)).to.eql(expected)
         done()
     })
 })

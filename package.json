@@ -40,7 +40,7 @@
     "lodash": "4.17.4",
     "method-override": "~2.3.6",
     "morgan": "~1.7.0",
-    "npac-pdms-hemera-adapter": "^1.0.0",
+    "npac-pdms-hemera-adapter": "^1.0.2",
     "npac": "^1.3.2",
     "passport": "~0.3.2",
     "passport-facebook": "~2.1.1",
