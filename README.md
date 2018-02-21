@@ -1,7 +1,7 @@
 easer
 =====
 
-[![experimental](http://badges.github.io/stability-badges/dist/experimental.svg)](http://github.com/badges/stability-badges)
+[![unstable](http://badges.github.io/stability-badges/dist/unstable.svg)](http://github.com/badges/stability-badges)
 [![npm version][npm-badge]][npm-url]
 [![Build Status][travis-badge]][travis-url]
 [![Coveralls][BadgeCoveralls]][Coveralls]
@@ -27,7 +27,7 @@ In order to run the server, you need to have the Node.js and npm installed on yo
 
 ## Installation
 
-The `easer` is made to as a standalone application server, so it's preferred installation is:
+The `easer` is made to act as a standalone application server, so it's preferred installation is:
 
 ```bash
     npm install -g easer
