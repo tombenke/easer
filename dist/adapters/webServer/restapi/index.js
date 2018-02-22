@@ -8,6 +8,8 @@ var _restToolCommon = require('rest-tool-common');
 
 var _auth = require('../auth/');
 
+var _monitoring = require('../monitoring');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var getEndpointMap = function getEndpointMap(container) {
@@ -38,23 +40,33 @@ var mkHandlerFun = function mkHandlerFun(endpoint, container) {
 
         if (container.config.webServer.usePdms) {
             container.pdms.act({
-                topic: "webServer",
+                topic: endpoint.uri,
                 method: endpoint.method,
                 uri: endpoint.uri,
                 endpointDesc: endpoint,
-                req: req
+                request: {
+                    user: req.user,
+                    parameters: {
+                        query: req.query,
+                        uri: req.params
+                    }
+                }
             }, function (err, resp) {
                 container.logger.info('RES ' + JSON.stringify(resp, null, ''));
                 if (err) {
-                    res.status(500).json(err);
+                    res.set(resp.headers).status(500).json(err);
                 } else {
-                    res.status(200).json(resp);
+                    res.set(resp.headers).status(200).json(resp.body);
                 }
             });
         } else {
             // TODO: handle /auth/profile
             if (endpoint.method === 'get' && endpoint.uri === '/auth/profile') {
                 (0, _auth.getProfile)(req.user.id, function (err, data) {
+                    res.status(200).json(data);
+                });
+            } else if (endpoint.method === 'get' && endpoint.uri === '/monitoring/isAlive') {
+                (0, _monitoring.getMonitoringIsAlive)(req.user.id, function (err, data) {
                     res.status(200).json(data);
                 });
             } else {
@@ -68,16 +80,15 @@ var set = function set(server, authGuard, container) {
 
     if (container.config.webServer.usePdms) {
         // Add built-in profile service
-        container.pdms.add({ topic: "webServer", method: "get", uri: "/auth/profile" }, function (data, cb) {
-            container.logger.info('Profile handler called with ' + JSON.stringify(data.req.user, null, '') + ', ' + data.method + ', ' + data.uri + ', ...');
-            (0, _auth.getProfile)(data.req.user.id, cb);
-            //        cb(null, { method: data.method, uri: data.uri/*, endpoint: data.endpointDesc*/ })
+        container.pdms.add({ topic: "/auth/profile", method: "get", uri: "/auth/profile" }, function (data, cb) {
+            container.logger.info('Profile handler called with ' + JSON.stringify(data.request.user, null, '') + ', ' + data.method + ', ' + data.uri + ', ...');
+            (0, _auth.getProfile)(data.request.user.id, cb);
         });
 
-        // Add generic, default content handler to REST API calls
-        container.pdms.add({ topic: "webServer" }, function (data, cb) {
-            container.logger.info('generic handler called with ' + data.method + ', ' + data.uri + ', ...');
-            cb(null, { method: data.method, uri: data.uri /*, endpoint: data.endpointDesc*/ });
+        // Add built-in monitoring service
+        container.pdms.add({ topic: "/monitoring/isAlive", method: "get", uri: "/monitoring/isAlive" }, function (data, cb) {
+            container.logger.info('Monitoring handler called with ' + JSON.stringify(data.request, null, '') + ', ' + data.method + ', ' + data.uri + ', ...');
+            (0, _monitoring.getMonitoringIsAlive)(data.request, cb);
         });
     }
 
