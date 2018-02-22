@@ -32,10 +32,13 @@ const getProfile = (id, cb) => {
                 cb(new Error(`User with id: '${id}' not found`), null)
             } else {
                 cb(null, {
-                    id: userRecord.id,
-                    fullName: userRecord.fullName,
-                    email: userRecord.email,
-                    avatar: userRecord.avatar || 'avatars/undefined.png'
+                    headers: {},
+                    body: {
+                        id: userRecord.id,
+                        fullName: userRecord.fullName,
+                        email: userRecord.email,
+                        avatar: userRecord.avatar || 'avatars/undefined.png'
+                    }
                 })
             }
         }

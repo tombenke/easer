@@ -2,8 +2,11 @@
 
 var getMonitoringIsAlive = function getMonitoringIsAlive(req, cb) {
     cb(null, {
-        status: "OK"
-        // TODO: Add further info got from the container
+        headers: {},
+        body: {
+            status: "OK"
+            // TODO: Add further info got from the container
+        }
     });
 };
 
