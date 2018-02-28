@@ -69,6 +69,7 @@ var startup = function startup(container, next) {
     // Configure the middlewares
     server.use((0, _morgan2.default)('dev')); // log every request to the console
     server.use((0, _cookieParser2.default)()); // read cookies (needed for auth)
+    server.use(_bodyParser2.default.json()); // for parsing application/json
     server.use(_bodyParser2.default.urlencoded({ extended: true })); // get information from html forms
 
     // required for passport

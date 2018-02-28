@@ -34,6 +34,7 @@ const startup = (container, next) => {
     // Configure the middlewares
     server.use(morgan('dev')) // log every request to the console
     server.use(cookieParser()) // read cookies (needed for auth)
+    server.use(bodyParser.json()); // for parsing application/json
     server.use(bodyParser.urlencoded({ extended: true })) // get information from html forms
 
     // required for passport

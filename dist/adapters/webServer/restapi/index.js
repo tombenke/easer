@@ -46,17 +46,20 @@ var mkHandlerFun = function mkHandlerFun(endpoint, container) {
                 endpointDesc: endpoint,
                 request: {
                     user: req.user,
+                    cookies: req.cookies,
+                    headers: req.headers,
                     parameters: {
                         query: req.query,
                         uri: req.params
-                    }
+                    },
+                    body: req.body
                 }
             }, function (err, resp) {
                 container.logger.info('RES ' + JSON.stringify(resp, null, ''));
                 if (err) {
-                    res.set(resp.headers).status(500).json(err);
+                    res.set(resp.headers || {}).status(500).json(err);
                 } else {
-                    res.set(resp.headers).status(200).json(resp.body);
+                    res.set(resp.headers || {}).status(200).json(resp.body);
                 }
             });
         } else {
