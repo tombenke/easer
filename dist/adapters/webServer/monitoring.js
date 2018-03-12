@@ -2,7 +2,9 @@
 
 var getMonitoringIsAlive = function getMonitoringIsAlive(req, cb) {
     cb(null, {
-        headers: {},
+        headers: {
+            "Content-Type": "pplication/json; charset=utf-8"
+        },
         body: {
             status: "OK"
             // TODO: Add further info got from the container

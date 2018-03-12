@@ -5,12 +5,14 @@ import { getMonitoringIsAlive } from '../monitoring'
 
 const getEndpointMap = container => {
     const makeJsonicFriendly = function(uri) {
-        return uri.replace(/\{|\}/g, ':')
+        //return uri.replace(/\{|\}/g, ':')
+        return uri.replace(/\{/g, ':').replace(/\}/g, '')
     }
 
     // Load services config and service descriptors
     //const endpoints = services.load(__dirname, '../config/defaults/restapi/services')
     const endpoints = services.load(container.config.webServer.restApiPath, '')
+    console.log('endpoints', container.config.webServer.restApiPath, _.keys(endpoints))
     return _.flatMap(endpoints, endpoint => {
         const uri = endpoint.uriTemplate
         const methods = endpoint.methodList
@@ -54,11 +56,29 @@ const mkHandlerFun = (endpoint, container) => (req, res) => {
     } else {
         // TODO: handle /auth/profile
         if (endpoint.method === 'get' && endpoint.uri === '/auth/profile') {
-            getProfile(req.user.id, (err, data) => { res.status(200).json(data) })
+            getProfile(req.user.id, (err, resp) => {
+                if (err) {
+                    res.set(resp.headers || {}).status(500).json(err)
+                } else {
+                    res.set(resp.headers || {}).status(200).json(resp.body)
+                }
+            })
         } else if (endpoint.method === 'get' && endpoint.uri === '/monitoring/isAlive') {
-            getMonitoringIsAlive(req.user.id, (err, data) => { res.status(200).json(data) })
+            getMonitoringIsAlive(req.user.id, (err, resp) => {
+                if (err) {
+                    res.set(resp.headers || {}).status(500).json(err)
+                } else {
+                    res.set(resp.headers || {}).status(200).json(resp.body)
+                }
+            })
         } else {
-            res.status(500).json({ error: `${endpoint.method} ${endpoint.uri} endpoint is not implemented` })
+
+            console.log('endpoint: ', JSON.stringify(endpoint, null, '  '))
+            const responseHeaders = services.getResponseHeaders(endpoint.method, endpoint.endpointDesc)
+            const responseBody = services.getMockResponseBody(endpoint.method, endpoint.endpointDesc) || endpoint
+            res.set(responseHeaders).status(200).json(responseBody)
+
+            //res.status(500).json({ error: `${endpoint.method} ${endpoint.uri} endpoint is not implemented` })
         }
     }
 }
@@ -82,7 +102,7 @@ const set = (server, authGuard, container) => {
     const endpointMap = getEndpointMap(container)
     container.logger.info(`restapi.set/endpointMap ${JSON.stringify(_.map(endpointMap, ep => [ep.method, ep.uri]), null, '')}`)
     _.map(endpointMap, endpoint => {
-        server[endpoint.method](endpoint.uri, authGuard, mkHandlerFun(endpoint, container))
+        server[endpoint.method](endpoint.jsfUri, /*authGuard,*/ mkHandlerFun(endpoint, container))
     })
 }
 

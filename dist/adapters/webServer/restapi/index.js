@@ -14,12 +14,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var getEndpointMap = function getEndpointMap(container) {
     var makeJsonicFriendly = function makeJsonicFriendly(uri) {
-        return uri.replace(/\{|\}/g, ':');
+        //return uri.replace(/\{|\}/g, ':')
+        return uri.replace(/\{/g, ':').replace(/\}/g, '');
     };
 
     // Load services config and service descriptors
     //const endpoints = services.load(__dirname, '../config/defaults/restapi/services')
     var endpoints = _restToolCommon.services.load(container.config.webServer.restApiPath, '');
+    console.log('endpoints', container.config.webServer.restApiPath, _lodash2.default.keys(endpoints));
     return _lodash2.default.flatMap(endpoints, function (endpoint) {
         var uri = endpoint.uriTemplate;
         var methods = endpoint.methodList;
@@ -65,15 +67,29 @@ var mkHandlerFun = function mkHandlerFun(endpoint, container) {
         } else {
             // TODO: handle /auth/profile
             if (endpoint.method === 'get' && endpoint.uri === '/auth/profile') {
-                (0, _auth.getProfile)(req.user.id, function (err, data) {
-                    res.status(200).json(data);
+                (0, _auth.getProfile)(req.user.id, function (err, resp) {
+                    if (err) {
+                        res.set(resp.headers || {}).status(500).json(err);
+                    } else {
+                        res.set(resp.headers || {}).status(200).json(resp.body);
+                    }
                 });
             } else if (endpoint.method === 'get' && endpoint.uri === '/monitoring/isAlive') {
-                (0, _monitoring.getMonitoringIsAlive)(req.user.id, function (err, data) {
-                    res.status(200).json(data);
+                (0, _monitoring.getMonitoringIsAlive)(req.user.id, function (err, resp) {
+                    if (err) {
+                        res.set(resp.headers || {}).status(500).json(err);
+                    } else {
+                        res.set(resp.headers || {}).status(200).json(resp.body);
+                    }
                 });
             } else {
-                res.status(500).json({ error: endpoint.method + ' ' + endpoint.uri + ' endpoint is not implemented' });
+
+                console.log('endpoint: ', JSON.stringify(endpoint, null, '  '));
+                var responseHeaders = _restToolCommon.services.getResponseHeaders(endpoint.method, endpoint.endpointDesc);
+                var responseBody = _restToolCommon.services.getMockResponseBody(endpoint.method, endpoint.endpointDesc) || endpoint;
+                res.set(responseHeaders).status(200).json(responseBody);
+
+                //res.status(500).json({ error: `${endpoint.method} ${endpoint.uri} endpoint is not implemented` })
             }
         }
     };
@@ -100,7 +116,7 @@ var set = function set(server, authGuard, container) {
         return [ep.method, ep.uri];
     }), null, ''));
     _lodash2.default.map(endpointMap, function (endpoint) {
-        server[endpoint.method](endpoint.uri, authGuard, mkHandlerFun(endpoint, container));
+        server[endpoint.method](endpoint.jsfUri, /*authGuard,*/mkHandlerFun(endpoint, container));
     });
 };
 
