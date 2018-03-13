@@ -145,10 +145,6 @@ nor into a folder, where the normal users can easily access to it._
 - [bcrypt / wikipedia](https://en.wikipedia.org/wiki/Bcrypt)
 - [bcrypt / npmjs.org](https://www.npmjs.com/package/bcrypt)
 
-## Get Help
-
-To learn more about the tool visit the [homepage](http://tombenke.github.io/easer/).
-
 ---
 
 This project was generated from the [ncli-archetype](https://github.com/tombenke/ncli-archetype)
