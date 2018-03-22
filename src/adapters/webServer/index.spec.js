@@ -61,10 +61,8 @@ describe('adapters/server', () => {
             expect(res).to.eql([{}])
             console.log('npac startup process and run jobs successfully finished')
 
-//            setTimeout(() => {
-                console.log('Send SIGTERM signal')
-                process.kill(process.pid, 'SIGTERM')
-//            }, 0)
+            console.log('Send SIGTERM signal')
+            process.kill(process.pid, 'SIGTERM')
         })
     })
 })
