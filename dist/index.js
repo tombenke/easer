@@ -75,8 +75,11 @@ var startEncpwd = exports.startEncpwd = function startEncpwd() {
     // Define the jobs to execute: hand over the command got by the CLI.
     var jobs = [_npac2.default.makeCallSync(command)];
 
+    // Define terminators for graceful shutdown
+    var terminators = [];
+
     //Start the container
-    _npac2.default.start(appAdapters, jobs, cb);
+    _npac2.default.start(appAdapters, jobs, terminators, cb);
 };
 
 var startWebServer = exports.startWebServer = function startWebServer() {
@@ -96,17 +99,22 @@ var startWebServer = exports.startWebServer = function startWebServer() {
 
     var config = _npac2.default.makeConfig(defaults, cliConfig, 'configFileName');
 
-    // Define the adapters and executives to add to the container
+    // Define the adapters, executives and terminators to add to the container
     var appAdapters = [];
+    var appTerminators = [];
     if (config.webServer.usePdms) {
         appAdapters = [_npac2.default.mergeConfig(config), _npac2.default.addLogger, _npacPdmsHemeraAdapter2.default.startup, _webServer2.default.startup];
+
+        appTerminators = [_webServer2.default.shutdown, _npacPdmsHemeraAdapter2.default.shutdown];
     } else {
         appAdapters = [_npac2.default.mergeConfig(config), _npac2.default.addLogger, _webServer2.default.startup];
+
+        appTerminators = [_webServer2.default.shutdown];
     }
 
     // Define the jobs to execute: hand over the command got by the CLI.
     var jobs = [];
 
     //Start the container
-    _npac2.default.start(appAdapters, jobs, cb);
+    _npac2.default.start(appAdapters, jobs, appTerminators, cb);
 };

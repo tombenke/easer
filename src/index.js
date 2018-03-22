@@ -40,8 +40,11 @@ export const startEncpwd = (argv=process.argv, cb=null) => {
     // Define the jobs to execute: hand over the command got by the CLI.
     const jobs = [npac.makeCallSync(command)]
 
+    // Define terminators for graceful shutdown
+    const terminators = []
+
     //Start the container
-    npac.start(appAdapters, jobs, cb)
+    npac.start(appAdapters, jobs, terminators, cb)
 }
 
 export const startWebServer = (argv=process.argv, cb=null) => {
@@ -54,8 +57,9 @@ export const startWebServer = (argv=process.argv, cb=null) => {
     // Create the final configuration parameter set
     const config = npac.makeConfig(defaults, cliConfig, 'configFileName')
 
-    // Define the adapters and executives to add to the container
+    // Define the adapters, executives and terminators to add to the container
     let appAdapters = []
+    let appTerminators = []
     if (config.webServer.usePdms) {
         appAdapters = [
             npac.mergeConfig(config),
@@ -63,17 +67,27 @@ export const startWebServer = (argv=process.argv, cb=null) => {
             pdms.startup,
             webServer.startup
         ]
+
+        appTerminators = [
+            webServer.shutdown,
+            pdms.shutdown
+        ]
     } else {
         appAdapters = [
             npac.mergeConfig(config),
             npac.addLogger,
             webServer.startup
         ]
+
+        appTerminators = [
+            webServer.shutdown
+        ]
     }
 
     // Define the jobs to execute: hand over the command got by the CLI.
     const jobs = []
 
+
     //Start the container
-    npac.start(appAdapters, jobs, cb)
+    npac.start(appAdapters, jobs, appTerminators, cb)
 }
