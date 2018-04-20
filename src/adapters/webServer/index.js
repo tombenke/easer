@@ -9,6 +9,7 @@ import morgan from 'morgan'
 import cookieParser from 'cookie-parser'
 import bodyParser from 'body-parser'
 import session from 'express-session'
+import compression from 'compression'
 import routes from './routes'
 import auth from './auth/index.js'
 import flash from 'connect-flash'
@@ -36,6 +37,10 @@ const startup = (container, next) => {
     server.use(cookieParser()) // read cookies (needed for auth)
     server.use(bodyParser.json()); // for parsing application/json
     server.use(bodyParser.urlencoded({ extended: true })) // get information from html forms
+    if (config.webServer.useCompression) {
+        container.logger.info('Use compression')
+        server.use(compression())
+    }
 
     // required for passport
     server.use(session({ secret: 'larger is dropped once', resave: false, saveUninitialized: false })) // session secret

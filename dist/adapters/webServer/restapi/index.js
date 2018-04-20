@@ -65,9 +65,10 @@ var mkHandlerFun = function mkHandlerFun(endpoint, container) {
                 }
             });
         } else {
+            var userId = _lodash2.default.hasIn(req, 'user.id') ? req.user.id : 'unknown';
             // TODO: handle /auth/profile
             if (endpoint.method === 'get' && endpoint.uri === '/auth/profile') {
-                (0, _auth.getProfile)(req.user.id, function (err, resp) {
+                (0, _auth.getProfile)(userId, function (err, resp) {
                     if (err) {
                         res.set(resp.headers || {}).status(500).json(err);
                     } else {
@@ -75,7 +76,7 @@ var mkHandlerFun = function mkHandlerFun(endpoint, container) {
                     }
                 });
             } else if (endpoint.method === 'get' && endpoint.uri === '/monitoring/isAlive') {
-                (0, _monitoring.getMonitoringIsAlive)(req.user.id, function (err, resp) {
+                (0, _monitoring.getMonitoringIsAlive)(userId, function (err, resp) {
                     if (err) {
                         res.set(resp.headers || {}).status(500).json(err);
                     } else {

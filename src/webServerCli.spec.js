@@ -19,7 +19,8 @@ describe('webServerCli', () => {
             'node', 'src/index.js', // 'server',
             '-p', "3008",
             '-c', 'config.yml',
-            '-r', '/tmp/restApi'
+            '-r', '/tmp/restApi',
+            '-s'
         ]
         const defaults = _.merge({}, webServer.defaults, pdms.defaults)
         const expected = {
@@ -32,7 +33,8 @@ describe('webServerCli', () => {
                 webServer: {
                     port: "3008",
                     restApiPath: "/tmp/restApi",
-                    usePdms: false
+                    usePdms: false,
+                    useCompression: true
                 },
                 pdms: {
                     natsUri: "nats://demo.nats.io:4222"
@@ -63,7 +65,8 @@ describe('webServerCli', () => {
                 webServer: {
                     port: "3008",
                     restApiPath: "/tmp/restApi",
-                    usePdms: true
+                    usePdms: true,
+                    useCompression: false
                 },
                 pdms: {
                     natsUri: "nats://demo.nats.io:4222"
@@ -95,7 +98,8 @@ describe('webServerCli', () => {
                 webServer: {
                     port: "3008",
                     restApiPath: "/tmp/restApi",
-                    usePdms: true
+                    usePdms: true,
+                    useCompression: false
                 },
                 pdms: {
                     natsUri: "nats://localhost:4222"

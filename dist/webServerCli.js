@@ -54,10 +54,9 @@ var parse = function parse(defaults) {
                 natsUri: argv.natsUri
             }
         }
-    };
 
-    console.log('cliResults', results);
-    return results;
+        //console.log('cliResults', results)
+    };return results;
 };
 
 module.exports = {

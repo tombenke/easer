@@ -32,6 +32,12 @@ const parse = (defaults, processArgv=process.argv) => {
             type: 'boolean',
             default: defaults.webServer.usePdms
         })
+        .option("useCompression", {
+            alias: "s",
+            desc: "Use middleware to compress response bodies for all request",
+            type: 'boolean',
+            default: defaults.webServer.useCompression
+        })
         .option("natsUri", {
             alias: "n",
             desc: "NATS server URI used by the pdms adapter.",
@@ -54,7 +60,8 @@ const parse = (defaults, processArgv=process.argv) => {
             webServer: {
                 port: argv.port,
                 restApiPath: argv.restApiPath,
-                usePdms: argv.usePdms
+                usePdms: argv.usePdms,
+                useCompression: argv.useCompression
             },
             pdms: {
                 natsUri: argv.natsUri
@@ -62,7 +69,7 @@ const parse = (defaults, processArgv=process.argv) => {
         }
     }
 
-    //console.log('cliResults', results)
+    console.log('cliResults', results)
     return results
 }
 

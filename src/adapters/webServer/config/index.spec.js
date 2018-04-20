@@ -11,6 +11,7 @@ describe('server/config', () => {
         const expected = {
             webServer: {
                 port: 3007,
+                useCompression: false,
                 usePdms: false,
                 privatePagesPath: path.resolve("./src/adapters/webServer/config/defaults/content/private/"),
                 publicPagesPath: path.resolve("./src/adapters/webServer/config/defaults/content/public/"),

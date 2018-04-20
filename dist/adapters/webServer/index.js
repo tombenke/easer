@@ -31,6 +31,10 @@ var _expressSession = require('express-session');
 
 var _expressSession2 = _interopRequireDefault(_expressSession);
 
+var _compression = require('compression');
+
+var _compression2 = _interopRequireDefault(_compression);
+
 var _routes = require('./routes');
 
 var _routes2 = _interopRequireDefault(_routes);
@@ -71,6 +75,10 @@ var startup = function startup(container, next) {
     server.use((0, _cookieParser2.default)()); // read cookies (needed for auth)
     server.use(_bodyParser2.default.json()); // for parsing application/json
     server.use(_bodyParser2.default.urlencoded({ extended: true })); // get information from html forms
+    //    if (config.webServer.useCompression) {
+    container.logger.info('Use compression');
+    server.use((0, _compression2.default)());
+    //    }
 
     // required for passport
     server.use((0, _expressSession2.default)({ secret: 'larger is dropped once', resave: false, saveUninitialized: false })); // session secret

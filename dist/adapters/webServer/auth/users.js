@@ -17,7 +17,7 @@ var findByProp = function findByProp(prop, value, cb) {
                 return cb(null, record);
             }
         }
-        return cb(null, null);
+        return cb(new Error('User not found by ' + prop + ': "' + value + '"'), null);
     });
 };
 
@@ -32,21 +32,18 @@ var findByUsername = function findByUsername(username, cb) {
 var getProfile = function getProfile(id, cb) {
     findById(id, function (err, userRecord) {
         if (err) {
-            cb(err, null);
+            cb(err, { headers: {}, body: null });
         } else {
-            if (userRecord === null) {
-                cb(new Error('User with id: \'' + id + '\' not found'), null);
-            } else {
-                cb(null, {
-                    headers: {},
-                    body: {
-                        id: userRecord.id,
-                        fullName: userRecord.fullName,
-                        email: userRecord.email,
-                        avatar: userRecord.avatar || 'avatars/undefined.png'
-                    }
-                });
-            }
+            cb(null, {
+                headers: {},
+                body: {
+                    id: userRecord.id,
+                    username: userRecord.username,
+                    fullName: userRecord.fullName,
+                    email: userRecord.email,
+                    avatar: userRecord.avatar || 'avatars/undefined.png'
+                }
+            });
         }
     });
 };
