@@ -62,7 +62,7 @@ const parse = (defaults, processArgv=process.argv) => {
         }
     }
 
-    console.log('cliResults', results)
+    //console.log('cliResults', results)
     return results
 }
 

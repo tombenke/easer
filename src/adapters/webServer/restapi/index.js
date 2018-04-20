@@ -54,9 +54,10 @@ const mkHandlerFun = (endpoint, container) => (req, res) => {
             }
         })
     } else {
+        const userId = _.hasIn(req, 'user.id') ? req.user.id : 'unknown'
         // TODO: handle /auth/profile
         if (endpoint.method === 'get' && endpoint.uri === '/auth/profile') {
-            getProfile(req.user.id, (err, resp) => {
+            getProfile(userId, (err, resp) => {
                 if (err) {
                     res.set(resp.headers || {}).status(500).json(err)
                 } else {
@@ -64,7 +65,7 @@ const mkHandlerFun = (endpoint, container) => (req, res) => {
                 }
             })
         } else if (endpoint.method === 'get' && endpoint.uri === '/monitoring/isAlive') {
-            getMonitoringIsAlive(req.user.id, (err, resp) => {
+            getMonitoringIsAlive(userId, (err, resp) => {
                 if (err) {
                     res.set(resp.headers || {}).status(500).json(err)
                 } else {
