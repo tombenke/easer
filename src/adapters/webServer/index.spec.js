@@ -252,7 +252,7 @@ describe('adapters/server', () => {
         const adaptersWithPdms = [
             npac.mergeConfig(_.merge({}, config, {
                 webServer: { usePdms: true },
-                pdms: { natsUri: 'nats://localhost:4222' }
+//                pdms: { natsUri: 'nats://localhost:4222' }
             })),
             npac.addLogger,
             pdms.startup,
