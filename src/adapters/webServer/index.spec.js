@@ -269,7 +269,7 @@ describe('adapters/server', () => {
             process.kill(process.pid, 'SIGTERM')
         })
     })
-/*
+
     it('GET /auth/profile - with NO user id', done => {
         sandbox.stub(process, 'exit').callsFake((signal) => {
             console.log("process.exit", signal)
@@ -358,5 +358,5 @@ describe('adapters/server', () => {
             process.kill(process.pid, 'SIGTERM')
         })
     })
-    */
+
 })
