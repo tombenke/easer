@@ -32,7 +32,7 @@ describe('webServerCli', function () {
 
     it('webServer without pdms', function (done) {
         var processArgv = ['node', 'src/index.js', // 'server',
-        '-p', "3008", '-c', 'config.yml', '-r', '/tmp/restApi'];
+        '-p', "3008", '-c', 'config.yml', '-r', '/tmp/restApi', '-s'];
         var defaults = _lodash2.default.merge({}, _webServer2.default.defaults, _npacPdmsHemeraAdapter2.default.defaults);
         var expected = {
             command: {
@@ -44,7 +44,8 @@ describe('webServerCli', function () {
                 webServer: {
                     port: "3008",
                     restApiPath: "/tmp/restApi",
-                    usePdms: false
+                    usePdms: false,
+                    useCompression: true
                 },
                 pdms: {
                     natsUri: "nats://demo.nats.io:4222"
@@ -70,7 +71,8 @@ describe('webServerCli', function () {
                 webServer: {
                     port: "3008",
                     restApiPath: "/tmp/restApi",
-                    usePdms: true
+                    usePdms: true,
+                    useCompression: false
                 },
                 pdms: {
                     natsUri: "nats://demo.nats.io:4222"
@@ -96,7 +98,8 @@ describe('webServerCli', function () {
                 webServer: {
                     port: "3008",
                     restApiPath: "/tmp/restApi",
-                    usePdms: true
+                    usePdms: true,
+                    useCompression: false
                 },
                 pdms: {
                     natsUri: "nats://localhost:4222"

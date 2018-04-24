@@ -24,7 +24,13 @@ var defaultsBasePath = __dirname + '/defaults';
 module.exports = {
     webServer: {
         users: process.env.EASER_USERS || defaultsBasePath + '/users.yml',
+        auth: {
+            strategy: 'local',
+            successRedirect: process.env.EASER_AUTH_SUCCESS_REDIRECT || null, // '/private/',
+            failureRedirect: process.env.EASER_AUTH_FAILURE_REDIRECT || null // '/login.html'
+        },
         port: process.env.EASER_PORT || 3007,
+        useCompression: process.env.EASER_USE_COMPRESSION || false,
         usePdms: process.env.EASER_USE_PDMS || false,
         viewsPath: process.env.EASER_VIEWSPATH || defaultsBasePath + '/views',
         publicPagesPath: process.env.EASER_CONTENTPATH_PUBLIC || defaultsBasePath + '/content/public',

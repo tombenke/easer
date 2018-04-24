@@ -10,6 +10,12 @@ describe('server/config', () => {
     it('defaults', done => {
         const expected = {
             webServer: {
+                users: path.resolve("./src/adapters/webServer/config/defaults/users.yml"),
+                auth: {
+                    strategy: 'local',
+                    successRedirect: null, // '/private/',
+                    failureRedirect: null, // '/login.html'
+                },
                 port: 3007,
                 useCompression: false,
                 usePdms: false,

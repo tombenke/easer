@@ -75,10 +75,10 @@ var startup = function startup(container, next) {
     server.use((0, _cookieParser2.default)()); // read cookies (needed for auth)
     server.use(_bodyParser2.default.json()); // for parsing application/json
     server.use(_bodyParser2.default.urlencoded({ extended: true })); // get information from html forms
-    //    if (config.webServer.useCompression) {
-    container.logger.info('Use compression');
-    server.use((0, _compression2.default)());
-    //    }
+    if (config.webServer.useCompression) {
+        container.logger.info('Use compression');
+        server.use((0, _compression2.default)());
+    }
 
     // required for passport
     server.use((0, _expressSession2.default)({ secret: 'larger is dropped once', resave: false, saveUninitialized: false })); // session secret

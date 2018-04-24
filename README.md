@@ -102,10 +102,23 @@ Double check the server log, and you should see something like this:
 - `EASER_CONTENTPATH_PUBLIC`: The base path for the public content.
 - `EASER_CONTENTPATH_PRIVATE`: The base path for the private pages.
 - `EASER_USERS`: YAML format file, which describes the user credentials.
+- `EASER_AUTH_SUCCESS_REDIRECT`: The `successRedirect` config parameter of the authentication middleware.
+  Default: null.
+- `EASER_AUTH_FAILURE_REDIRECT`: The `failureRedirect` config parameter of the authentication middleware.
+  Default: null.
 - `EASER_RESTAPIPATH`: The base path to the rest api endpoint descriptors.
   See [rest-tool](https://www.npmjs.com/package/rest-tool) for further details.
 
 See [src/config/index.js](src/config/index.js) for default values.
+
+__Note:__ The server holds a default content to demonstrate the login, logout, and private pages.
+By default the redirections of authentication is not configured,
+so you have to set the following environment variables to see the full demo of login/logout process:
+
+```bash
+    export EASER_AUTH_SUCCESS_REDIRECT="/private/"
+    export EASER_AUTH_FAILURE_REDIRECT="/login.html"
+```
 
 #### Managing user credentials
 
@@ -130,7 +143,7 @@ Also make sure that the users.yml is not placed to a publicly available place,
 nor into a folder, where the normal users can easily access to it._
 
 ### TODO
-- Add public static pages and forwarding to 404 and 500
+- Add public static pages and forwarding to 404(/401, Unauthorized) and 500
 - Implement ACL for authorization.
 - Select between HTTP/HTTPS.
 - Implement password generator to work directly into the user credentials file.

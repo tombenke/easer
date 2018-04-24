@@ -8,14 +8,11 @@ var pwd = require('./password');
 // Configure the local strategy for use by Passport.
 passport.use(new Strategy(function (username, password, cb) {
     users.findByUsername(username, function (err, user) {
-        if (err) {
-            return cb(err);
-        }
         if (!user) {
-            return cb(null, false);
+            return cb(null, false, { message: err.message });
         }
         if (pwd.compare(password, user.password)) {
-            return cb(null, user);
+            return cb(null, user, { message: "Incorrect password" });
         }
         return cb(null, false);
     });

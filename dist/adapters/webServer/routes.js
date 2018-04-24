@@ -14,11 +14,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.set = function (server, auth, container) {
 
+    var config = container.config.webServer;
+    var authConfig = {};
+    if (config.auth.successRedirect) authConfig['successRedirect'] = config.auth.successRedirect;
+    if (config.auth.failureRedirect) authConfig['failureRedirect'] = config.auth.failureRedirect;
     container.logger.info('Set default routes: /, /login, /logout, /private/, /private/profile');
-    server.post('/login', auth.authenticate('local', {
-        successRedirect: '/private/',
-        failureRedirect: '/login.html'
-    }), function (req, res) {
+    server.post('/login', auth.authenticate('local', authConfig), function (req, res) {
         res.redirect('/');
     });
 
