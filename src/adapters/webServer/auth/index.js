@@ -29,8 +29,7 @@ passport.serializeUser((user, cb) => {
 
 passport.deserializeUser((id, cb) => {
     users.findById(id, (err, user) => {
-        if (err) { return cb(err) }
-        cb(null, user)
+        cb(err, user)
     })
 })
 
