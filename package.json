@@ -89,7 +89,7 @@
   "scripts": {
     "build": "babel src --presets babel-preset-es2015 --out-dir dist && cp -r src/adapters/webServer/config/defaults dist/adapters/webServer/config/",
     "lint": "eslint src/**.js",
-    "test": "cross-env NODE_ENV=test mocha --recursive --compilers js:babel-register 'src/**/*.spec.js'",
+    "test": "cross-env NODE_ENV=test mocha --recursive --compilers js:babel-register --timeout 15000 'src/**/*.spec.js'",
     "test:watch": "npm test -- --watch",
     "coverage": "NODE_ENV=test istanbul cover _mocha -- recursive --compilers js:babel-register --timeout 15000 'src/**/*.spec.js'",
     "coveralls": "NODE_ENV=test istanbul cover _mocha --report lcovonly -- recursive --compilers js:babel-register --timeout 15000 'src/**/*.spec.js' -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
