@@ -254,7 +254,7 @@ describe('adapters/server', () => {
         const adaptersWithPdms = [
             npac.mergeConfig(_.merge({}, config, {
                 webServer: { usePdms: true },
-                pdms: { natsUri: 'nats://localhost:4222' }
+                // pdms: { natsUri: 'nats://localhost:4222' }
             })),
             npac.addLogger,
             pdms.startup,
@@ -491,7 +491,46 @@ describe('adapters/server', () => {
         })
     })
 
-    it('POST /ogin with wrong password', done => {
+    it('POST /login with missing user', done => {
+        sandbox.stub(process, 'exit').callsFake((signal) => {
+            console.log("process.exit", signal)
+            done()
+        })
+
+        const testServer = (container, next) => {
+            const port = container.config.webServer.port
+            // POST /login call
+            makeRestCall(
+                `http://localhost:${port}/login`,
+                {
+                    method: 'POST',
+                    credentials: 'same-origin',
+                    redirect: 'manual',
+                    headers: {
+                        Accept: '*',
+                        "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                    },
+                    body: "username=missinguser&password=secret"
+                }).then(response => {
+                    const connectSid = findCookie(response.cookies, 'connect.sid')
+                    expect(response.status).to.equal(401)
+                    expect(connectSid).to.equal(null)
+                    next(null, {})
+                })
+        }
+
+        npac.start(adapters, [testServer], terminators, (err, res) => {
+            expect(err).to.equal(null)
+            expect(res).to.eql([{}])
+            console.log('npac startup process and run jobs successfully finished')
+
+            console.log('Send SIGTERM signal')
+            process.kill(process.pid, 'SIGTERM')
+        })
+    })
+
+
+    it('POST /login with wrong password', done => {
         sandbox.stub(process, 'exit').callsFake((signal) => {
             console.log("process.exit", signal)
             done()
