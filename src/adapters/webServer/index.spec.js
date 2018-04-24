@@ -49,7 +49,15 @@ export const makeRestCall = (uri, config) => {
             // console.log(JSON.stringify(response, null, '  '))
             const hmap = getHeaders(response.headers)
 
-            if (response.status === 302) {
+            if (response.status === 404) {
+                return {
+                    ok: response.ok,
+                    status: response.status,
+                    statusText: response.statusText,
+                    headers: hmap,
+                    cookies: getCookies(hmap)
+                }
+            } else if (response.status === 302) {
                 return {
                     ok: response.ok,
                     status: response.status,
@@ -171,54 +179,6 @@ describe('adapters/server', () => {
         })
     })
 
-/* Origins from npac-pdms-adapter
-    it('call pdms service', (done) => {
-        sandbox.stub(process, 'exit').callsFake((signal) => {
-            done()
-        })
-
-        const adapters = [
-            npac.mergeConfig(_.merge({}, config, {
-                webServer: { usePdms: true },
-                pdms: { natsUri: 'nats://localhost:4222' }
-            })),
-            npac.addLogger,
-            pdms.startup,
-            server.startup
-        ]
-
-        const testPdms = (container, next) => {
-            container.logger.info(`Run job to test pdms`)
-            container.pdms.act({
-                topic: "/monitoring/isAlive",
-                method: "get",
-                uri: "/monitoring/isAlive",
-                request: {
-                    parameters: {
-                    },
-                    body: {}
-                }
-            }, (err, resp) => {
-                container.logger.info(`RES ${JSON.stringify(resp, null, '')}`)
-                next(err, resp)
-            })
-        }
-
-        const terminators = [
-            server.shutdown,
-            pdms.shutdown
-        ]
-
-        npac.start(adapters, [testPdms], terminators, (err, res) => {
-            if (err) {
-                throw(err)
-            } else {
-                process.kill(process.pid, 'SIGTERM')
-            }
-        })
-    })
-*/
-
     it('GET /monitoring/isAlive through PDMS', done => {
         sandbox.stub(process, 'exit').callsFake((signal) => {
             console.log("process.exit", signal)
@@ -258,6 +218,52 @@ describe('adapters/server', () => {
             pdms.startup,
             server.startup,
             teeContainerConf
+        ]
+
+        npac.start(adaptersWithPdms, [testServer], terminators, (err, res) => {
+            expect(err).to.equal(null)
+            expect(res).to.eql([{}])
+            console.log('npac startup process and run jobs successfully finished')
+
+            console.log('Send SIGTERM signal')
+            process.kill(process.pid, 'SIGTERM')
+        })
+    })
+
+    it('GET /missing/endpoint through PDMS', done => {
+        sandbox.stub(process, 'exit').callsFake((signal) => {
+            console.log("process.exit", signal)
+            done()
+        })
+
+        const testServer = (container, next) => {
+            container.logger.info(`Run job to test PDMS call to /missing/endpoint`)
+
+            // GET /monitoring/isAlive call
+            const port = container.config.webServer.port
+            makeRestCall(
+                `http://localhost:${port}/missing/endpoint`,
+                {
+                    method: 'GET',
+                    credentials: 'same-origin',
+                    headers: {
+                        Accept: 'application/json'
+                    }
+                }).then(response => {
+                    expect(response.ok).to.equal(false)
+                    expect(response.status).to.equal(404)
+                    next(null, {})
+                })
+        }
+
+        const adaptersWithPdms = [
+            npac.mergeConfig(_.merge({}, config, {
+                webServer: { usePdms: true },
+                pdms: { natsUri: 'nats://localhost:4222' }
+            })),
+            npac.addLogger,
+            pdms.startup,
+            server.startup
         ]
 
         npac.start(adaptersWithPdms, [testServer], terminators, (err, res) => {
@@ -358,5 +364,4 @@ describe('adapters/server', () => {
             process.kill(process.pid, 'SIGTERM')
         })
     })
-
 })

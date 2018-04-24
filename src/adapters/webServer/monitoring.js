@@ -1,7 +1,7 @@
 const getMonitoringIsAlive = (req, cb) => {
     cb(null, {
         headers: {
-            "Content-Type": "pplication/json; charset=utf-8"
+            "Content-Type": "application/json; charset=utf-8"
         },
         body: {
             status: "OK"
