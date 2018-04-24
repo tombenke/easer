@@ -128,7 +128,7 @@ describe('adapters/server', function () {
 
     beforeEach(function (done) {
         removeSignalHandlers();
-        sandbox = _sinon2.default.sandbox.create({ useFakeTimers: false });
+        sandbox = _sinon2.default.sandbox.create({ useFakeTimers: true });
         done();
     });
 
@@ -215,7 +215,12 @@ describe('adapters/server', function () {
             });
         };
 
-        var adaptersWithPdms = [_npac2.default.mergeConfig(_.merge({}, config, { webServer: { usePdms: true } })), _npac2.default.addLogger, pdms.startup, server.startup];
+        var teeContainerConf = function teeContainerConf(container, next) {
+            console.log('Container.config: ', JSON.stringify(container.config, null, '  '));
+            next(null, {});
+        };
+
+        var adaptersWithPdms = [_npac2.default.mergeConfig(_.merge({}, config, { webServer: { usePdms: true /*, pdms: { natsUri: 'nats://localhost:4222' }*/ } })), _npac2.default.addLogger, pdms.startup, server.startup, teeContainerConf];
 
         _npac2.default.start(adaptersWithPdms, [testServer], terminators, function (err, res) {
             (0, _chai.expect)(err).to.equal(null);
@@ -226,87 +231,94 @@ describe('adapters/server', function () {
             process.kill(process.pid, 'SIGTERM');
         });
     });
-
-    it('GET /auth/profile - with NO user id', function (done) {
-        sandbox.stub(process, 'exit').callsFake(function (signal) {
-            console.log("process.exit", signal);
-            done();
-        });
-
-        var testServer = function testServer(container, next) {
-            var port = container.config.webServer.port;
-            // GET /auth/profile call
-            makeRestCall('http://localhost:' + port + '/auth/profile', {
-                method: 'GET',
-                credentials: 'same-origin',
-                headers: {
-                    Accept: 'application/json'
-                }
-            }).then(function (response) {
-                (0, _chai.expect)(response.ok).to.equal(false);
-                next(null, {});
-            });
-        };
-
-        _npac2.default.start(adapters, [testServer], terminators, function (err, res) {
-            (0, _chai.expect)(err).to.equal(null);
-            (0, _chai.expect)(res).to.eql([{}]);
-            console.log('npac startup process and run jobs successfully finished');
-
-            console.log('Send SIGTERM signal');
-            process.kill(process.pid, 'SIGTERM');
-        });
-    });
-
-    it('POST /login', function (done) {
-        sandbox.stub(process, 'exit').callsFake(function (signal) {
-            console.log("process.exit", signal);
-            done();
-        });
-
-        var testServer = function testServer(container, next) {
-            var port = container.config.webServer.port;
-            // POST /login call
-            makeRestCall('http://localhost:' + port + '/login', {
-                method: 'POST',
-                credentials: 'same-origin',
-                redirect: 'manual',
-                headers: {
-                    Accept: '*',
-                    "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
-                },
-                body: "username=tombenke&password=secret"
-            }).then(function (response) {
-                var connectSid = findCookie(response.cookies, 'connect.sid');
-
-                // Now request the profile data
-                makeRestCall('http://localhost:' + port + '/auth/profile', {
-                    method: 'GET',
-                    credentials: 'same-origin',
-                    headers: {
-                        Accept: 'application/json',
-                        Cookie: _cookie2.default.serialize('connect.sid', connectSid)
-                    }
-                }).then(function (response) {
-                    (0, _chai.expect)(response).to.eql({
-                        "id": "7fcf7c51-7439-4d40-a5c4-b9a4f2c9a1ba",
-                        "username": "tombenke",
-                        "fullName": "Tamás Benke",
-                        "email": "tombenke@gmail.com",
-                        "avatar": "avatars/undefined.png"
-                    });
-                    next(null, {});
-                });
-            });
-        };
-
-        _npac2.default.start(adapters, [testServer], terminators, function (err, res) {
-            (0, _chai.expect)(err).to.equal(null);
-            (0, _chai.expect)(res).to.eql([{}]);
-            console.log('npac startup process and run jobs successfully finished');
-
-            console.log('Send SIGTERM signal');
-            process.kill(process.pid, 'SIGTERM');
-        });
-    });
+    /*
+        it('GET /auth/profile - with NO user id', done => {
+            sandbox.stub(process, 'exit').callsFake((signal) => {
+                console.log("process.exit", signal)
+                done()
+            })
+    
+            const testServer = (container, next) => {
+                const port = container.config.webServer.port
+                // GET /auth/profile call
+                makeRestCall(
+                    `http://localhost:${port}/auth/profile`,
+                    {
+                        method: 'GET',
+                        credentials: 'same-origin',
+                        headers: {
+                            Accept: 'application/json'
+                        }
+                    }).then(response => {
+                        expect(response.ok).to.equal(false)
+                        next(null, {})
+                    })
+            }
+    
+            npac.start(adapters, [testServer], terminators, (err, res) => {
+                expect(err).to.equal(null)
+                expect(res).to.eql([{}])
+                console.log('npac startup process and run jobs successfully finished')
+    
+                console.log('Send SIGTERM signal')
+                process.kill(process.pid, 'SIGTERM')
+            })
+        })
+    
+        it('POST /login', done => {
+            sandbox.stub(process, 'exit').callsFake((signal) => {
+                console.log("process.exit", signal)
+                done()
+            })
+    
+            const testServer = (container, next) => {
+                const port = container.config.webServer.port
+                // POST /login call
+                makeRestCall(
+                    `http://localhost:${port}/login`,
+                    {
+                        method: 'POST',
+                        credentials: 'same-origin',
+                        redirect: 'manual',
+                        headers: {
+                            Accept: '*',
+                            "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                        },
+                        body: "username=tombenke&password=secret"
+                    }).then(response => {
+                    const connectSid = findCookie(response.cookies, 'connect.sid')
+    
+                    // Now request the profile data
+                makeRestCall(
+                    `http://localhost:${port}/auth/profile`,
+                    {
+                        method: 'GET',
+                        credentials: 'same-origin',
+                        headers: {
+                            Accept: 'application/json',
+                            Cookie: cookie.serialize('connect.sid', connectSid)
+                        }
+                    }).then(response => {
+                        expect(response).to.eql({
+                            "id": "7fcf7c51-7439-4d40-a5c4-b9a4f2c9a1ba",
+                            "username": "tombenke",
+                            "fullName": "Tamás Benke",
+                            "email": "tombenke@gmail.com",
+                            "avatar": "avatars/undefined.png"
+                        })
+                        next(null, {})
+                    })
+                })
+            }
+    
+            npac.start(adapters, [testServer], terminators, (err, res) => {
+                expect(err).to.equal(null)
+                expect(res).to.eql([{}])
+                console.log('npac startup process and run jobs successfully finished')
+    
+                console.log('Send SIGTERM signal')
+                process.kill(process.pid, 'SIGTERM')
+            })
+        })
+        */
 });

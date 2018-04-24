@@ -38,9 +38,10 @@ var getEndpointMap = function getEndpointMap(container) {
 
 var mkHandlerFun = function mkHandlerFun(endpoint, container) {
     return function (req, res) {
-        container.logger.info('REQ ' + endpoint.method + ' ' + endpoint.uri);
+        container.logger.info('REQ method:"' + endpoint.method + '" uri:"' + endpoint.uri + '"');
 
         if (container.config.webServer.usePdms) {
+            container.logger.info('PDMS.ACT topic: "' + endpoint.uri + '" method:"' + endpoint.method + '" uri:"' + endpoint.uri + '"');
             container.pdms.act({
                 topic: endpoint.uri,
                 method: endpoint.method,

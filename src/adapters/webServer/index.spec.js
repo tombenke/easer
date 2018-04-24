@@ -144,6 +144,7 @@ describe('adapters/server', () => {
         })
 
         const testServer = (container, next) => {
+            container.logger.info(`Run job to test direct call to /monitoring/isAlive`)
             const port = container.config.webServer.port
             // GET /monitoring/isAlive call
             makeRestCall(
@@ -155,9 +156,9 @@ describe('adapters/server', () => {
                         Accept: 'application/json'
                     }
                 }).then(response => {
-                expect(response).to.eql({ status: 'OK' })
-                next(null, {})
-            })
+                    expect(response).to.eql({ status: 'OK' })
+                    next(null, {})
+                })
         }
 
         npac.start(adapters, [testServer], terminators, (err, res) => {
@@ -170,6 +171,54 @@ describe('adapters/server', () => {
         })
     })
 
+/* Origins from npac-pdms-adapter
+    it('call pdms service', (done) => {
+        sandbox.stub(process, 'exit').callsFake((signal) => {
+            done()
+        })
+
+        const adapters = [
+            npac.mergeConfig(_.merge({}, config, {
+                webServer: { usePdms: true },
+                pdms: { natsUri: 'nats://localhost:4222' }
+            })),
+            npac.addLogger,
+            pdms.startup,
+            server.startup
+        ]
+
+        const testPdms = (container, next) => {
+            container.logger.info(`Run job to test pdms`)
+            container.pdms.act({
+                topic: "/monitoring/isAlive",
+                method: "get",
+                uri: "/monitoring/isAlive",
+                request: {
+                    parameters: {
+                    },
+                    body: {}
+                }
+            }, (err, resp) => {
+                container.logger.info(`RES ${JSON.stringify(resp, null, '')}`)
+                next(err, resp)
+            })
+        }
+
+        const terminators = [
+            server.shutdown,
+            pdms.shutdown
+        ]
+
+        npac.start(adapters, [testPdms], terminators, (err, res) => {
+            if (err) {
+                throw(err)
+            } else {
+                process.kill(process.pid, 'SIGTERM')
+            }
+        })
+    })
+*/
+
     it('GET /monitoring/isAlive through PDMS', done => {
         sandbox.stub(process, 'exit').callsFake((signal) => {
             console.log("process.exit", signal)
@@ -177,8 +226,10 @@ describe('adapters/server', () => {
         })
 
         const testServer = (container, next) => {
-            const port = container.config.webServer.port
+            container.logger.info(`Run job to test PDMS call to /monitoring/isAlive`)
+
             // GET /monitoring/isAlive call
+            const port = container.config.webServer.port
             makeRestCall(
                 `http://localhost:${port}/monitoring/isAlive`,
                 {
@@ -188,16 +239,25 @@ describe('adapters/server', () => {
                         Accept: 'application/json'
                     }
                 }).then(response => {
-                expect(response).to.eql({ status: 'OK' })
-                next(null, {})
-            })
+                    expect(response).to.eql({ status: 'OK' })
+                    next(null, {})
+                })
+        }
+
+        const teeContainerConf = (container, next) => {
+            console.log('Container.config: ', JSON.stringify(container.config, null, '  '))
+            next(null, {})
         }
 
         const adaptersWithPdms = [
-            npac.mergeConfig(_.merge({}, config, { webServer: { usePdms: true } })),
+            npac.mergeConfig(_.merge({}, config, {
+                webServer: { usePdms: true },
+                pdms: { natsUri: 'nats://localhost:4222' }
+            })),
             npac.addLogger,
             pdms.startup,
-            server.startup
+            server.startup,
+            teeContainerConf
         ]
 
         npac.start(adaptersWithPdms, [testServer], terminators, (err, res) => {
@@ -209,7 +269,7 @@ describe('adapters/server', () => {
             process.kill(process.pid, 'SIGTERM')
         })
     })
-
+/*
     it('GET /auth/profile - with NO user id', done => {
         sandbox.stub(process, 'exit').callsFake((signal) => {
             console.log("process.exit", signal)
@@ -298,4 +358,5 @@ describe('adapters/server', () => {
             process.kill(process.pid, 'SIGTERM')
         })
     })
+    */
 })

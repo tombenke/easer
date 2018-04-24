@@ -42,7 +42,7 @@
     "method-override": "~2.3.6",
     "morgan": "~1.7.0",
     "npac": "^2.0.2",
-    "npac-pdms-hemera-adapter": "^1.1.0",
+    "npac-pdms-hemera-adapter": "^1.2.0",
     "passport": "~0.3.2",
     "passport-facebook": "~2.1.1",
     "passport-google-oauth": "~1.0.0",
@@ -78,12 +78,12 @@
     "isomorphic-fetch": "^2.2.1",
     "istanbul": "1.0.0-alpha.2",
     "jsdoc": "^3.5.5",
-    "mocha": "^4.0.1",
+    "mocha": "^5.1.1",
     "mocha-lcov-reporter": "^1.3.0",
     "pre-push": "^0.1.1",
     "rimraf": "^2.6.2",
     "should": "3.1.2",
-    "sinon": "^4.4.8",
+    "sinon": "^4.4.6",
     "vinyl-buffer": "^1.0.0"
   },
   "scripts": {

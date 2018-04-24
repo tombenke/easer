@@ -6,7 +6,6 @@ describe('password', () => {
     it('encode and compare', () => {
         const ppwd = "12WWert gsdf SS-~"
         password.compare(ppwd, password.encript(ppwd), (err, res) => {
-            expect(err).toEqual(null)
             expect(res).toEqual(true)
         })
     })
