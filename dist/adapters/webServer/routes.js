@@ -21,7 +21,14 @@ exports.set = function (server, auth, container) {
     container.logger.info('authConfig ' + JSON.stringify(authConfig, null, ''));
     container.logger.info('Set default routes: /, /login, /logout, /private/, /private/profile');
     server.post('/login', auth.authenticate('local', authConfig), function (req, res) {
-        res.set({}).status(200).json({ user: req.user });
+        var body = {
+            id: req.user.id,
+            username: req.user.username,
+            fullName: req.user.fullName,
+            email: req.user.email,
+            avatar: req.user.avatar
+        };
+        res.set({}).status(200).json(body);
     });
 
     server.get('/logout', function (req, res) {
