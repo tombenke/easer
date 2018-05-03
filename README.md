@@ -103,9 +103,10 @@ Double check the server log, and you should see something like this:
 - `EASER_CONTENTPATH_PRIVATE`: The base path for the private pages.
 - `EASER_USERS`: YAML format file, which describes the user credentials.
 - `EASER_AUTH_SUCCESS_REDIRECT`: The `successRedirect` config parameter of the authentication middleware.
-  Default: null.
+  Default: `null`.
 - `EASER_AUTH_FAILURE_REDIRECT`: The `failureRedirect` config parameter of the authentication middleware.
-  Default: null.
+  Default: `null`.
+- `EASER_LOGOUT_REDIRECT`: The redirect path of logout operation. Default: `null`.
 - `EASER_RESTAPIPATH`: The base path to the rest api endpoint descriptors.
   See [rest-tool](https://www.npmjs.com/package/rest-tool) for further details.
 
