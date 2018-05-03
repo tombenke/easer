@@ -8,22 +8,27 @@ exports.set = function(server, auth, container) {
     let authConfig = {}
     if (config.auth.successRedirect) authConfig['successRedirect'] = config.auth.successRedirect
     if (config.auth.failureRedirect) authConfig['failureRedirect'] = config.auth.failureRedirect
+    container.logger.info(`authConfig ${JSON.stringify(authConfig, null, '')}`)
     container.logger.info(`Set default routes: /, /login, /logout, /private/, /private/profile`)
     server.post('/login',
         auth.authenticate('local', authConfig),
         function(req, res) {
-            res.redirect('/');
-        });
+            res.set({}).status(200).json({ user: req.user })
+        })
 
     server.get('/logout', function(req, res) {
         req.logout();
-        res.redirect('/');
-    });
+        if (config.auth.logoutRedirect) {
+            res.redirect(config.auth.logoutRedirect)
+        } else {
+            res.status(200).json({})
+        }
+    })
 
     server.get('/private/profile', ensureLoggedIn('/login.html'),
         function(req, res) {
             res.render('profile', { user: req.user });
-        });
+        })
 
     server.use('/', express.static(container.config.webServer.publicPagesPath))
     const authGuard = ensureLoggedIn('/login.html')

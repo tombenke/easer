@@ -32,7 +32,8 @@ describe('server/config', function () {
                 auth: {
                     strategy: 'local',
                     successRedirect: null, // '/private/',
-                    failureRedirect: null // '/login.html'
+                    failureRedirect: null, // '/login.html'
+                    logoutRedirect: null // '/'
                 },
                 port: 3007,
                 useCompression: false,

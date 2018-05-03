@@ -27,7 +27,8 @@ module.exports = {
         auth: {
             strategy: 'local',
             successRedirect: process.env.EASER_AUTH_SUCCESS_REDIRECT || null, // '/private/',
-            failureRedirect: process.env.EASER_AUTH_FAILURE_REDIRECT || null // '/login.html'
+            failureRedirect: process.env.EASER_AUTH_FAILURE_REDIRECT || null, // '/login.html'
+            logoutRedirect: process.env.EASER_LOGOUT_REDIRECT || null // '/'
         },
         port: process.env.EASER_PORT || 3007,
         useCompression: process.env.EASER_USE_COMPRESSION || false,

@@ -8,7 +8,6 @@ describe('password', function () {
     it('encode and compare', function () {
         var ppwd = "12WWert gsdf SS-~";
         password.compare(ppwd, password.encript(ppwd), function (err, res) {
-            expect(err).toEqual(null);
             expect(res).toEqual(true);
         });
     });

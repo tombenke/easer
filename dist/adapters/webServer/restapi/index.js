@@ -60,14 +60,14 @@ var mkHandlerFun = function mkHandlerFun(endpoint, container) {
             }, function (err, resp) {
                 container.logger.info('RES ' + JSON.stringify(resp, null, ''));
                 if (err) {
-                    res.set(resp.headers || {}).status(500).json(err);
+                    res.set( /*resp.headers ||*/{}).status(500).json(err);
                 } else {
                     res.set(resp.headers || {}).status(200).json(resp.body);
                 }
             });
         } else {
             var userId = _lodash2.default.hasIn(req, 'user.id') ? req.user.id : 'unknown';
-            // TODO: handle /auth/profile
+
             if (endpoint.method === 'get' && endpoint.uri === '/auth/profile') {
                 (0, _auth.getProfile)(userId, function (err, resp) {
                     if (err) {
@@ -78,11 +78,8 @@ var mkHandlerFun = function mkHandlerFun(endpoint, container) {
                 });
             } else if (endpoint.method === 'get' && endpoint.uri === '/monitoring/isAlive') {
                 (0, _monitoring.getMonitoringIsAlive)(userId, function (err, resp) {
-                    if (err) {
-                        res.set(resp.headers || {}).status(500).json(err);
-                    } else {
-                        res.set(resp.headers || {}).status(200).json(resp.body);
-                    }
+                    // This function always returns with OK
+                    res.set(resp.headers || {}).status(200).json(resp.body);
                 });
             } else {
 
@@ -103,7 +100,8 @@ var set = function set(server, authGuard, container) {
         // Add built-in profile service
         container.pdms.add({ topic: "/auth/profile", method: "get", uri: "/auth/profile" }, function (data, cb) {
             container.logger.info('Profile handler called with ' + JSON.stringify(data.request.user, null, '') + ', ' + data.method + ', ' + data.uri + ', ...');
-            (0, _auth.getProfile)(data.request.user.id, cb);
+            var userId = _lodash2.default.hasIn(data.request, 'user.id') ? req.user.id : 'unknown';
+            (0, _auth.getProfile)(userId, cb);
         });
 
         // Add built-in monitoring service

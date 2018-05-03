@@ -18,14 +18,19 @@ exports.set = function (server, auth, container) {
     var authConfig = {};
     if (config.auth.successRedirect) authConfig['successRedirect'] = config.auth.successRedirect;
     if (config.auth.failureRedirect) authConfig['failureRedirect'] = config.auth.failureRedirect;
+    container.logger.info('authConfig ' + JSON.stringify(authConfig, null, ''));
     container.logger.info('Set default routes: /, /login, /logout, /private/, /private/profile');
     server.post('/login', auth.authenticate('local', authConfig), function (req, res) {
-        res.redirect('/');
+        res.set({}).status(200).json({ user: req.user });
     });
 
     server.get('/logout', function (req, res) {
         req.logout();
-        res.redirect('/');
+        if (config.auth.logoutRedirect) {
+            res.redirect(config.auth.logoutRedirect);
+        } else {
+            res.status(200).json({});
+        }
     });
 
     server.get('/private/profile', (0, _connectEnsureLogin.ensureLoggedIn)('/login.html'), function (req, res) {

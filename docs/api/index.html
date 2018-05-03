@@ -82,16 +82,20 @@
 <li><code>EASER_CONTENTPATH_PUBLIC</code>: The base path for the public content.</li>
 <li><code>EASER_CONTENTPATH_PRIVATE</code>: The base path for the private pages.</li>
 <li><code>EASER_USERS</code>: YAML format file, which describes the user credentials.</li>
+<li><code>EASER_AUTH_SUCCESS_REDIRECT</code>: The <code>successRedirect</code> config parameter of the authentication middleware.<br>Default: null.</li>
+<li><code>EASER_AUTH_FAILURE_REDIRECT</code>: The <code>failureRedirect</code> config parameter of the authentication middleware.<br>Default: null.</li>
 <li><code>EASER_RESTAPIPATH</code>: The base path to the rest api endpoint descriptors.<br>See <a href="https://www.npmjs.com/package/rest-tool">rest-tool</a> for further details.</li>
 </ul>
 <p>See <a href="src/config/index.js">src/config/index.js</a> for default values.</p>
-<h4>Managing user credentials</h4><p>See <a href="src/config/defaults/users.yml">src/config/defaults/users.yml</a> as an example.</p>
+<p><strong>Note:</strong> The server holds a default content to demonstrate the login, logout, and private pages.<br>By default the redirections of authentication is not configured,<br>so you have to set the following environment variables to see the full demo of login/logout process:</p>
+<pre class="prettyprint source lang-bash"><code>    export EASER_AUTH_SUCCESS_REDIRECT=&quot;/private/&quot;
+    export EASER_AUTH_FAILURE_REDIRECT=&quot;/login.html&quot;</code></pre><h4>Managing user credentials</h4><p>See <a href="src/config/defaults/users.yml">src/config/defaults/users.yml</a> as an example.</p>
 <p>To add a new user, simply create a new user object, in the <code>users.yml</code> file,<br>and define the <code>username</code>, <code>email</code> and <code>fullName</code> values.<br>The <code>id</code> field must be unique, that you can generate via the <code>uuidgen</code> utility.<br>The password hash can be generated via the <code>easer encpwd -p &lt;password&gt;</code> command:</p>
 <pre class="prettyprint source lang-bash"><code>    ./dist/encpwdApp.js -p SeCRet-paZZw0rd
     SeCRet-paZZw0rd >> $2a$10$j4flrJ4WTMG.disTrEZ4juEkn3pz20zvFuNYbt6gli3Qiuv5emTDe</code></pre><p>Then copy the bcrypted result into the user's <code>password</code> field.</p>
 <p><strong>Note:</strong> <em>This is temporary, not really secure solution to the CLI tool,<br>so make sure that nobody can see the screen and access to the console log.<br>Also make sure that the users.yml is not placed to a publicly available place,<br>nor into a folder, where the normal users can easily access to it.</em></p>
 <h3>TODO</h3><ul>
-<li>Add public static pages and forwarding to 404 and 500</li>
+<li>Add public static pages and forwarding to 404(/401, Unauthorized) and 500</li>
 <li>Implement ACL for authorization.</li>
 <li>Select between HTTP/HTTPS.</li>
 <li>Implement password generator to work directly into the user credentials file.</li>

@@ -13,8 +13,9 @@ describe('server/config', () => {
                 users: path.resolve("./src/adapters/webServer/config/defaults/users.yml"),
                 auth: {
                     strategy: 'local',
-                    successRedirect: null, // '/private/',
-                    failureRedirect: null, // '/login.html'
+                    successRedirect: null,  // '/private/',
+                    failureRedirect: null,  // '/login.html'
+                    logoutRedirect: null    // '/'
                 },
                 port: 3007,
                 useCompression: false,

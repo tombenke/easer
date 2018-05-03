@@ -97,14 +97,14 @@ var startup = function startup(container, next) {
         }, server).listen(4443)
     */
 
-    httpInstance = server.listen(config.webServer.port);
-    container.logger.info('Express server listening on port ' + config.webServer.port);
-
-    // Call next setup function with the context extension
-    next(null, {
-        webServer: {
-            server: server
-        }
+    httpInstance = server.listen(config.webServer.port, function () {
+        container.logger.info('Express server listening on port ' + config.webServer.port);
+        // Call next setup function with the context extension
+        next(null, {
+            webServer: {
+                server: server
+            }
+        });
     });
 };
 

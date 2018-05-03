@@ -49,7 +49,7 @@ const mkHandlerFun = (endpoint, container) => (req, res) => {
         }, (err, resp) => {
             container.logger.info(`RES ${JSON.stringify(resp, null, '')}`)
             if (err) {
-                res.set(resp.headers || {}).status(500).json(err)
+                res.set(/*resp.headers ||*/ {}).status(500).json(err)
             } else {
                 res.set(resp.headers || {}).status(200).json(resp.body)
             }
@@ -88,7 +88,8 @@ const set = (server, authGuard, container) => {
         // Add built-in profile service
         container.pdms.add({ topic: "/auth/profile", method: "get", uri: "/auth/profile" }, function (data, cb) {
             container.logger.info(`Profile handler called with ${JSON.stringify(data.request.user, null, '')}, ${data.method}, ${data.uri}, ...`)
-            getProfile(data.request.user.id, cb)
+            const userId = _.hasIn(data.request, 'user.id') ? req.user.id : 'unknown'
+            getProfile(userId, cb)
         })
 
         // Add built-in monitoring service
