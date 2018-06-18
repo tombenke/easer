@@ -65,7 +65,7 @@ const startup = (container, next) => {
         // Call next setup function with the context extension
         next(null, {
             webServer: {
-                server: server
+                server: httpInstance
             }
         })
     })

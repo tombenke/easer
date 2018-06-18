@@ -6,6 +6,7 @@ import encpwdCli from './encpwdCli'
 import webServerCli from './webServerCli'
 import pdms from 'npac-pdms-hemera-adapter'
 import encpwd from './adapters/encpwd/'
+import { wsServer, wsPdmsGw } from 'npac-wsgw-adapters'
 import webServer from './adapters/webServer/'
 import npac from 'npac'
 import _ from 'lodash'
@@ -49,7 +50,7 @@ export const startEncpwd = (argv=process.argv, cb=null) => {
 
 export const startWebServer = (argv=process.argv, cb=null) => {
 
-    const defaults = _.merge({}, appDefaults, webServer.defaults, pdms.defaults)
+    const defaults = _.merge({}, appDefaults, webServer.defaults, pdms.defaults, wsServer.defaults, wsPdmsGw.defaults)
 
     // Use CLI to gain additional parameters, and command to execute
     const { cliConfig/*, command*/ } = webServerCli.parse(defaults, argv)
@@ -65,10 +66,14 @@ export const startWebServer = (argv=process.argv, cb=null) => {
             npac.mergeConfig(config),
             npac.addLogger,
             pdms.startup,
-            webServer.startup
+            webServer.startup,
+            wsServer.startup,
+            wsPdmsGw.startup
         ]
 
         appTerminators = [
+            wsPdmsGw.shutdown,
+            wsServer.shutdown,
             webServer.shutdown,
             pdms.shutdown
         ]
@@ -76,10 +81,12 @@ export const startWebServer = (argv=process.argv, cb=null) => {
         appAdapters = [
             npac.mergeConfig(config),
             npac.addLogger,
-            webServer.startup
+            webServer.startup,
+            wsServer.startup
         ]
 
         appTerminators = [
+            wsServer.shutdown,
             webServer.shutdown
         ]
     }

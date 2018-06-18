@@ -24,6 +24,8 @@ var _encpwd = require('./adapters/encpwd/');
 
 var _encpwd2 = _interopRequireDefault(_encpwd);
 
+var _npacWsgwAdapters = require('npac-wsgw-adapters');
+
 var _webServer = require('./adapters/webServer/');
 
 var _webServer2 = _interopRequireDefault(_webServer);
@@ -87,7 +89,7 @@ var startWebServer = exports.startWebServer = function startWebServer() {
     var cb = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
 
-    var defaults = _lodash2.default.merge({}, _config2.default, _webServer2.default.defaults, _npacPdmsHemeraAdapter2.default.defaults);
+    var defaults = _lodash2.default.merge({}, _config2.default, _webServer2.default.defaults, _npacPdmsHemeraAdapter2.default.defaults, _npacWsgwAdapters.wsServer.defaults, _npacWsgwAdapters.wsPdmsGw.defaults);
 
     // Use CLI to gain additional parameters, and command to execute
 
@@ -103,13 +105,13 @@ var startWebServer = exports.startWebServer = function startWebServer() {
     var appAdapters = [];
     var appTerminators = [];
     if (config.webServer.usePdms) {
-        appAdapters = [_npac2.default.mergeConfig(config), _npac2.default.addLogger, _npacPdmsHemeraAdapter2.default.startup, _webServer2.default.startup];
+        appAdapters = [_npac2.default.mergeConfig(config), _npac2.default.addLogger, _npacPdmsHemeraAdapter2.default.startup, _webServer2.default.startup, _npacWsgwAdapters.wsServer.startup, _npacWsgwAdapters.wsPdmsGw.startup];
 
-        appTerminators = [_webServer2.default.shutdown, _npacPdmsHemeraAdapter2.default.shutdown];
+        appTerminators = [_npacWsgwAdapters.wsPdmsGw.shutdown, _npacWsgwAdapters.wsServer.shutdown, _webServer2.default.shutdown, _npacPdmsHemeraAdapter2.default.shutdown];
     } else {
-        appAdapters = [_npac2.default.mergeConfig(config), _npac2.default.addLogger, _webServer2.default.startup];
+        appAdapters = [_npac2.default.mergeConfig(config), _npac2.default.addLogger, _webServer2.default.startup, _npacWsgwAdapters.wsServer.startup];
 
-        appTerminators = [_webServer2.default.shutdown];
+        appTerminators = [_npacWsgwAdapters.wsServer.shutdown, _webServer2.default.shutdown];
     }
 
     // Define the jobs to execute: hand over the command got by the CLI.
