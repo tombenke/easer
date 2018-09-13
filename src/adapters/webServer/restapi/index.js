@@ -49,9 +49,9 @@ const mkHandlerFun = (endpoint, container) => (req, res) => {
         }, (err, resp) => {
             container.logger.info(`RES ${JSON.stringify(resp, null, '')}`)
             if (err) {
-                res.set(/*resp.headers ||*/ {}).status(500).json(err)
+                res.set(/*resp.headers ||*/ {}).status(500).send(err)
             } else {
-                res.set(resp.headers || {}).status(200).json(resp.body)
+                res.set(resp.headers || {}).status(200).send(resp.body)
             }
         })
     } else {
