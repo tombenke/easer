@@ -50,6 +50,7 @@
     "passport-local": "~1.0.0",
     "passport-twitter": "~1.0.4",
     "rest-tool-common": "^2.1.4",
+    "uuid": "^3.3.2",
     "yargs": "10.0.3"
   },
   "devDependencies": {

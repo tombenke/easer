@@ -76,6 +76,15 @@ var mkHandlerFun = function mkHandlerFun(endpoint, container) {
                         res.set(resp.headers || {}).status(200).json(resp.body);
                     }
                 });
+            } else if (endpoint.method === 'post' && endpoint.uri === '/auth/registration') {
+                //            console.log('POST /auth/registration:', req.body)
+                (0, _auth.postRegistration)(req.body.username, req.body.password, function (err, resp) {
+                    if (err) {
+                        res.set(resp.headers || {}).status(409).json(err);
+                    } else {
+                        res.set(resp.headers || {}).status(201).json(resp.body);
+                    }
+                });
             } else if (endpoint.method === 'get' && endpoint.uri === '/monitoring/isAlive') {
                 (0, _monitoring.getMonitoringIsAlive)(userId, function (err, resp) {
                     // This function always returns with OK
@@ -102,6 +111,14 @@ var set = function set(server, authGuard, container) {
             container.logger.info('Profile handler called with ' + JSON.stringify(data.request.user, null, '') + ', ' + data.method + ', ' + data.uri + ', ...');
             var userId = _lodash2.default.hasIn(data.request, 'user.id') ? req.user.id : 'unknown';
             (0, _auth.getProfile)(userId, cb);
+        });
+
+        // Add built-in registration service
+        container.pdms.add({ topic: "/auth/registration", method: "post", uri: "/auth/profile" }, function (data, cb) {
+            container.logger.info('User registration handler called with ' + JSON.stringify(data.request.params, null, '') + ', ' + data.method + ', ' + data.uri + ', ...');
+            var userId = _lodash2.default.hasIn(data.request, 'user.id') ? req.user.id : 'unknown';
+            (0, _auth.getProfile)(userId, cb);
+            (0, _auth.postRegistration)(req.params.username, req.params.password, cb);
         });
 
         // Add built-in monitoring service

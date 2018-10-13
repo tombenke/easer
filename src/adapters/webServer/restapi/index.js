@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import { services } from 'rest-tool-common'
-import { getProfile} from '../auth/'
+import { getProfile, postRegistration } from '../auth/'
 import { getMonitoringIsAlive } from '../monitoring'
 
 const getEndpointMap = container => {
@@ -65,6 +65,15 @@ const mkHandlerFun = (endpoint, container) => (req, res) => {
                     res.set(resp.headers || {}).status(200).json(resp.body)
                 }
             })
+        } else if (endpoint.method === 'post' && endpoint.uri === '/auth/registration') {
+//            console.log('POST /auth/registration:', req.body)
+            postRegistration(req.body.username, req.body.password, (err, resp) => {
+                if (err) {
+                    res.set(resp.headers || {}).status(409).json(err)
+                } else {
+                    res.set(resp.headers || {}).status(201).json(resp.body)
+                }
+            })
         } else if (endpoint.method === 'get' && endpoint.uri === '/monitoring/isAlive') {
             getMonitoringIsAlive(userId, (err, resp) => {
                 // This function always returns with OK
@@ -90,6 +99,14 @@ const set = (server, authGuard, container) => {
             container.logger.info(`Profile handler called with ${JSON.stringify(data.request.user, null, '')}, ${data.method}, ${data.uri}, ...`)
             const userId = _.hasIn(data.request, 'user.id') ? req.user.id : 'unknown'
             getProfile(userId, cb)
+        })
+
+        // Add built-in registration service
+        container.pdms.add({ topic: "/auth/registration", method: "post", uri: "/auth/profile" }, function (data, cb) {
+            container.logger.info(`User registration handler called with ${JSON.stringify(data.request.params, null, '')}, ${data.method}, ${data.uri}, ...`)
+            const userId = _.hasIn(data.request, 'user.id') ? req.user.id : 'unknown'
+            getProfile(userId, cb)
+            postRegistration(req.params.username, req.params.password, cb)
         })
 
         // Add built-in monitoring service

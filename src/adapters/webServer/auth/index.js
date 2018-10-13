@@ -36,6 +36,7 @@ passport.deserializeUser((id, cb) => {
 module.exports = {
     loadUsers: users.loadUsers,
     getProfile: users.getProfile,
+    postRegistration: users.postRegistration,
     initialize: passport.initialize.bind(passport),
     session: passport.session.bind(passport),
     authenticate: passport.authenticate.bind(passport)

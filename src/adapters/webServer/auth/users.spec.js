@@ -45,14 +45,47 @@ describe('users', () => {
         })
     })
 
-    it('#getProfile - with wrong ID', (done) => {
-        const wrongId = "7fcf7c51------------"
-        users.getProfile(wrongId, (err, response) => {
+    it('#postRegistration - new user', (done) => {
+        const username = 'newuser'
+        const password = 'secretpassword'
+        users.postRegistration(username, password, (err, response) => {
 
-            const expectedErr = new Error(`User not found by id: "${wrongId}"`)
-            expect(err).toEqual(expectedErr)
+            expect(err).toBeNull()
             expect(response).toHaveProperty('headers')
             expect(response).toHaveProperty('body')
+            expect(response.body).toHaveProperty('id')
+            expect(response.body.username).toEqual(username)
+            done()
+        })
+    })
+
+    it('#postRegistration - user already exists', (done) => {
+        const username = 'newuserToExists'
+        const password = 'secretpassword'
+        // First create a new user to exist
+        users.postRegistration(username, password, (err, response) => {
+
+            expect(err).toBeNull()
+            expect(response).toHaveProperty('headers')
+            expect(response).toHaveProperty('body')
+            expect(response.body).toHaveProperty('id')
+            expect(response.body.username).toEqual(username)
+
+            // Try to register again with the same user name
+            users.postRegistration(username, password, (err, response) => {
+                expect(err).toEqual(new Error(`User '${username}' already exists`))
+                done()
+            })
+        })
+    })
+
+    it('#getProfile', (done) => {
+        users.getProfile("7fcf7c51-7439-4d40-a5c4-b9a4f2c9a1ba", (err, response) => {
+            expect(err).toBeNull()
+            expect(response).toHaveProperty('headers')
+            expect(response).toHaveProperty('body')
+            expect(response.body.username).toEqual("tombenke")
+            expect(response.body.fullName).toEqual("Tamás Benke")
             done()
         })
     })

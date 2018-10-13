@@ -1,0 +1,54 @@
+name: User registration data service
+description: |
+    
+style: OPERATION
+uriTemplate: /auth/registration
+methods:
+    POST:
+        summary: Register new user with credentials
+        notes: Register a new user
+        # implementation: api.postUserRegistration data
+        request:
+            parameters: []
+            cookies: []
+            headers:
+                -
+                    field: Accept
+                    content: "application/json"
+                -
+                    field: Accept-Encoding
+                    content: "gzip, deflate"
+        responses:
+            -
+                name: OK
+                statusCode: &OkStatusCode 201
+                reason: &OkReason Created
+                # validationSchema: postResource-responseBody-validationSchema.json
+                cookies: []
+                headers:
+                    -
+                        field: Content-Type
+                        content: application/json
+                mockBody: postResource-responseBody.json
+        testCases:
+            -
+                name: Get User registration data
+                description: Successfully retrieves one user registration
+                url: /auth/registration
+                template: testPostMethod.js
+                request:
+                    cookies: []
+                    headers:
+                        -
+                            field : "Accept"
+                            content: "application/json"
+                response:
+                    name: OK
+                    statusCode: *OkStatusCode
+                    reason: *OkReason
+                    cookies: []
+                    headers:
+                        -
+                            field: "Content-Type"
+                            content: "application/json"
+                    # validationSchema: postResource-responseBody-validationSchema.json

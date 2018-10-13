@@ -2,6 +2,14 @@
 
 var _datafile = require('datafile');
 
+var _v = require('uuid/v1');
+
+var _v2 = _interopRequireDefault(_v);
+
+var _password = require('./password');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var records = [];
 
 var loadUsers = function loadUsers(container) {
@@ -17,7 +25,7 @@ var findByProp = function findByProp(prop, value, cb) {
                 return cb(null, record);
             }
         }
-        return cb(new Error('User not found by ' + prop + ': "' + value + '"'), null);
+        cb(new Error('User not found by ' + prop + ': "' + value + '"'), null);
     });
 };
 
@@ -48,9 +56,34 @@ var getProfile = function getProfile(id, cb) {
     });
 };
 
+var postRegistration = function postRegistration(username, password, cb) {
+    findByUsername(username, function (err, record) {
+        if (err) {
+            // User not found by username, so create it
+            var newUser = {
+                id: (0, _v2.default)(),
+                username: username,
+                password: (0, _password.encript)(password),
+                fullName: username,
+                email: '',
+                avatar: 'avatars/undefined.png'
+            };
+            records.push(newUser);
+            cb(null, {
+                headers: {},
+                body: newUser
+            });
+        } else {
+            // User already exists, so return with error
+            cb(new Error('User \'' + username + '\' already exists'), { headers: {}, body: null });
+        }
+    });
+};
+
 module.exports = {
     loadUsers: loadUsers,
     findById: findById,
     findByUsername: findByUsername,
-    getProfile: getProfile
+    getProfile: getProfile,
+    postRegistration: postRegistration
 };

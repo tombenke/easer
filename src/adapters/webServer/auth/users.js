@@ -1,4 +1,6 @@
 import { loadJsonFileSync } from 'datafile'
+import uuidv1 from 'uuid/v1'
+import { encript } from './password'
 
 let records = []
 
@@ -15,7 +17,7 @@ const findByProp = function(prop, value, cb) {
                 return cb(null, record)
             }
         }
-        return cb(new Error(`User not found by ${prop}: "${value}"`), null)
+        cb(new Error(`User not found by ${prop}: "${value}"`), null)
     })
 }
 
@@ -42,9 +44,34 @@ const getProfile = (id, cb) => {
     })
 }
 
+const postRegistration = (username, password, cb) => {
+    findByUsername(username, (err, record) => {
+        if(err) {
+            // User not found by username, so create it
+            const newUser = {
+                id: uuidv1(),
+                username: username,
+                password: encript(password),
+                fullName: username,
+                email: '',
+                avatar: 'avatars/undefined.png'
+            }
+            records.push(newUser)
+            cb(null, {
+                headers: {},
+                body: newUser
+            })
+        } else {
+            // User already exists, so return with error
+            cb(new Error(`User '${username}' already exists`), { headers: {}, body: null })
+        }
+    })
+}
+
 module.exports = {
     loadUsers: loadUsers,
     findById: findById,
     findByUsername: findByUsername,
-    getProfile: getProfile
+    getProfile: getProfile,
+    postRegistration: postRegistration
 }
