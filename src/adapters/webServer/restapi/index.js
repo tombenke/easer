@@ -102,11 +102,11 @@ const set = (server, authGuard, container) => {
         })
 
         // Add built-in registration service
-        container.pdms.add({ topic: "/auth/registration", method: "post", uri: "/auth/profile" }, function (data, cb) {
+        container.pdms.add({ topic: "/auth/registration", method: "post", uri: "/auth/registration" }, function (data, cb) {
             container.logger.info(`User registration handler called with ${JSON.stringify(data.request.params, null, '')}, ${data.method}, ${data.uri}, ...`)
-            const userId = _.hasIn(data.request, 'user.id') ? req.user.id : 'unknown'
-            getProfile(userId, cb)
-            postRegistration(req.params.username, req.params.password, cb)
+//            const userId = _.hasIn(data.request, 'user.id') ? req.user.id : 'unknown'
+//            getProfile(userId, cb)
+            postRegistration(data.request.body.username, data.request.body.password, cb)
         })
 
         // Add built-in monitoring service

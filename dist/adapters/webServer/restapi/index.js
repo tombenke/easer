@@ -114,11 +114,11 @@ var set = function set(server, authGuard, container) {
         });
 
         // Add built-in registration service
-        container.pdms.add({ topic: "/auth/registration", method: "post", uri: "/auth/profile" }, function (data, cb) {
+        container.pdms.add({ topic: "/auth/registration", method: "post", uri: "/auth/registration" }, function (data, cb) {
             container.logger.info('User registration handler called with ' + JSON.stringify(data.request.params, null, '') + ', ' + data.method + ', ' + data.uri + ', ...');
-            var userId = _lodash2.default.hasIn(data.request, 'user.id') ? req.user.id : 'unknown';
-            (0, _auth.getProfile)(userId, cb);
-            (0, _auth.postRegistration)(req.params.username, req.params.password, cb);
+            //            const userId = _.hasIn(data.request, 'user.id') ? req.user.id : 'unknown'
+            //            getProfile(userId, cb)
+            (0, _auth.postRegistration)(data.request.body.username, data.request.body.password, cb);
         });
 
         // Add built-in monitoring service
