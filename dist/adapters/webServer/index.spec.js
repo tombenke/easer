@@ -155,350 +155,599 @@ describe('adapters/server', function () {
 
     var adapters = [_npac2.default.mergeConfig(config), _npac2.default.addLogger, pdms.startup, server.startup];
 
-    var terminators = [server.shutdown, pdms.shutdown];
-
-    it('#startup, #shutdown', function (done) {
-        sandbox.stub(process, 'exit').callsFake(function (signal) {
-            console.log("process.exit", signal);
-            done();
-        });
-
-        var testServer = function testServer(container, next) {
-            container.logger.info('Run job to test server');
-            next(null, {});
-        };
-
-        _npac2.default.start(adapters, [testServer], terminators, function (err, res) {
-            (0, _chai.expect)(err).to.equal(null);
-            (0, _chai.expect)(res).to.eql([{}]);
-            console.log('npac startup process and run jobs successfully finished');
-
-            console.log('Send SIGTERM signal');
-            process.kill(process.pid, 'SIGTERM');
-        });
-    });
-
-    it('GET /monitoring/isAlive', function (done) {
-        sandbox.stub(process, 'exit').callsFake(function (signal) {
-            console.log("process.exit", signal);
-            done();
-        });
-
-        var testServer = function testServer(container, next) {
-            container.logger.info('Run job to test direct call to /monitoring/isAlive');
-            var port = container.config.webServer.port;
-            // GET /monitoring/isAlive call
-            makeRestCall('http://localhost:' + port + '/monitoring/isAlive', {
-                method: 'GET',
-                credentials: 'same-origin',
-                headers: {
-                    Accept: 'application/json'
-                }
-            }).then(function (response) {
-                (0, _chai.expect)(response.body).to.eql({ status: 'OK' });
-                next(null, {});
-            });
-        };
-
-        _npac2.default.start(adapters, [testServer], terminators, function (err, res) {
-            (0, _chai.expect)(err).to.equal(null);
-            (0, _chai.expect)(res).to.eql([{}]);
-            console.log('npac startup process and run jobs successfully finished');
-
-            console.log('Send SIGTERM signal');
-            process.kill(process.pid, 'SIGTERM');
-        });
-    });
-
-    it('GET /monitoring/isAlive through PDMS', function (done) {
-        sandbox.stub(process, 'exit').callsFake(function (signal) {
-            console.log("process.exit", signal);
-            done();
-        });
-
-        var testServer = function testServer(container, next) {
-            container.logger.info('Run job to test PDMS call to /monitoring/isAlive');
-
-            // GET /monitoring/isAlive call
-            var port = container.config.webServer.port;
-            makeRestCall('http://localhost:' + port + '/monitoring/isAlive', {
-                method: 'GET',
-                credentials: 'same-origin',
-                headers: {
-                    Accept: 'application/json'
-                }
-            }).then(function (response) {
-                (0, _chai.expect)(response.body).to.eql({ status: 'OK' });
-                next(null, {});
-            });
-        };
-
-        var teeContainerConf = function teeContainerConf(container, next) {
-            console.log('Container.config: ', JSON.stringify(container.config, null, '  '));
-            next(null, {});
-        };
-
-        var adaptersWithPdms = [_npac2.default.mergeConfig(_.merge({}, config, {
-            webServer: { usePdms: true }
-            // pdms: { natsUri: 'nats://localhost:4222' }
-        })), _npac2.default.addLogger, pdms.startup, server.startup, teeContainerConf];
-
-        _npac2.default.start(adaptersWithPdms, [testServer], terminators, function (err, res) {
-            (0, _chai.expect)(err).to.equal(null);
-            (0, _chai.expect)(res).to.eql([{}]);
-            console.log('npac startup process and run jobs successfully finished');
-
-            console.log('Send SIGTERM signal');
-            process.kill(process.pid, 'SIGTERM');
-        });
-    });
-
     var adaptersWithPdms = [_npac2.default.mergeConfig(_.merge({}, config, {
         webServer: { usePdms: true }
         // pdms: { natsUri: 'nats://localhost:4222' }
     })), _npac2.default.addLogger, pdms.startup, server.startup];
 
-    it('GET /missing/endpoint through PDMS', function (done) {
-        sandbox.stub(process, 'exit').callsFake(function (signal) {
-            console.log("process.exit", signal);
-            done();
-        });
-
-        var testServer = function testServer(container, next) {
-            container.logger.info('Run job to test PDMS call to /missing/endpoint');
-
-            // GET /monitoring/isAlive call
-            var port = container.config.webServer.port;
-            makeRestCall('http://localhost:' + port + '/missing/endpoint', {
-                method: 'GET',
-                credentials: 'same-origin',
-                headers: {
-                    Accept: 'application/json'
-                }
-            }).then(function (response) {
-                (0, _chai.expect)(response.ok).to.equal(false);
-                (0, _chai.expect)(response.status).to.equal(404);
-                next(null, {});
-            });
-        };
-
-        _npac2.default.start(adaptersWithPdms, [testServer], terminators, function (err, res) {
-            (0, _chai.expect)(err).to.equal(null);
-            (0, _chai.expect)(res).to.eql([{}]);
-            console.log('npac startup process and run jobs successfully finished');
-
-            console.log('Send SIGTERM signal');
-            process.kill(process.pid, 'SIGTERM');
-        });
-    });
-
-    it('GET /auth/profile - with NO user id', function (done) {
-        sandbox.stub(process, 'exit').callsFake(function (signal) {
-            console.log("process.exit", signal);
-            done();
-        });
-
-        var testServer = function testServer(container, next) {
-            var port = container.config.webServer.port;
-            // GET /auth/profile call
-            makeRestCall('http://localhost:' + port + '/auth/profile', {
-                method: 'GET',
-                credentials: 'same-origin',
-                headers: {
-                    Accept: 'application/json'
-                }
-            }).then(function (response) {
-                (0, _chai.expect)(response.ok).to.equal(false);
-                next(null, {});
-            });
-        };
-
-        _npac2.default.start(adapters, [testServer], terminators, function (err, res) {
-            (0, _chai.expect)(err).to.equal(null);
-            (0, _chai.expect)(res).to.eql([{}]);
-            console.log('npac startup process and run jobs successfully finished');
-
-            console.log('Send SIGTERM signal');
-            process.kill(process.pid, 'SIGTERM');
-        });
-    });
-
-    it('GET /auth/profile - through PDMS - with NO user id', function (done) {
-        sandbox.stub(process, 'exit').callsFake(function (signal) {
-            console.log("process.exit", signal);
-            done();
-        });
-
-        var testServer = function testServer(container, next) {
-            var port = container.config.webServer.port;
-            // GET /auth/profile call
-            makeRestCall('http://localhost:' + port + '/auth/profile', {
-                method: 'GET',
-                credentials: 'same-origin',
-                headers: {
-                    Accept: 'application/json'
-                }
-            }).then(function (response) {
-                // console.log('through PDMS - with NO user id:', response)
-                (0, _chai.expect)(response.ok).to.equal(false);
-                (0, _chai.expect)(response.status).to.equal(500);
-                next(null, {});
-            });
-        };
-
-        _npac2.default.start(adaptersWithPdms, [testServer], terminators, function (err, res) {
-            (0, _chai.expect)(err).to.equal(null);
-            (0, _chai.expect)(res).to.eql([{}]);
-            console.log('npac startup process and run jobs successfully finished');
-
-            console.log('Send SIGTERM signal');
-            process.kill(process.pid, 'SIGTERM');
-        });
-    });
-
-    it('POST /login then GET /logout, no redirects', function (done) {
-        sandbox.stub(process, 'exit').callsFake(function (signal) {
-            console.log("process.exit", signal);
-            done();
-        });
-
-        var testServer = function testServer(container, next) {
-            var port = container.config.webServer.port;
-            // POST /login call
-            makeRestCall('http://localhost:' + port + '/login', {
-                method: 'POST',
-                credentials: 'same-origin',
-                redirect: 'follow',
-                headers: {
-                    Accept: '*',
-                    "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
-                },
-                body: "username=tombenke&password=secret"
-            }).then(function (response) {
-                console.log('response: ', response);
-
-                var connectSid = findCookie(response.cookies, 'connect.sid');
-
-                // Now request the profile data
-                makeRestCall('http://localhost:' + port + '/auth/profile', {
-                    method: 'GET',
-                    credentials: 'same-origin',
-                    headers: {
-                        Accept: 'application/json',
-                        Cookie: _cookie2.default.serialize('connect.sid', connectSid)
-                    }
-                }).then(function (response) {
-                    (0, _chai.expect)(response.body).to.eql({
-                        "id": "7fcf7c51-7439-4d40-a5c4-b9a4f2c9a1ba",
-                        "username": "tombenke",
-                        "fullName": "Tamás Benke",
-                        "email": "tombenke@gmail.com",
-                        "avatar": "avatars/undefined.png"
-                    });
-                    // Now log out
-                    //
-                    makeRestCall('http://localhost:' + port + '/logout', {
+    var terminators = [server.shutdown, pdms.shutdown];
+    /*
+        it('#startup, #shutdown', done => {
+            sandbox.stub(process, 'exit').callsFake((signal) => {
+                console.log("process.exit", signal)
+                done()
+            })
+    
+            const testServer = (container, next) => {
+                container.logger.info(`Run job to test server`)
+                next(null, {})
+            }
+    
+            npac.start(adapters, [testServer], terminators, (err, res) => {
+                expect(err).to.equal(null)
+                expect(res).to.eql([{}])
+                console.log('npac startup process and run jobs successfully finished')
+    
+                console.log('Send SIGTERM signal')
+                process.kill(process.pid, 'SIGTERM')
+            })
+        })
+    
+        it('GET /monitoring/isAlive', done => {
+            sandbox.stub(process, 'exit').callsFake((signal) => {
+                console.log("process.exit", signal)
+                done()
+            })
+    
+            const testServer = (container, next) => {
+                container.logger.info(`Run job to test direct call to /monitoring/isAlive`)
+                const port = container.config.webServer.port
+                // GET /monitoring/isAlive call
+                makeRestCall(
+                    `http://localhost:${port}/monitoring/isAlive`,
+                    {
                         method: 'GET',
+                        credentials: 'same-origin',
+                        headers: {
+                            Accept: 'application/json'
+                        }
+                    }).then(response => {
+                        expect(response.body).to.eql({ status: 'OK' })
+                        next(null, {})
+                    })
+            }
+    
+            npac.start(adapters, [testServer], terminators, (err, res) => {
+                expect(err).to.equal(null)
+                expect(res).to.eql([{}])
+                console.log('npac startup process and run jobs successfully finished')
+    
+                console.log('Send SIGTERM signal')
+                process.kill(process.pid, 'SIGTERM')
+            })
+        })
+    
+        it('GET /monitoring/isAlive through PDMS', done => {
+            sandbox.stub(process, 'exit').callsFake((signal) => {
+                console.log("process.exit", signal)
+                done()
+            })
+    
+            const testServer = (container, next) => {
+                container.logger.info(`Run job to test PDMS call to /monitoring/isAlive`)
+    
+                // GET /monitoring/isAlive call
+                const port = container.config.webServer.port
+                makeRestCall(
+                    `http://localhost:${port}/monitoring/isAlive`,
+                    {
+                        method: 'GET',
+                        credentials: 'same-origin',
+                        headers: {
+                            Accept: 'application/json'
+                        }
+                    }).then(response => {
+                        expect(response.body).to.eql({ status: 'OK' })
+                        next(null, {})
+                    })
+            }
+    
+            const teeContainerConf = (container, next) => {
+                console.log('Container.config: ', JSON.stringify(container.config, null, '  '))
+                next(null, {})
+            }
+    
+            const adaptersWithPdms = [
+                npac.mergeConfig(_.merge({}, config, {
+                    webServer: { usePdms: true },
+                    // pdms: { natsUri: 'nats://localhost:4222' }
+                })),
+                npac.addLogger,
+                pdms.startup,
+                server.startup,
+                teeContainerConf
+            ]
+    
+            npac.start(adaptersWithPdms, [testServer], terminators, (err, res) => {
+                expect(err).to.equal(null)
+                expect(res).to.eql([{}])
+                console.log('npac startup process and run jobs successfully finished')
+    
+                console.log('Send SIGTERM signal')
+                process.kill(process.pid, 'SIGTERM')
+            })
+        })
+    
+        it('GET /missing/endpoint through PDMS', done => {
+            sandbox.stub(process, 'exit').callsFake((signal) => {
+                console.log("process.exit", signal)
+                done()
+            })
+    
+            const testServer = (container, next) => {
+                container.logger.info(`Run job to test PDMS call to /missing/endpoint`)
+    
+                // GET /monitoring/isAlive call
+                const port = container.config.webServer.port
+                makeRestCall(
+                    `http://localhost:${port}/missing/endpoint`,
+                    {
+                        method: 'GET',
+                        credentials: 'same-origin',
+                        headers: {
+                            Accept: 'application/json'
+                        }
+                    }).then(response => {
+                        expect(response.ok).to.equal(false)
+                        expect(response.status).to.equal(404)
+                        next(null, {})
+                    })
+            }
+    
+            npac.start(adaptersWithPdms, [testServer], terminators, (err, res) => {
+                expect(err).to.equal(null)
+                expect(res).to.eql([{}])
+                console.log('npac startup process and run jobs successfully finished')
+    
+                console.log('Send SIGTERM signal')
+                process.kill(process.pid, 'SIGTERM')
+            })
+        })
+    
+        it('GET /auth/profile - with NO user id', done => {
+            sandbox.stub(process, 'exit').callsFake((signal) => {
+                console.log("process.exit", signal)
+                done()
+            })
+    
+            const testServer = (container, next) => {
+                const port = container.config.webServer.port
+                // GET /auth/profile call
+                makeRestCall(
+                    `http://localhost:${port}/auth/profile`,
+                    {
+                        method: 'GET',
+                        credentials: 'same-origin',
+                        headers: {
+                            Accept: 'application/json'
+                        }
+                    }).then(response => {
+                        expect(response.ok).to.equal(false)
+                        next(null, {})
+                    })
+            }
+    
+            npac.start(adapters, [testServer], terminators, (err, res) => {
+                expect(err).to.equal(null)
+                expect(res).to.eql([{}])
+                console.log('npac startup process and run jobs successfully finished')
+    
+                console.log('Send SIGTERM signal')
+                process.kill(process.pid, 'SIGTERM')
+            })
+        })
+    
+        it('GET /auth/profile - through PDMS - with NO user id', done => {
+            sandbox.stub(process, 'exit').callsFake((signal) => {
+                console.log("process.exit", signal)
+                done()
+            })
+    
+            const testServer = (container, next) => {
+                const port = container.config.webServer.port
+                // GET /auth/profile call
+                makeRestCall(
+                    `http://localhost:${port}/auth/profile`,
+                    {
+                        method: 'GET',
+                        credentials: 'same-origin',
+                        headers: {
+                            Accept: 'application/json'
+                        }
+                    }).then(response => {
+                        // console.log('through PDMS - with NO user id:', response)
+                        expect(response.ok).to.equal(false)
+                        expect(response.status).to.equal(404)
+                        next(null, {})
+                    })
+            }
+    
+            npac.start(adaptersWithPdms, [testServer], terminators, (err, res) => {
+                expect(err).to.equal(null)
+                expect(res).to.eql([{}])
+                console.log('npac startup process and run jobs successfully finished')
+    
+                console.log('Send SIGTERM signal')
+                process.kill(process.pid, 'SIGTERM')
+            })
+        })
+    
+        it('POST /login then GET /logout, no redirects', done => {
+            sandbox.stub(process, 'exit').callsFake((signal) => {
+                console.log("process.exit", signal)
+                done()
+            })
+    
+            const testServer = (container, next) => {
+                const port = container.config.webServer.port
+                // POST /login call
+                makeRestCall(
+                    `http://localhost:${port}/login`,
+                    {
+                        method: 'POST',
+                        credentials: 'same-origin',
+                        redirect: 'follow',
+                        headers: {
+                            Accept: '*',
+                            "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                        },
+                        body: "username=tombenke&password=secret"
+                    }).then(response => {
+                        console.log('response: ', response)
+    
+                        const connectSid = findCookie(response.cookies, 'connect.sid')
+    
+                        // Now request the profile data
+                        makeRestCall(
+                            `http://localhost:${port}/auth/profile`,
+                            {
+                                method: 'GET',
+                                credentials: 'same-origin',
+                                headers: {
+                                    Accept: 'application/json',
+                                    Cookie: cookie.serialize('connect.sid', connectSid)
+                                }
+                            }).then(response => {
+                                expect(response.body).to.eql({
+                                    "id": "7fcf7c51-7439-4d40-a5c4-b9a4f2c9a1ba",
+                                    "username": "tombenke",
+                                    "fullName": "Tamás Benke",
+                                    "email": "tombenke@gmail.com",
+                                    "avatar": "avatars/undefined.png"
+                                })
+                                // Now log out
+                                //
+                                makeRestCall(
+                                    `http://localhost:${port}/logout`,
+                                    {
+                                        method: 'GET',
+                                        credentials: 'same-origin',
+                                        redirect: 'manual',
+                                        headers: {
+                                            Accept: '*'
+                                        }
+                                    }).then(response => {
+                                        const connectSid = findCookie(response.cookies, 'connect.sid')
+                                        console.log('LOGGED OUT:', response, connectSid)
+                                        expect(response.status).to.equal(200)
+                                        expect(connectSid).to.equal(null)
+                                        next(null, {})
+                                    })
+                            })
+                        })
+            }
+    
+            npac.start(adapters, [testServer], terminators, (err, res) => {
+                expect(err).to.equal(null)
+                expect(res).to.eql([{}])
+                console.log('npac startup process and run jobs successfully finished')
+    
+                console.log('Send SIGTERM signal')
+                process.kill(process.pid, 'SIGTERM')
+            })
+        })
+    
+        const adaptersWithLogoutRedirection = [
+            npac.mergeConfig(_.merge({}, config, {
+                webServer: {
+                    auth: {
+                        strategy: 'local',
+                            logoutRedirect: '/'
+                        }
+                    }
+                })),
+            npac.addLogger,
+            pdms.startup,
+            server.startup
+        ]
+    
+        it('POST /login then GET /logout, with logoutRedirect to "/"', done => {
+            sandbox.stub(process, 'exit').callsFake((signal) => {
+                console.log("process.exit", signal)
+                done()
+            })
+    
+            const testServer = (container, next) => {
+                const port = container.config.webServer.port
+                // POST /login call
+                makeRestCall(
+                    `http://localhost:${port}/login`,
+                    {
+                        method: 'POST',
+                        credentials: 'same-origin',
+                        redirect: 'follow',
+                        headers: {
+                            Accept: '*',
+                            "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                        },
+                        body: "username=tombenke&password=secret"
+                    }).then(response => {
+                        console.log('response: ', response)
+    
+                        const connectSid = findCookie(response.cookies, 'connect.sid')
+    
+                        // Now log out
+                        //
+                        makeRestCall(
+                            `http://localhost:${port}/logout`,
+                            {
+                                method: 'GET',
+                                credentials: 'same-origin',
+                                redirect: 'manual',
+                                headers: {
+                                    Accept: '*'
+                                }
+                            }).then(response => {
+                                const connectSid = findCookie(response.cookies, 'connect.sid')
+                                console.log('LOGGED OUT:', response, connectSid)
+                                expect(response.status).to.equal(302)
+                                expect(response.headers.location[0]).to.equal(`http://localhost:${port}/`)
+                                expect(connectSid).to.equal(null)
+                                next(null, {})
+                            })
+                        })
+            }
+    
+            npac.start(adaptersWithLogoutRedirection, [testServer], terminators, (err, res) => {
+                expect(err).to.equal(null)
+                expect(res).to.eql([{}])
+                console.log('npac startup process and run jobs successfully finished')
+    
+                console.log('Send SIGTERM signal')
+                process.kill(process.pid, 'SIGTERM')
+            })
+        })
+    
+        const adaptersWithAuthRedirections = [
+            npac.mergeConfig(_.merge({}, config, {
+                webServer: {
+                    useCompression: true,
+                    auth: {
+                        strategy: 'local',
+                            successRedirect: '/private/',
+                            failureRedirect: '/login.html'
+                        }
+                    }
+                })),
+            npac.addLogger,
+            pdms.startup,
+            server.startup
+        ]
+    
+        it('POST /login with success redirection', done => {
+            sandbox.stub(process, 'exit').callsFake((signal) => {
+                console.log("process.exit", signal)
+                done()
+            })
+    
+            const testServer = (container, next) => {
+                const port = container.config.webServer.port
+                // POST /login call
+                makeRestCall(
+                    `http://localhost:${port}/login`,
+                    {
+                        method: 'POST',
                         credentials: 'same-origin',
                         redirect: 'manual',
                         headers: {
-                            Accept: '*'
-                        }
-                    }).then(function (response) {
-                        var connectSid = findCookie(response.cookies, 'connect.sid');
-                        console.log('LOGGED OUT:', response, connectSid);
-                        (0, _chai.expect)(response.status).to.equal(200);
-                        (0, _chai.expect)(connectSid).to.equal(null);
-                        next(null, {});
-                    });
-                });
-            });
-        };
-
-        _npac2.default.start(adapters, [testServer], terminators, function (err, res) {
-            (0, _chai.expect)(err).to.equal(null);
-            (0, _chai.expect)(res).to.eql([{}]);
-            console.log('npac startup process and run jobs successfully finished');
-
-            console.log('Send SIGTERM signal');
-            process.kill(process.pid, 'SIGTERM');
-        });
-    });
-
-    var adaptersWithLogoutRedirection = [_npac2.default.mergeConfig(_.merge({}, config, {
-        webServer: {
-            auth: {
-                strategy: 'local',
-                logoutRedirect: '/'
+                            Accept: '*',
+                            "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                        },
+                        body: "username=tombenke&password=secret"
+                    }).then(response => {
+                        const connectSid = findCookie(response.cookies, 'connect.sid')
+                        console.log('RESPONSE: ', response)
+                        expect(response.status).to.equal(302)
+                        expect(response.headers.location[0]).to.equal(`http://localhost:${port}/private/`)
+    
+                        // Now request the profile data
+                        makeRestCall(
+                            `http://localhost:${port}/auth/profile`,
+                            {
+                                method: 'GET',
+                                credentials: 'same-origin',
+                                headers: {
+                                    Accept: 'application/json',
+                                    Cookie: cookie.serialize('connect.sid', connectSid)
+                                }
+                            }).then(response => {
+                                expect(response.body).to.eql({
+                                    "id": "7fcf7c51-7439-4d40-a5c4-b9a4f2c9a1ba",
+                                    "username": "tombenke",
+                                    "fullName": "Tamás Benke",
+                                    "email": "tombenke@gmail.com",
+                                    "avatar": "avatars/undefined.png"
+                                })
+                                next(null, {})
+                            })
+                        })
             }
-        }
-    })), _npac2.default.addLogger, pdms.startup, server.startup];
-
-    it('POST /login then GET /logout, with logoutRedirect to "/"', function (done) {
-        sandbox.stub(process, 'exit').callsFake(function (signal) {
-            console.log("process.exit", signal);
-            done();
-        });
-
-        var testServer = function testServer(container, next) {
-            var port = container.config.webServer.port;
-            // POST /login call
-            makeRestCall('http://localhost:' + port + '/login', {
-                method: 'POST',
-                credentials: 'same-origin',
-                redirect: 'follow',
-                headers: {
-                    Accept: '*',
-                    "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
-                },
-                body: "username=tombenke&password=secret"
-            }).then(function (response) {
-                console.log('response: ', response);
-
-                var connectSid = findCookie(response.cookies, 'connect.sid');
-
-                // Now log out
-                //
-                makeRestCall('http://localhost:' + port + '/logout', {
-                    method: 'GET',
-                    credentials: 'same-origin',
-                    redirect: 'manual',
-                    headers: {
-                        Accept: '*'
-                    }
-                }).then(function (response) {
-                    var connectSid = findCookie(response.cookies, 'connect.sid');
-                    console.log('LOGGED OUT:', response, connectSid);
-                    (0, _chai.expect)(response.status).to.equal(302);
-                    (0, _chai.expect)(response.headers.location[0]).to.equal('http://localhost:' + port + '/');
-                    (0, _chai.expect)(connectSid).to.equal(null);
-                    next(null, {});
-                });
-            });
-        };
-
-        _npac2.default.start(adaptersWithLogoutRedirection, [testServer], terminators, function (err, res) {
-            (0, _chai.expect)(err).to.equal(null);
-            (0, _chai.expect)(res).to.eql([{}]);
-            console.log('npac startup process and run jobs successfully finished');
-
-            console.log('Send SIGTERM signal');
-            process.kill(process.pid, 'SIGTERM');
-        });
-    });
-
-    var adaptersWithAuthRedirections = [_npac2.default.mergeConfig(_.merge({}, config, {
-        webServer: {
-            useCompression: true,
-            auth: {
-                strategy: 'local',
-                successRedirect: '/private/',
-                failureRedirect: '/login.html'
+    
+            npac.start(adaptersWithAuthRedirections, [testServer], terminators, (err, res) => {
+                expect(err).to.equal(null)
+                expect(res).to.eql([{}])
+                console.log('npac startup process and run jobs successfully finished')
+    
+                console.log('Send SIGTERM signal')
+                process.kill(process.pid, 'SIGTERM')
+            })
+        })
+    
+        it('POST /login with failure redirection', done => {
+            sandbox.stub(process, 'exit').callsFake((signal) => {
+                console.log("process.exit", signal)
+                done()
+            })
+    
+            const testServer = (container, next) => {
+                const port = container.config.webServer.port
+                // POST /login call
+                makeRestCall(
+                    `http://localhost:${port}/login`,
+                    {
+                        method: 'POST',
+                        credentials: 'same-origin',
+                        redirect: 'manual',
+                        headers: {
+                            Accept: '*',
+                            "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                        },
+                        body: "username=missinguser&password=wrongpassword"
+                    }).then(response => {
+                        const connectSid = findCookie(response.cookies, 'connect.sid')
+                        console.log('RESPONSE: ', response)
+                        expect(response.status).to.equal(302)
+                        expect(response.headers.location[0]).to.equal(`http://localhost:${port}/login.html`)
+                        next(null, {})
+                    })
             }
-        }
-    })), _npac2.default.addLogger, pdms.startup, server.startup];
+    
+            npac.start(adaptersWithAuthRedirections, [testServer], terminators, (err, res) => {
+                expect(err).to.equal(null)
+                expect(res).to.eql([{}])
+                console.log('npac startup process and run jobs successfully finished')
+    
+                console.log('Send SIGTERM signal')
+                process.kill(process.pid, 'SIGTERM')
+            })
+        })
+    
+        it('POST /login with missing user', done => {
+            sandbox.stub(process, 'exit').callsFake((signal) => {
+                console.log("process.exit", signal)
+                done()
+            })
+    
+            const testServer = (container, next) => {
+                const port = container.config.webServer.port
+                // POST /login call
+                makeRestCall(
+                    `http://localhost:${port}/login`,
+                    {
+                        method: 'POST',
+                        credentials: 'same-origin',
+                        redirect: 'manual',
+                        headers: {
+                            Accept: '*',
+                            "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                        },
+                        body: "username=missinguser&password=secret"
+                    }).then(response => {
+                        const connectSid = findCookie(response.cookies, 'connect.sid')
+                        expect(response.status).to.equal(401)
+                        expect(connectSid).to.equal(null)
+                        next(null, {})
+                    })
+            }
+    
+            npac.start(adapters, [testServer], terminators, (err, res) => {
+                expect(err).to.equal(null)
+                expect(res).to.eql([{}])
+                console.log('npac startup process and run jobs successfully finished')
+    
+                console.log('Send SIGTERM signal')
+                process.kill(process.pid, 'SIGTERM')
+            })
+        })
+    
+    
+        it('POST /login with wrong password', done => {
+            sandbox.stub(process, 'exit').callsFake((signal) => {
+                console.log("process.exit", signal)
+                done()
+            })
+    
+            const testServer = (container, next) => {
+                const port = container.config.webServer.port
+                // POST /login call
+                makeRestCall(
+                    `http://localhost:${port}/login`,
+                    {
+                        method: 'POST',
+                        credentials: 'same-origin',
+                        redirect: 'manual',
+                        headers: {
+                            Accept: '*',
+                            "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                        },
+                        body: "username=tombenke&password=wrongpassword"
+                    }).then(response => {
+                        const connectSid = findCookie(response.cookies, 'connect.sid')
+                        expect(response.status).to.equal(401)
+                        expect(connectSid).to.equal(null)
+                        next(null, {})
+                    })
+            }
+    
+            npac.start(adapters, [testServer], terminators, (err, res) => {
+                expect(err).to.equal(null)
+                expect(res).to.eql([{}])
+                console.log('npac startup process and run jobs successfully finished')
+    
+                console.log('Send SIGTERM signal')
+                process.kill(process.pid, 'SIGTERM')
+            })
+        })
+    
+        it('POST /auth/registration - through PDMS', done => {
+            sandbox.stub(process, 'exit').callsFake((signal) => {
+                console.log("process.exit", signal)
+                done()
+            })
+    
+            const testServer = (container, next) => {
+                const port = container.config.webServer.port
+                // POST /auth/registration call
+                makeRestCall(
+                    `http://localhost:${port}/auth/registration`,
+                    {
+                        method: 'POST',
+                        credentials: 'same-origin',
+                        headers: {
+                            Accept: 'application/json',
+                            "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                        },
+                        body: "username=TB&password=PWD"
+                    }).then(response => {
+                        console.log('POST /auth/registration through PDMS:', response)
+                        expect(response.ok).to.equal(true)
+                        expect(response.status).to.equal(201)
+                        next(null, {})
+                    })
+            }
+    
+            npac.start(adaptersWithPdms, [testServer], terminators, (err, res) => {
+                expect(err).to.equal(null)
+                expect(res).to.eql([{}])
+                console.log('npac startup process and run jobs successfully finished')
+    
+                console.log('Send SIGTERM signal')
+                process.kill(process.pid, 'SIGTERM')
+            })
+        })
+    */
 
-    it('POST /login with success redirection', function (done) {
+    it('POST /auth/registration - through PDMS - User already exists', function (done) {
         sandbox.stub(process, 'exit').callsFake(function (signal) {
             console.log("process.exit", signal);
             done();
@@ -506,153 +755,27 @@ describe('adapters/server', function () {
 
         var testServer = function testServer(container, next) {
             var port = container.config.webServer.port;
-            // POST /login call
-            makeRestCall('http://localhost:' + port + '/login', {
+            // POST /auth/registration call
+            makeRestCall('http://localhost:' + port + '/auth/registration', {
                 method: 'POST',
                 credentials: 'same-origin',
-                redirect: 'manual',
                 headers: {
-                    Accept: '*',
+                    Accept: 'application/json',
                     "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
                 },
-                body: "username=tombenke&password=secret"
+                body: "username=tombenke&password=secretpassword"
             }).then(function (response) {
-                var connectSid = findCookie(response.cookies, 'connect.sid');
-                console.log('RESPONSE: ', response);
-                (0, _chai.expect)(response.status).to.equal(302);
-                (0, _chai.expect)(response.headers.location[0]).to.equal('http://localhost:' + port + '/private/');
-
-                // Now request the profile data
-                makeRestCall('http://localhost:' + port + '/auth/profile', {
-                    method: 'GET',
-                    credentials: 'same-origin',
-                    headers: {
-                        Accept: 'application/json',
-                        Cookie: _cookie2.default.serialize('connect.sid', connectSid)
-                    }
-                }).then(function (response) {
-                    (0, _chai.expect)(response.body).to.eql({
-                        "id": "7fcf7c51-7439-4d40-a5c4-b9a4f2c9a1ba",
-                        "username": "tombenke",
-                        "fullName": "Tamás Benke",
-                        "email": "tombenke@gmail.com",
-                        "avatar": "avatars/undefined.png"
-                    });
-                    next(null, {});
-                });
-            });
-        };
-
-        _npac2.default.start(adaptersWithAuthRedirections, [testServer], terminators, function (err, res) {
-            (0, _chai.expect)(err).to.equal(null);
-            (0, _chai.expect)(res).to.eql([{}]);
-            console.log('npac startup process and run jobs successfully finished');
-
-            console.log('Send SIGTERM signal');
-            process.kill(process.pid, 'SIGTERM');
-        });
-    });
-
-    it('POST /login with failure redirection', function (done) {
-        sandbox.stub(process, 'exit').callsFake(function (signal) {
-            console.log("process.exit", signal);
-            done();
-        });
-
-        var testServer = function testServer(container, next) {
-            var port = container.config.webServer.port;
-            // POST /login call
-            makeRestCall('http://localhost:' + port + '/login', {
-                method: 'POST',
-                credentials: 'same-origin',
-                redirect: 'manual',
-                headers: {
-                    Accept: '*',
-                    "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
-                },
-                body: "username=missinguser&password=wrongpassword"
-            }).then(function (response) {
-                var connectSid = findCookie(response.cookies, 'connect.sid');
-                console.log('RESPONSE: ', response);
-                (0, _chai.expect)(response.status).to.equal(302);
-                (0, _chai.expect)(response.headers.location[0]).to.equal('http://localhost:' + port + '/login.html');
+                console.log('POST /auth/registration through PDMS user already exists:', response);
+                (0, _chai.expect)(response.ok).to.equal(false);
+                (0, _chai.expect)(response.status).to.equal(409);
+                next(null, {});
+            }).catch(function (err) {
+                console.log('POST /auth/registration through PDMS user already exists ERR:', JSON.stringify(err, null, ''));
                 next(null, {});
             });
         };
 
-        _npac2.default.start(adaptersWithAuthRedirections, [testServer], terminators, function (err, res) {
-            (0, _chai.expect)(err).to.equal(null);
-            (0, _chai.expect)(res).to.eql([{}]);
-            console.log('npac startup process and run jobs successfully finished');
-
-            console.log('Send SIGTERM signal');
-            process.kill(process.pid, 'SIGTERM');
-        });
-    });
-
-    it('POST /login with missing user', function (done) {
-        sandbox.stub(process, 'exit').callsFake(function (signal) {
-            console.log("process.exit", signal);
-            done();
-        });
-
-        var testServer = function testServer(container, next) {
-            var port = container.config.webServer.port;
-            // POST /login call
-            makeRestCall('http://localhost:' + port + '/login', {
-                method: 'POST',
-                credentials: 'same-origin',
-                redirect: 'manual',
-                headers: {
-                    Accept: '*',
-                    "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
-                },
-                body: "username=missinguser&password=secret"
-            }).then(function (response) {
-                var connectSid = findCookie(response.cookies, 'connect.sid');
-                (0, _chai.expect)(response.status).to.equal(401);
-                (0, _chai.expect)(connectSid).to.equal(null);
-                next(null, {});
-            });
-        };
-
-        _npac2.default.start(adapters, [testServer], terminators, function (err, res) {
-            (0, _chai.expect)(err).to.equal(null);
-            (0, _chai.expect)(res).to.eql([{}]);
-            console.log('npac startup process and run jobs successfully finished');
-
-            console.log('Send SIGTERM signal');
-            process.kill(process.pid, 'SIGTERM');
-        });
-    });
-
-    it('POST /login with wrong password', function (done) {
-        sandbox.stub(process, 'exit').callsFake(function (signal) {
-            console.log("process.exit", signal);
-            done();
-        });
-
-        var testServer = function testServer(container, next) {
-            var port = container.config.webServer.port;
-            // POST /login call
-            makeRestCall('http://localhost:' + port + '/login', {
-                method: 'POST',
-                credentials: 'same-origin',
-                redirect: 'manual',
-                headers: {
-                    Accept: '*',
-                    "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
-                },
-                body: "username=tombenke&password=wrongpassword"
-            }).then(function (response) {
-                var connectSid = findCookie(response.cookies, 'connect.sid');
-                (0, _chai.expect)(response.status).to.equal(401);
-                (0, _chai.expect)(connectSid).to.equal(null);
-                next(null, {});
-            });
-        };
-
-        _npac2.default.start(adapters, [testServer], terminators, function (err, res) {
+        _npac2.default.start(adaptersWithPdms, [testServer], terminators, function (err, res) {
             (0, _chai.expect)(err).to.equal(null);
             (0, _chai.expect)(res).to.eql([{}]);
             console.log('npac startup process and run jobs successfully finished');

@@ -1,7 +1,9 @@
 import { loadJsonFileSync } from 'datafile'
 import uuidv1 from 'uuid/v1'
+import eraro from 'eraro'
 import { encript } from './password'
 
+const error = eraro({ package: 'users' })
 let records = []
 
 const loadUsers = container => {
@@ -28,7 +30,7 @@ const findByUsername = (username, cb) => findByProp('username', username, cb)
 const getProfile = (id, cb) => {
     findById(id, (err, userRecord) => {
         if (err) {
-            cb(err, { headers: {}, status: 404, body: null })
+            cb(error('profile_not_found', { headers: {}, status: 404, body: {} }))
         } else {
             cb(null, {
                 headers: {},
@@ -67,7 +69,7 @@ const postRegistration = (username, password, cb) => {
             })
         } else {
             // User already exists, so return with error
-            cb(new Error(`User '${username}' already exists`), { headers: {}, status: 409, body: null })
+            cb(error('user_already_exists', { headers: {}, status: 409, body: {} }))
         }
     })
 }

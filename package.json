@@ -35,6 +35,7 @@
     "cookie-parser": "~1.4.3",
     "datafile": "^3.2.0",
     "ejs": "~2.5.2",
+    "eraro": "^1.0.0",
     "expect": "^21.2.1",
     "express": "~4.14.0",
     "express-session": "~1.14.1",

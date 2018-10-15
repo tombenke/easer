@@ -58,11 +58,12 @@ var mkHandlerFun = function mkHandlerFun(endpoint, container) {
                     body: req.body
                 }
             }, function (err, resp) {
-                container.logger.info('RES ' + JSON.stringify(resp, null, ''));
                 if (err) {
-                    res.set( /*resp.headers ||*/{}).status(500).send(err);
+                    container.logger.info('ERR ' + JSON.stringify(err, null, ''));
+                    res.set(_lodash2.default.get(err, 'details.headers', {})).status(_lodash2.default.get(err, 'details.status', 500)).send(_lodash2.default.get(err, 'details.body', {}));
                 } else {
-                    res.set(resp.headers || {}).status(200).send(resp.body);
+                    container.logger.info('RES ' + JSON.stringify(resp, null, ''));
+                    res.set(resp.headers || {}).status(_lodash2.default.get(resp, 'status', 200)).send(resp.body);
                 }
             });
         } else {
@@ -71,18 +72,18 @@ var mkHandlerFun = function mkHandlerFun(endpoint, container) {
             if (endpoint.method === 'get' && endpoint.uri === '/auth/profile') {
                 (0, _auth.getProfile)(userId, function (err, resp) {
                     if (err) {
-                        res.set(resp.headers || {}).status(500).json(err);
+                        res.set(_lodash2.default.get(err, 'details.headers', {})).status(_lodash2.default.get(err, 'details.status', 404)).json(err.details.body);
                     } else {
-                        res.set(resp.headers || {}).status(200).json(resp.body);
+                        res.set(resp.headers || {}).status(_lodash2.default.get(resp, 'status', 200)).json(resp.body);
                     }
                 });
             } else if (endpoint.method === 'post' && endpoint.uri === '/auth/registration') {
                 //            console.log('POST /auth/registration:', req.body)
                 (0, _auth.postRegistration)(req.body.username, req.body.password, function (err, resp) {
                     if (err) {
-                        res.set(resp.headers || {}).status(409).json(err);
+                        res.set(_lodash2.default.get(err, 'details.headers', {})).status(_lodash2.default.get(err, 'details.status', 409)).json(_lodash2.default.get(err, 'details.body', {}));
                     } else {
-                        res.set(resp.headers || {}).status(201).json(resp.body);
+                        res.set(resp.headers || {}).status(_lodash2.default.get(resp, 'status', 201)).json(resp.body);
                     }
                 });
             } else if (endpoint.method === 'get' && endpoint.uri === '/monitoring/isAlive') {
@@ -115,7 +116,7 @@ var set = function set(server, authGuard, container) {
 
         // Add built-in registration service
         container.pdms.add({ topic: "/auth/registration", method: "post", uri: "/auth/registration" }, function (data, cb) {
-            container.logger.info('User registration handler called with ' + JSON.stringify(data.request.params, null, '') + ', ' + data.method + ', ' + data.uri + ', ...');
+            container.logger.info('User registration handler called with ' + JSON.stringify(data.request.body, null, '') + ', ' + data.method + ', ' + data.uri + ', ...');
             //            const userId = _.hasIn(data.request, 'user.id') ? req.user.id : 'unknown'
             //            getProfile(userId, cb)
             (0, _auth.postRegistration)(data.request.body.username, data.request.body.password, cb);

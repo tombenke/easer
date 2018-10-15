@@ -128,6 +128,16 @@ describe('adapters/server', () => {
         server.startup
     ]
 
+    const adaptersWithPdms = [
+        npac.mergeConfig(_.merge({}, config, {
+            webServer: { usePdms: true },
+            // pdms: { natsUri: 'nats://localhost:4222' }
+        })),
+        npac.addLogger,
+        pdms.startup,
+        server.startup
+    ]
+
     const terminators = [
         server.shutdown,
         pdms.shutdown
@@ -239,16 +249,6 @@ describe('adapters/server', () => {
         })
     })
 
-    const adaptersWithPdms = [
-        npac.mergeConfig(_.merge({}, config, {
-            webServer: { usePdms: true },
-            // pdms: { natsUri: 'nats://localhost:4222' }
-        })),
-        npac.addLogger,
-        pdms.startup,
-        server.startup
-    ]
-
     it('GET /missing/endpoint through PDMS', done => {
         sandbox.stub(process, 'exit').callsFake((signal) => {
             console.log("process.exit", signal)
@@ -338,7 +338,7 @@ describe('adapters/server', () => {
                 }).then(response => {
                     // console.log('through PDMS - with NO user id:', response)
                     expect(response.ok).to.equal(false)
-                    expect(response.status).to.equal(500)
+                    expect(response.status).to.equal(404)
                     next(null, {})
                 })
         }
@@ -681,6 +681,84 @@ describe('adapters/server', () => {
         }
 
         npac.start(adapters, [testServer], terminators, (err, res) => {
+            expect(err).to.equal(null)
+            expect(res).to.eql([{}])
+            console.log('npac startup process and run jobs successfully finished')
+
+            console.log('Send SIGTERM signal')
+            process.kill(process.pid, 'SIGTERM')
+        })
+    })
+
+    it('POST /auth/registration - through PDMS', done => {
+        sandbox.stub(process, 'exit').callsFake((signal) => {
+            console.log("process.exit", signal)
+            done()
+        })
+
+        const testServer = (container, next) => {
+            const port = container.config.webServer.port
+            // POST /auth/registration call
+            makeRestCall(
+                `http://localhost:${port}/auth/registration`,
+                {
+                    method: 'POST',
+                    credentials: 'same-origin',
+                    headers: {
+                        Accept: 'application/json',
+                        "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                    },
+                    body: "username=TB&password=PWD"
+                }).then(response => {
+                    console.log('POST /auth/registration through PDMS:', response)
+                    expect(response.ok).to.equal(true)
+                    expect(response.status).to.equal(201)
+                    next(null, {})
+                })
+        }
+
+        npac.start(adaptersWithPdms, [testServer], terminators, (err, res) => {
+            expect(err).to.equal(null)
+            expect(res).to.eql([{}])
+            console.log('npac startup process and run jobs successfully finished')
+
+            console.log('Send SIGTERM signal')
+            process.kill(process.pid, 'SIGTERM')
+        })
+    })
+
+    it('POST /auth/registration - through PDMS - User already exists', done => {
+        sandbox.stub(process, 'exit').callsFake((signal) => {
+            console.log("process.exit", signal)
+            done()
+        })
+
+        const testServer = (container, next) => {
+            const port = container.config.webServer.port
+            // POST /auth/registration call
+            makeRestCall(
+                `http://localhost:${port}/auth/registration`,
+                {
+                    method: 'POST',
+                    credentials: 'same-origin',
+                    headers: {
+                        Accept: 'application/json',
+                        "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                    },
+                    body: "username=tombenke&password=secretpassword"
+                }).then(response => {
+                    console.log('POST /auth/registration through PDMS user already exists:', response)
+                    expect(response.ok).to.equal(false)
+                    expect(response.status).to.equal(409)
+                    next(null, {})
+                }).catch(err => {
+                    console.log('POST /auth/registration through PDMS user already exists ERR:', JSON.stringify(err, null, ''))
+                    next(null, {})
+
+                })
+        }
+
+        npac.start(adaptersWithPdms, [testServer], terminators, (err, res) => {
             expect(err).to.equal(null)
             expect(res).to.eql([{}])
             console.log('npac startup process and run jobs successfully finished')

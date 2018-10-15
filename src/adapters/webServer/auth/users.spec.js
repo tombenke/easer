@@ -73,7 +73,7 @@ describe('users', () => {
 
             // Try to register again with the same user name
             users.postRegistration(username, password, (err, response) => {
-                expect(err).toEqual(new Error(`User '${username}' already exists`))
+                expect(err.details.status).toEqual(409)
                 done()
             })
         })

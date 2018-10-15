@@ -6,10 +6,15 @@ var _v = require('uuid/v1');
 
 var _v2 = _interopRequireDefault(_v);
 
+var _eraro = require('eraro');
+
+var _eraro2 = _interopRequireDefault(_eraro);
+
 var _password = require('./password');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var error = (0, _eraro2.default)({ package: 'users' });
 var records = [];
 
 var loadUsers = function loadUsers(container) {
@@ -40,7 +45,7 @@ var findByUsername = function findByUsername(username, cb) {
 var getProfile = function getProfile(id, cb) {
     findById(id, function (err, userRecord) {
         if (err) {
-            cb(err, { headers: {}, body: null });
+            cb(error('profile_not_found', { headers: {}, status: 404, body: null }));
         } else {
             cb(null, {
                 headers: {},
@@ -71,11 +76,15 @@ var postRegistration = function postRegistration(username, password, cb) {
             records.push(newUser);
             cb(null, {
                 headers: {},
-                body: newUser
+                status: 201,
+                body: {
+                    id: newUser.id,
+                    username: newUser.username
+                }
             });
         } else {
             // User already exists, so return with error
-            cb(new Error('User \'' + username + '\' already exists'), { headers: {}, body: null });
+            cb(error('user_already_exists', { headers: {}, status: 409, body: {} }));
         }
     });
 };
