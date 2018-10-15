@@ -49,9 +49,9 @@ const mkHandlerFun = (endpoint, container) => (req, res) => {
         }, (err, resp) => {
             container.logger.info(`RES ${JSON.stringify(resp, null, '')}`)
             if (err) {
-                res.set(/*resp.headers ||*/ {}).status(500).send(err)
+                res.set(/*resp.headers ||*/ {}).status(_.get(resp, 'status', 500)).send(err)
             } else {
-                res.set(resp.headers || {}).status(200).send(resp.body)
+                res.set(resp.headers || {}).status(_.get(resp, 'status', 200)).send(resp.body)
             }
         })
     } else {
@@ -60,18 +60,18 @@ const mkHandlerFun = (endpoint, container) => (req, res) => {
         if (endpoint.method === 'get' && endpoint.uri === '/auth/profile') {
             getProfile(userId, (err, resp) => {
                 if (err) {
-                    res.set(resp.headers || {}).status(500).json(err)
+                    res.set(resp.headers || {}).status(_.get(resp, 'status', 404)).json(err)
                 } else {
-                    res.set(resp.headers || {}).status(200).json(resp.body)
+                    res.set(resp.headers || {}).status(_.get(resp, 'status', 200)).json(resp.body)
                 }
             })
         } else if (endpoint.method === 'post' && endpoint.uri === '/auth/registration') {
 //            console.log('POST /auth/registration:', req.body)
             postRegistration(req.body.username, req.body.password, (err, resp) => {
                 if (err) {
-                    res.set(resp.headers || {}).status(409).json(err)
+                    res.set(resp.headers || {}).status(_.get(resp, 'status', 409)).json(err)
                 } else {
-                    res.set(resp.headers || {}).status(201).json(resp.body)
+                    res.set(resp.headers || {}).status(_.get(resp, 'status', 201)).json(resp.body)
                 }
             })
         } else if (endpoint.method === 'get' && endpoint.uri === '/monitoring/isAlive') {

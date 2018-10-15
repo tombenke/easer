@@ -28,7 +28,7 @@ const findByUsername = (username, cb) => findByProp('username', username, cb)
 const getProfile = (id, cb) => {
     findById(id, (err, userRecord) => {
         if (err) {
-            cb(err, { headers: {}, body: null })
+            cb(err, { headers: {}, status: 404, body: null })
         } else {
             cb(null, {
                 headers: {},
@@ -59,11 +59,15 @@ const postRegistration = (username, password, cb) => {
             records.push(newUser)
             cb(null, {
                 headers: {},
-                body: newUser
+                status: 201,
+                body: {
+                    id: newUser.id,
+                    username: newUser.username
+                }
             })
         } else {
             // User already exists, so return with error
-            cb(new Error(`User '${username}' already exists`), { headers: {}, body: null })
+            cb(new Error(`User '${username}' already exists`), { headers: {}, status: 409, body: null })
         }
     })
 }
