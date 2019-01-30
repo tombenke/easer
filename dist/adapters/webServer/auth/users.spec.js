@@ -75,8 +75,7 @@ describe('users', function () {
 
             // Try to register again with the same user name
             users.postRegistration(username, password, function (err, response) {
-                expect(err).toEqual(new Error('User \'' + username + '\' already exists'));
-                expect(response.status).toEqual(409);
+                expect(err.details.status).toEqual(409);
                 done();
             });
         });

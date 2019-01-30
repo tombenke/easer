@@ -1,4 +1,4 @@
-const expect = require('expect')
+const expect = require('chai').expect
 const users = require('./users')
 
 describe('users', () => {
@@ -19,28 +19,28 @@ describe('users', () => {
 
     it('#findById', (done) => {
         users.findById("7fcf7c51-7439-4d40-a5c4-b9a4f2c9a1ba", (err, user) => {
-            expect(err).toBeNull()
-            expect(user.username).toEqual("tombenke")
+            expect(err).to.be.null
+            expect(user.username).to.equal("tombenke")
             done()
         })
     })
 
     it('#findByUsername', (done) => {
         users.findByUsername("tombenke", (err, user) => {
-            expect(err).toBeNull()
-            expect(user.username).toEqual("tombenke")
-            expect(user.fullName).toEqual("Tamás Benke")
+            expect(err).to.be.null
+            expect(user.username).to.equal("tombenke")
+            expect(user.fullName).to.equal("Tamás Benke")
             done()
         })
     })
 
     it('#getProfile', (done) => {
         users.getProfile("7fcf7c51-7439-4d40-a5c4-b9a4f2c9a1ba", (err, response) => {
-            expect(err).toBeNull()
-            expect(response).toHaveProperty('headers')
-            expect(response).toHaveProperty('body')
-            expect(response.body.username).toEqual("tombenke")
-            expect(response.body.fullName).toEqual("Tamás Benke")
+            expect(err).to.be.null
+            expect(response).to.have.property('headers')
+            expect(response).to.have.property('body')
+            expect(response.body.username).to.equal("tombenke")
+            expect(response.body.fullName).to.equal("Tamás Benke")
             done()
         })
     })
@@ -50,11 +50,11 @@ describe('users', () => {
         const password = 'secretpassword'
         users.postRegistration(username, password, (err, response) => {
 
-            expect(err).toBeNull()
-            expect(response).toHaveProperty('headers')
-            expect(response).toHaveProperty('body')
-            expect(response.body).toHaveProperty('id')
-            expect(response.body.username).toEqual(username)
+            expect(err).to.be.null
+            expect(response).to.have.property('headers')
+            expect(response).to.have.property('body')
+            expect(response.body).to.have.property('id')
+            expect(response.body.username).to.equal(username)
             done()
         })
     })
@@ -65,15 +65,15 @@ describe('users', () => {
         // First create a new user to exist
         users.postRegistration(username, password, (err, response) => {
 
-            expect(err).toBeNull()
-            expect(response).toHaveProperty('headers')
-            expect(response).toHaveProperty('body')
-            expect(response.body).toHaveProperty('id')
-            expect(response.body.username).toEqual(username)
+            expect(err).to.eql(null)
+            expect(response).to.have.property('headers')
+            expect(response).to.have.property('body')
+            expect(response.body).to.have.property('id')
+            expect(response.body.username).to.equal(username)
 
             // Try to register again with the same user name
             users.postRegistration(username, password, (err, response) => {
-                expect(err.details.status).toEqual(409)
+                expect(err.details.status).to.equal(409)
                 done()
             })
         })
@@ -81,11 +81,11 @@ describe('users', () => {
 
     it('#getProfile', (done) => {
         users.getProfile("7fcf7c51-7439-4d40-a5c4-b9a4f2c9a1ba", (err, response) => {
-            expect(err).toBeNull()
-            expect(response).toHaveProperty('headers')
-            expect(response).toHaveProperty('body')
-            expect(response.body.username).toEqual("tombenke")
-            expect(response.body.fullName).toEqual("Tamás Benke")
+            expect(err).to.be.null
+            expect(response).to.have.property('headers')
+            expect(response).to.have.property('body')
+            expect(response.body.username).to.equal("tombenke")
+            expect(response.body.fullName).to.equal("Tamás Benke")
             done()
         })
     })

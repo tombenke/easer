@@ -45,7 +45,7 @@ var findByUsername = function findByUsername(username, cb) {
 var getProfile = function getProfile(id, cb) {
     findById(id, function (err, userRecord) {
         if (err) {
-            cb(error('profile_not_found', { headers: {}, status: 404, body: null }));
+            cb(error('profile_not_found', { headers: {}, status: 404, body: {} }));
         } else {
             cb(null, {
                 headers: {},
