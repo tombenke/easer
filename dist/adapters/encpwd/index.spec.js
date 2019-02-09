@@ -26,11 +26,12 @@ var bcrypt = require('bcrypt');
 var saltRounds = 10;
 
 describe('encpwd', function () {
-
     var encpwdContainer = {
-        config: _.merge({}, _config2.default, {/* Add command specific config parameters */})
+        config: _.merge({}, _config2.default, {
+            /* Add command specific config parameters */
+        })
     };
-    var passwordToEncript = "Hello World!";
+    var passwordToEncript = 'Hello World!';
     var encpwdCommand = {
         name: 'encpwd',
         args: { password: passwordToEncript }

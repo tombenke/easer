@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /*jshint node: true */
-'use strict';
+'use strict'
 
 import encpwdCli from './encpwdCli'
 import webServerCli from './webServerCli'
@@ -19,8 +19,7 @@ const dumpCtx = (ctx, next) => {
 }
 */
 
-export const startEncpwd = (argv=process.argv, cb=null) => {
-
+export const startEncpwd = (argv = process.argv, cb = null) => {
     const defaults = _.merge({}, appDefaults, encpwd.defaults)
 
     // Use CLI to gain additional parameters, and command to execute
@@ -48,12 +47,11 @@ export const startEncpwd = (argv=process.argv, cb=null) => {
     npac.start(appAdapters, jobs, terminators, cb)
 }
 
-export const startWebServer = (argv=process.argv, cb=null) => {
-
+export const startWebServer = (argv = process.argv, cb = null) => {
     const defaults = _.merge({}, appDefaults, webServer.defaults, pdms.defaults, wsServer.defaults, wsPdmsGw.defaults)
 
     // Use CLI to gain additional parameters, and command to execute
-    const { cliConfig/*, command*/ } = webServerCli.parse(defaults, argv)
+    const { cliConfig /*, command*/ } = webServerCli.parse(defaults, argv)
 
     // Create the final configuration parameter set
     const config = npac.makeConfig(defaults, cliConfig, 'configFileName')
@@ -71,29 +69,15 @@ export const startWebServer = (argv=process.argv, cb=null) => {
             wsPdmsGw.startup
         ]
 
-        appTerminators = [
-            wsPdmsGw.shutdown,
-            wsServer.shutdown,
-            webServer.shutdown,
-            pdms.shutdown
-        ]
+        appTerminators = [wsPdmsGw.shutdown, wsServer.shutdown, webServer.shutdown, pdms.shutdown]
     } else {
-        appAdapters = [
-            npac.mergeConfig(config),
-            npac.addLogger,
-            webServer.startup,
-            wsServer.startup
-        ]
+        appAdapters = [npac.mergeConfig(config), npac.addLogger, webServer.startup, wsServer.startup]
 
-        appTerminators = [
-            wsServer.shutdown,
-            webServer.shutdown
-        ]
+        appTerminators = [wsServer.shutdown, webServer.shutdown]
     }
 
     // Define the jobs to execute: hand over the command got by the CLI.
     const jobs = []
-
 
     //Start the container
     npac.start(appAdapters, jobs, appTerminators, cb)

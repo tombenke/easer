@@ -24,7 +24,6 @@ after(function (done) {
 });
 
 describe('config', function () {
-
     it('defaults', function (done) {
         var expected = {
             app: {

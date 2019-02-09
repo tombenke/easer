@@ -16,7 +16,6 @@ after(function (done) {
 });
 
 describe('encpwd.config', function () {
-
     it('#defaults', function (done) {
         var expected = {
             encpwd: {}

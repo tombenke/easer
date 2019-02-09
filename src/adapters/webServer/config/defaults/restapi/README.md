@@ -14,8 +14,8 @@ or any other kind of content that was put beside the endpoint descriptions.
 
 The project root folder contains:
 
-- the `services` folder, which contains the service definition subfolders,
-- the `index.js` module definition file.
+-   the `services` folder, which contains the service definition subfolders,
+-   the `index.js` module definition file.
 
 ### Service endpoints
 
@@ -30,12 +30,12 @@ that is needed to the documentation or implementation of the service.
 Intermediate directories can hold endpoint definition files, not only the leafs of the directory tree.
 
 You can create a new service description manually, or by copying the content of an existing however it is not the
-best approach. Instead of doing manually, use the kickoff tool to generate the descritions 
+best approach. Instead of doing manually, use the kickoff tool to generate the descritions
 using template repositores (archetypes) that were created for typical endpoint stereotypes, such as:
 
-- [COLLECTION endpoint archetype](https://github.com/tombenke/rest-endpoint-collection-archetype)
-- [RESOURCE endpoint archetype](https://github.com/tombenke/rest-endpoint-resource-archetype)
-- [OPERATION endpoint archetype](https://github.com/tombenke/rest-endpoint-operation-archetype)
+-   [COLLECTION endpoint archetype](https://github.com/tombenke/rest-endpoint-collection-archetype)
+-   [RESOURCE endpoint archetype](https://github.com/tombenke/rest-endpoint-resource-archetype)
+-   [OPERATION endpoint archetype](https://github.com/tombenke/rest-endpoint-operation-archetype)
 
 These archetypes are available on github, but you also can create your own archetypes,
 in case the default ones are not satifying.
@@ -72,7 +72,7 @@ Read more about [kickoff](https://github.com/tombenke/kickoff) to learn how to i
 As a result, the `kickoff` produces the following content into the `lib/services/new_endpoint` directory:
 
     $ tree lib/services/new_endpoint/
-    
+
     lib/services/new_endpoint/
     ├── deleteResource-responseBody.json
     ├── getResource-responseBody.json
@@ -85,10 +85,10 @@ When the endpoint folder created with its initial content, you have to execute t
 1. Edit the endpoint descriptor file (`lib/new_endpoint/service.yml`, and modify its default contend according to
    your needs.
 
-2. Optionally put files beside the `service.yml` that might referred by the service descriptor, 
+2. Optionally put files beside the `service.yml` that might referred by the service descriptor,
    such as schema validations, mock content, etc.
 
-On the [rest-tool documentation pages](http://tombenke.github.io/rest-tool/docs/documentation.html) you can read more about 
+On the [rest-tool documentation pages](http://tombenke.github.io/rest-tool/docs/documentation.html) you can read more about
 [how to reate and maintain services](http://tombenke.github.io/rest-tool/docs/services.html#create-and-maintain-services).
 
 ## Usage
@@ -113,7 +113,7 @@ command.
         }
 ```
 
-   The sample code below demonstrates how to register the endpoint into a web server using seneca.
+The sample code below demonstrates how to register the endpoint into a web server using seneca.
 
 ```
         const restApi = require('defaultRestApi')
@@ -140,9 +140,10 @@ command.
 ```
 
 ## References
-- [rest-tool documentation pages](http://tombenke.github.io/rest-tool/docs/documentation.html)
-- [rest-tool-commons](https://github.com/tombenke/rest-tool-common)
-- [kickoff](https://github.com/tombenke/kickoff)
-- [COLLECTION endpoint archetype](https://github.com/tombenke/rest-endpoint-collection-archetype)
-- [RESOURCE endpoint archetype](https://github.com/tombenke/rest-endpoint-resource-archetype)
-- [OPERATION endpoint archetype](https://github.com/tombenke/rest-endpoint-operation-archetype)
+
+-   [rest-tool documentation pages](http://tombenke.github.io/rest-tool/docs/documentation.html)
+-   [rest-tool-commons](https://github.com/tombenke/rest-tool-common)
+-   [kickoff](https://github.com/tombenke/kickoff)
+-   [COLLECTION endpoint archetype](https://github.com/tombenke/rest-endpoint-collection-archetype)
+-   [RESOURCE endpoint archetype](https://github.com/tombenke/rest-endpoint-resource-archetype)
+-   [OPERATION endpoint archetype](https://github.com/tombenke/rest-endpoint-operation-archetype)

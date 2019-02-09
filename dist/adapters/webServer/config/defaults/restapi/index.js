@@ -1,8 +1,8 @@
 const pkg = require('./package.json')
-const services = require('rest-tool-common').services;
+const services = require('rest-tool-common').services
 
 // Load services config and service descriptors
-services.load(__dirname, 'services');
+services.load(__dirname, 'services')
 
 module.exports = {
     name: pkg.name,

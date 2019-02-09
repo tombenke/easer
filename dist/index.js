@@ -55,7 +55,6 @@ var startEncpwd = exports.startEncpwd = function startEncpwd() {
     var argv = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : process.argv;
     var cb = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
-
     var defaults = _lodash2.default.merge({}, _config2.default, _encpwd2.default.defaults);
 
     // Use CLI to gain additional parameters, and command to execute
@@ -87,7 +86,6 @@ var startEncpwd = exports.startEncpwd = function startEncpwd() {
 var startWebServer = exports.startWebServer = function startWebServer() {
     var argv = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : process.argv;
     var cb = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-
 
     var defaults = _lodash2.default.merge({}, _config2.default, _webServer2.default.defaults, _npacPdmsHemeraAdapter2.default.defaults, _npacWsgwAdapters.wsServer.defaults, _npacWsgwAdapters.wsPdmsGw.defaults);
 

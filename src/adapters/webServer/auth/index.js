@@ -4,15 +4,15 @@ const users = require('./users')
 const pwd = require('./password')
 
 // Configure the local strategy for use by Passport.
-passport.use(new Strategy(
-    (username, password, done) => {
+passport.use(
+    new Strategy((username, password, done) => {
         users.findByUsername(username, (err, user) => {
-            if (err || ! user) {
+            if (err || !user) {
                 return done(null, false, { message: err.message })
             } else {
                 pwd.compare(password, user.password, (err, res) => {
-                    if (err || ! res) {
-                        return done(null, false, { message: "Incorrect password" })
+                    if (err || !res) {
+                        return done(null, false, { message: 'Incorrect password' })
                     } else {
                         return done(null, user)
                     }

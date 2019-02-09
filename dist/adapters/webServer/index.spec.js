@@ -91,7 +91,7 @@ var makeRestCall = exports.makeRestCall = function makeRestCall(uri, config) {
         var hmap = getHeaders(response.headers);
         var cookies = getCookies(hmap);
 
-        console.log("response: ", uri, config, response, hmap);
+        console.log('response: ', uri, config, response, hmap);
         if (response.status === 401 || response.status === 404 || response.status === 302) {
             return Promise.resolve({
                 ok: response.ok,
@@ -132,7 +132,9 @@ var makeRestCall = exports.makeRestCall = function makeRestCall(uri, config) {
 describe('adapters/server', function () {
     var sandbox = void 0;
 
-    var config = _.merge({}, _config2.default, pdms.defaults, {/* Add command specific config parameters */});
+    var config = _.merge({}, _config2.default, pdms.defaults, {
+        /* Add command specific config parameters */
+    });
 
     var removeSignalHandlers = function removeSignalHandlers() {
         var signals = ['SIGTERM', 'SIGINT', 'SIGHUP', 'SIGUSR1', 'SIGUSR2'];
@@ -156,15 +158,15 @@ describe('adapters/server', function () {
     var adapters = [_npac2.default.mergeConfig(config), _npac2.default.addLogger, pdms.startup, server.startup];
 
     var adaptersWithPdms = [_npac2.default.mergeConfig(_.merge({}, config, {
-        webServer: { usePdms: true }
-        // pdms: { natsUri: 'nats://localhost:4222' }
-    })), _npac2.default.addLogger, pdms.startup, server.startup];
+        webServer: { usePdms: true
+            // pdms: { natsUri: 'nats://localhost:4222' }
+        } })), _npac2.default.addLogger, pdms.startup, server.startup];
 
     var terminators = [server.shutdown, pdms.shutdown];
 
     it('#startup, #shutdown', function (done) {
         sandbox.stub(process, 'exit').callsFake(function (signal) {
-            console.log("process.exit", signal);
+            console.log('process.exit', signal);
             done();
         });
 
@@ -185,7 +187,7 @@ describe('adapters/server', function () {
 
     it('GET /monitoring/isAlive', function (done) {
         sandbox.stub(process, 'exit').callsFake(function (signal) {
-            console.log("process.exit", signal);
+            console.log('process.exit', signal);
             done();
         });
 
@@ -217,7 +219,7 @@ describe('adapters/server', function () {
 
     it('GET /monitoring/isAlive through PDMS', function (done) {
         sandbox.stub(process, 'exit').callsFake(function (signal) {
-            console.log("process.exit", signal);
+            console.log('process.exit', signal);
             done();
         });
 
@@ -244,9 +246,9 @@ describe('adapters/server', function () {
         };
 
         var adaptersWithPdms = [_npac2.default.mergeConfig(_.merge({}, config, {
-            webServer: { usePdms: true }
-            // pdms: { natsUri: 'nats://localhost:4222' }
-        })), _npac2.default.addLogger, pdms.startup, server.startup, teeContainerConf];
+            webServer: { usePdms: true
+                // pdms: { natsUri: 'nats://localhost:4222' }
+            } })), _npac2.default.addLogger, pdms.startup, server.startup, teeContainerConf];
 
         _npac2.default.start(adaptersWithPdms, [testServer], terminators, function (err, res) {
             (0, _chai.expect)(err).to.equal(null);
@@ -260,7 +262,7 @@ describe('adapters/server', function () {
 
     it('GET /missing/endpoint through PDMS', function (done) {
         sandbox.stub(process, 'exit').callsFake(function (signal) {
-            console.log("process.exit", signal);
+            console.log('process.exit', signal);
             done();
         });
 
@@ -294,7 +296,7 @@ describe('adapters/server', function () {
 
     it('GET /auth/profile - with NO user id', function (done) {
         sandbox.stub(process, 'exit').callsFake(function (signal) {
-            console.log("process.exit", signal);
+            console.log('process.exit', signal);
             done();
         });
 
@@ -325,7 +327,7 @@ describe('adapters/server', function () {
 
     it('GET /auth/profile - through PDMS - with NO user id', function (done) {
         sandbox.stub(process, 'exit').callsFake(function (signal) {
-            console.log("process.exit", signal);
+            console.log('process.exit', signal);
             done();
         });
 
@@ -358,7 +360,7 @@ describe('adapters/server', function () {
 
     it('POST /login then GET /logout, no redirects', function (done) {
         sandbox.stub(process, 'exit').callsFake(function (signal) {
-            console.log("process.exit", signal);
+            console.log('process.exit', signal);
             done();
         });
 
@@ -371,9 +373,9 @@ describe('adapters/server', function () {
                 redirect: 'follow',
                 headers: {
                     Accept: '*',
-                    "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                    'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
                 },
-                body: "username=tombenke&password=secret"
+                body: 'username=tombenke&password=secret'
             }).then(function (response) {
                 console.log('response: ', response);
 
@@ -389,11 +391,11 @@ describe('adapters/server', function () {
                     }
                 }).then(function (response) {
                     (0, _chai.expect)(response.body).to.eql({
-                        "id": "7fcf7c51-7439-4d40-a5c4-b9a4f2c9a1ba",
-                        "username": "tombenke",
-                        "fullName": "Tamás Benke",
-                        "email": "tombenke@gmail.com",
-                        "avatar": "avatars/undefined.png"
+                        id: '7fcf7c51-7439-4d40-a5c4-b9a4f2c9a1ba',
+                        username: 'tombenke',
+                        fullName: 'Tamás Benke',
+                        email: 'tombenke@gmail.com',
+                        avatar: 'avatars/undefined.png'
                     });
                     // Now log out
                     //
@@ -436,7 +438,7 @@ describe('adapters/server', function () {
 
     it('POST /login then GET /logout, with logoutRedirect to "/"', function (done) {
         sandbox.stub(process, 'exit').callsFake(function (signal) {
-            console.log("process.exit", signal);
+            console.log('process.exit', signal);
             done();
         });
 
@@ -449,9 +451,9 @@ describe('adapters/server', function () {
                 redirect: 'follow',
                 headers: {
                     Accept: '*',
-                    "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                    'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
                 },
-                body: "username=tombenke&password=secret"
+                body: 'username=tombenke&password=secret'
             }).then(function (response) {
                 console.log('response: ', response);
 
@@ -500,7 +502,7 @@ describe('adapters/server', function () {
 
     it('POST /login with success redirection', function (done) {
         sandbox.stub(process, 'exit').callsFake(function (signal) {
-            console.log("process.exit", signal);
+            console.log('process.exit', signal);
             done();
         });
 
@@ -513,9 +515,9 @@ describe('adapters/server', function () {
                 redirect: 'manual',
                 headers: {
                     Accept: '*',
-                    "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                    'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
                 },
-                body: "username=tombenke&password=secret"
+                body: 'username=tombenke&password=secret'
             }).then(function (response) {
                 var connectSid = findCookie(response.cookies, 'connect.sid');
                 console.log('RESPONSE: ', response);
@@ -532,11 +534,11 @@ describe('adapters/server', function () {
                     }
                 }).then(function (response) {
                     (0, _chai.expect)(response.body).to.eql({
-                        "id": "7fcf7c51-7439-4d40-a5c4-b9a4f2c9a1ba",
-                        "username": "tombenke",
-                        "fullName": "Tamás Benke",
-                        "email": "tombenke@gmail.com",
-                        "avatar": "avatars/undefined.png"
+                        id: '7fcf7c51-7439-4d40-a5c4-b9a4f2c9a1ba',
+                        username: 'tombenke',
+                        fullName: 'Tamás Benke',
+                        email: 'tombenke@gmail.com',
+                        avatar: 'avatars/undefined.png'
                     });
                     next(null, {});
                 });
@@ -555,7 +557,7 @@ describe('adapters/server', function () {
 
     it('POST /login with failure redirection', function (done) {
         sandbox.stub(process, 'exit').callsFake(function (signal) {
-            console.log("process.exit", signal);
+            console.log('process.exit', signal);
             done();
         });
 
@@ -568,9 +570,9 @@ describe('adapters/server', function () {
                 redirect: 'manual',
                 headers: {
                     Accept: '*',
-                    "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                    'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
                 },
-                body: "username=missinguser&password=wrongpassword"
+                body: 'username=missinguser&password=wrongpassword'
             }).then(function (response) {
                 var connectSid = findCookie(response.cookies, 'connect.sid');
                 console.log('RESPONSE: ', response);
@@ -592,7 +594,7 @@ describe('adapters/server', function () {
 
     it('POST /login with missing user', function (done) {
         sandbox.stub(process, 'exit').callsFake(function (signal) {
-            console.log("process.exit", signal);
+            console.log('process.exit', signal);
             done();
         });
 
@@ -605,9 +607,9 @@ describe('adapters/server', function () {
                 redirect: 'manual',
                 headers: {
                     Accept: '*',
-                    "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                    'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
                 },
-                body: "username=missinguser&password=secret"
+                body: 'username=missinguser&password=secret'
             }).then(function (response) {
                 var connectSid = findCookie(response.cookies, 'connect.sid');
                 (0, _chai.expect)(response.status).to.equal(401);
@@ -628,7 +630,7 @@ describe('adapters/server', function () {
 
     it('POST /login with wrong password', function (done) {
         sandbox.stub(process, 'exit').callsFake(function (signal) {
-            console.log("process.exit", signal);
+            console.log('process.exit', signal);
             done();
         });
 
@@ -641,9 +643,9 @@ describe('adapters/server', function () {
                 redirect: 'manual',
                 headers: {
                     Accept: '*',
-                    "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                    'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
                 },
-                body: "username=tombenke&password=wrongpassword"
+                body: 'username=tombenke&password=wrongpassword'
             }).then(function (response) {
                 var connectSid = findCookie(response.cookies, 'connect.sid');
                 (0, _chai.expect)(response.status).to.equal(401);
@@ -664,7 +666,7 @@ describe('adapters/server', function () {
 
     it('POST /auth/registration - through PDMS', function (done) {
         sandbox.stub(process, 'exit').callsFake(function (signal) {
-            console.log("process.exit", signal);
+            console.log('process.exit', signal);
             done();
         });
 
@@ -676,9 +678,9 @@ describe('adapters/server', function () {
                 credentials: 'same-origin',
                 headers: {
                     Accept: 'application/json',
-                    "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                    'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
                 },
-                body: "username=TB&password=PWD"
+                body: 'username=TB&password=PWD'
             }).then(function (response) {
                 console.log('POST /auth/registration through PDMS:', response);
                 (0, _chai.expect)(response.ok).to.equal(true);
@@ -699,7 +701,7 @@ describe('adapters/server', function () {
 
     it('POST /auth/registration - through PDMS - User already exists', function (done) {
         sandbox.stub(process, 'exit').callsFake(function (signal) {
-            console.log("process.exit", signal);
+            console.log('process.exit', signal);
             done();
         });
 
@@ -711,9 +713,9 @@ describe('adapters/server', function () {
                 credentials: 'same-origin',
                 headers: {
                     Accept: 'application/json',
-                    "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                    'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
                 },
-                body: "username=tombenke&password=secretpassword"
+                body: 'username=tombenke&password=secretpassword'
             }).then(function (response) {
                 console.log('POST /auth/registration through PDMS user already exists:', response);
                 (0, _chai.expect)(response.ok).to.equal(false);

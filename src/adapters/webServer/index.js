@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /*jshint node: true */
-'use strict';
+'use strict'
 
 import path from 'path'
 import _ from 'lodash'
@@ -22,7 +22,7 @@ let httpInstance = null
 const startup = (container, next) => {
     // Merges the defaults with the config coming from the outer world
     const config = _.merge({}, defaults, { webServer: container.config.webServer || {} })
-//    const config = container.config
+    //    const config = container.config
     container.logger.info(`Start up webServer`)
 
     // Create a new Express application.
@@ -35,7 +35,7 @@ const startup = (container, next) => {
     // Configure the middlewares
     server.use(morgan('dev')) // log every request to the console
     server.use(cookieParser()) // read cookies (needed for auth)
-    server.use(bodyParser.json()); // for parsing application/json
+    server.use(bodyParser.json()) // for parsing application/json
     server.use(bodyParser.urlencoded({ extended: true })) // get information from html forms
     if (config.webServer.useCompression) {
         container.logger.info('Use compression')
@@ -44,8 +44,7 @@ const startup = (container, next) => {
 
     // required for passport
     server.use(session({ secret: 'larger is dropped once', resave: false, saveUninitialized: false })) // session secret
-    auth.loadUsers(container),
-    server.use(auth.initialize())
+    auth.loadUsers(container), server.use(auth.initialize())
     server.use(auth.session()) // persistent login sessions
     server.use(flash()) // use connect-flash for flash messages stored in session
 
@@ -73,7 +72,7 @@ const startup = (container, next) => {
 
 const shutdown = (container, next) => {
     httpInstance.close()
-    container.logger.info("Shut down webServer")
+    container.logger.info('Shut down webServer')
     next(null, null)
 }
 

@@ -1,30 +1,16 @@
-import fs from 'fs'
-import rimraf from 'rimraf'
-import path from 'path'
 import { expect } from 'chai'
-import { startEncpwd/*, startWebServer*/ } from './index'
-
-const testDirectory = path.resolve('./tmp')
-
-const destCleanup = function(cb) {
-    const dest = testDirectory
-    rimraf(dest, cb)
-}
+import { startEncpwd /*, startWebServer*/ } from './index'
 
 describe('app', () => {
-
     before(function(done) {
-        destCleanup(function() {
-            fs.mkdirSync(testDirectory)
-            done()
-        })
+        done()
     })
 
     after(function(done) {
-        destCleanup(done)
+        done()
     })
 
-/*
+    /*
     it('#start - with no arguments', (done) => {
 
         const processArgvEmpty = [
@@ -39,13 +25,8 @@ describe('app', () => {
         }
     })
 */
-    it('#start - encpwd command', (done) => {
-
-        const processArgv = [
-            'node', 'src/index.js',
-            'encpwd',
-            '--password', 'SecRetPWD0123!'
-        ]
+    it('#start - encpwd command', done => {
+        const processArgv = ['node', 'src/index.js', 'encpwd', '--password', 'SecRetPWD0123!']
 
         startEncpwd(processArgv, (err, res) => {
             expect(err).to.equal(null)
@@ -53,9 +34,8 @@ describe('app', () => {
         })
     })
 
-    it('#start - server command', (done) => {
-
-/* TODO: start/stop the server
+    it('#start - server command', done => {
+        /* TODO: start/stop the server
         const processArgv = [
             'node', 'src/index.js',
             'server',

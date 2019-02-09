@@ -110,7 +110,7 @@ var startup = function startup(container, next) {
 
 var shutdown = function shutdown(container, next) {
     httpInstance.close();
-    container.logger.info("Shut down webServer");
+    container.logger.info('Shut down webServer');
     next(null, null);
 };
 

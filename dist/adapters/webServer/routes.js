@@ -13,7 +13,6 @@ var _restapi2 = _interopRequireDefault(_restapi);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.set = function (server, auth, container) {
-
     var config = container.config.webServer;
     var authConfig = {};
     if (config.auth.successRedirect) authConfig['successRedirect'] = config.auth.successRedirect;

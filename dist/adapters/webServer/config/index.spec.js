@@ -22,13 +22,12 @@ after(function (done) {
 });
 
 describe('server/config', function () {
-
     it('defaults', function (done) {
         var _webServer;
 
         var expected = {
             webServer: (_webServer = {
-                users: _path2.default.resolve("./src/adapters/webServer/config/defaults/users.yml"),
+                users: _path2.default.resolve('./src/adapters/webServer/config/defaults/users.yml'),
                 auth: {
                     strategy: 'local',
                     successRedirect: null, // '/private/',
@@ -38,9 +37,9 @@ describe('server/config', function () {
                 port: 3007,
                 useCompression: false,
                 usePdms: false,
-                privatePagesPath: _path2.default.resolve("./src/adapters/webServer/config/defaults/content/private/"),
-                publicPagesPath: _path2.default.resolve("./src/adapters/webServer/config/defaults/content/public/")
-            }, _defineProperty(_webServer, 'users', _path2.default.resolve("./src/adapters/webServer/config/defaults/users.yml")), _defineProperty(_webServer, 'viewsPath', _path2.default.resolve("./src/adapters/webServer/config/defaults/views/")), _defineProperty(_webServer, 'restApiPath', _path2.default.resolve("./src/adapters/webServer/config/defaults/restapi/services/")), _webServer)
+                privatePagesPath: _path2.default.resolve('./src/adapters/webServer/config/defaults/content/private/'),
+                publicPagesPath: _path2.default.resolve('./src/adapters/webServer/config/defaults/content/public/')
+            }, _defineProperty(_webServer, 'users', _path2.default.resolve('./src/adapters/webServer/config/defaults/users.yml')), _defineProperty(_webServer, 'viewsPath', _path2.default.resolve('./src/adapters/webServer/config/defaults/views/')), _defineProperty(_webServer, 'restApiPath', _path2.default.resolve('./src/adapters/webServer/config/defaults/restapi/services/')), _webServer)
         };
 
         var defaults = _index2.default;

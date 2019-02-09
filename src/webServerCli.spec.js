@@ -14,13 +14,16 @@ after(done => {
 })
 
 describe('webServerCli', () => {
-
     it('webServer without pdms', done => {
         const processArgv = [
-            'node', 'src/index.js', // 'server',
-            '-p', "3008",
-            '-c', 'config.yml',
-            '-r', '/tmp/restApi',
+            'node',
+            'src/index.js', // 'server',
+            '-p',
+            '3008',
+            '-c',
+            'config.yml',
+            '-r',
+            '/tmp/restApi',
             '-s'
         ]
         const defaults = _.merge({}, webServer.defaults, pdms.defaults, wsServer.defaults, wsPdmsGw.defaults)
@@ -30,16 +33,16 @@ describe('webServerCli', () => {
                 args: {}
             },
             cliConfig: {
-                configFileName: "config.yml",
+                configFileName: 'config.yml',
                 webServer: {
-                    port: "3008",
-                    restApiPath: "/tmp/restApi",
+                    port: '3008',
+                    restApiPath: '/tmp/restApi',
                     usePdms: false,
                     useCompression: true
                 },
                 wsServer: {
                     forwardTopics: false,
-                    forwarderEvent: "message"
+                    forwarderEvent: 'message'
                 },
                 wsPdmsGw: {
                     topics: {
@@ -48,7 +51,7 @@ describe('webServerCli', () => {
                     }
                 },
                 pdms: {
-                    natsUri: "nats://demo.nats.io:4222"
+                    natsUri: 'nats://demo.nats.io:4222'
                 }
             }
         }
@@ -59,10 +62,14 @@ describe('webServerCli', () => {
 
     it('webServer with pdms, default NATS server', done => {
         const processArgv = [
-            'node', 'src/index.js', // 'server',
-            '-p', "3008",
-            '-c', 'config.yml',
-            '-r', '/tmp/restApi',
+            'node',
+            'src/index.js', // 'server',
+            '-p',
+            '3008',
+            '-c',
+            'config.yml',
+            '-r',
+            '/tmp/restApi',
             '-u'
         ]
         const defaults = _.merge({}, webServer.defaults, pdms.defaults, wsServer.defaults, wsPdmsGw.defaults)
@@ -72,16 +79,16 @@ describe('webServerCli', () => {
                 args: {}
             },
             cliConfig: {
-                configFileName: "config.yml",
+                configFileName: 'config.yml',
                 webServer: {
-                    port: "3008",
-                    restApiPath: "/tmp/restApi",
+                    port: '3008',
+                    restApiPath: '/tmp/restApi',
                     usePdms: true,
                     useCompression: false
                 },
                 wsServer: {
                     forwardTopics: false,
-                    forwarderEvent: "message"
+                    forwarderEvent: 'message'
                 },
                 wsPdmsGw: {
                     topics: {
@@ -90,7 +97,7 @@ describe('webServerCli', () => {
                     }
                 },
                 pdms: {
-                    natsUri: "nats://demo.nats.io:4222"
+                    natsUri: 'nats://demo.nats.io:4222'
                 }
             }
         }
@@ -101,12 +108,17 @@ describe('webServerCli', () => {
 
     it('webServer with pdms, NATS server on localhost', done => {
         const processArgv = [
-            'node', 'src/index.js', // 'server',
-            '-p', "3008",
-            '-c', 'config.yml',
-            '-r', '/tmp/restApi',
+            'node',
+            'src/index.js', // 'server',
+            '-p',
+            '3008',
+            '-c',
+            'config.yml',
+            '-r',
+            '/tmp/restApi',
             '-u',
-            '-n', 'nats://localhost:4222'
+            '-n',
+            'nats://localhost:4222'
         ]
         const defaults = _.merge({}, webServer.defaults, pdms.defaults, wsServer.defaults, wsPdmsGw.defaults)
         const expected = {
@@ -115,16 +127,16 @@ describe('webServerCli', () => {
                 args: {}
             },
             cliConfig: {
-                configFileName: "config.yml",
+                configFileName: 'config.yml',
                 webServer: {
-                    port: "3008",
-                    restApiPath: "/tmp/restApi",
+                    port: '3008',
+                    restApiPath: '/tmp/restApi',
                     usePdms: true,
                     useCompression: false
                 },
                 wsServer: {
                     forwardTopics: false,
-                    forwarderEvent: "message"
+                    forwarderEvent: 'message'
                 },
                 wsPdmsGw: {
                     topics: {
@@ -133,7 +145,7 @@ describe('webServerCli', () => {
                     }
                 },
                 pdms: {
-                    natsUri: "nats://localhost:4222"
+                    natsUri: 'nats://localhost:4222'
                 }
             }
         }

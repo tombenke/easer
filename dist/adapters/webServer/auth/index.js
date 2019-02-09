@@ -13,7 +13,7 @@ passport.use(new Strategy(function (username, password, done) {
         } else {
             pwd.compare(password, user.password, function (err, res) {
                 if (err || !res) {
-                    return done(null, false, { message: "Incorrect password" });
+                    return done(null, false, { message: 'Incorrect password' });
                 } else {
                     return done(null, user);
                 }

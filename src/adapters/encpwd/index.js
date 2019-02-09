@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /*jshint node: true */
-'use strict';
+'use strict'
 
 import _ from 'lodash'
 import bcrypt from 'bcrypt'

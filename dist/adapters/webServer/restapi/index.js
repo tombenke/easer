@@ -92,7 +92,6 @@ var mkHandlerFun = function mkHandlerFun(endpoint, container) {
                     res.set(resp.headers || {}).status(200).json(resp.body);
                 });
             } else {
-
                 console.log('endpoint: ', JSON.stringify(endpoint, null, '  '));
                 var responseHeaders = _restToolCommon.services.getResponseHeaders(endpoint.method, endpoint.endpointDesc);
                 var responseBody = _restToolCommon.services.getMockResponseBody(endpoint.method, endpoint.endpointDesc) || endpoint;
@@ -105,17 +104,16 @@ var mkHandlerFun = function mkHandlerFun(endpoint, container) {
 };
 
 var set = function set(server, authGuard, container) {
-
     if (container.config.webServer.usePdms) {
         // Add built-in profile service
-        container.pdms.add({ topic: "/auth/profile", method: "get", uri: "/auth/profile" }, function (data, cb) {
+        container.pdms.add({ topic: '/auth/profile', method: 'get', uri: '/auth/profile' }, function (data, cb) {
             container.logger.info('Profile handler called with ' + JSON.stringify(data.request.user, null, '') + ', ' + data.method + ', ' + data.uri + ', ...');
             var userId = _lodash2.default.hasIn(data.request, 'user.id') ? req.user.id : 'unknown';
             (0, _auth.getProfile)(userId, cb);
         });
 
         // Add built-in registration service
-        container.pdms.add({ topic: "/auth/registration", method: "post", uri: "/auth/registration" }, function (data, cb) {
+        container.pdms.add({ topic: '/auth/registration', method: 'post', uri: '/auth/registration' }, function (data, cb) {
             container.logger.info('User registration handler called with ' + JSON.stringify(data.request.body, null, '') + ', ' + data.method + ', ' + data.uri + ', ...');
             //            const userId = _.hasIn(data.request, 'user.id') ? req.user.id : 'unknown'
             //            getProfile(userId, cb)
@@ -123,7 +121,7 @@ var set = function set(server, authGuard, container) {
         });
 
         // Add built-in monitoring service
-        container.pdms.add({ topic: "/monitoring/isAlive", method: "get", uri: "/monitoring/isAlive" }, function (data, cb) {
+        container.pdms.add({ topic: '/monitoring/isAlive', method: 'get', uri: '/monitoring/isAlive' }, function (data, cb) {
             container.logger.info('Monitoring handler called with ' + JSON.stringify(data.request, null, '') + ', ' + data.method + ', ' + data.uri + ', ...');
             (0, _monitoring.getMonitoringIsAlive)(data.request, cb);
         });

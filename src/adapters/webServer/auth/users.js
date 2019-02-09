@@ -48,7 +48,7 @@ const getProfile = (id, cb) => {
 
 const postRegistration = (username, password, cb) => {
     findByUsername(username, (err, record) => {
-        if(err) {
+        if (err) {
             // User not found by username, so create it
             const newUser = {
                 id: uuidv1(),

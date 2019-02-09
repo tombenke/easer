@@ -1,28 +1,28 @@
 {
-  "name": "defaultRestApi",
-  "description": "Specification of the inTime Shadow REST API endpoints",
-  "version": "1.0.0",
-  "tags": [
-    "rest",
-    "rest-api"
-  ],
-  "author": {
-    "name": "anonymous"
-  },
-  "bugs": {
-    "url": "https://github.com/anonymous/defaultRestApi/issues"
-  },
-  "homepage": "https://github.com/anonymous/defaultRestApi",
-  "repository": {
-    "type": "git",
-    "url": "http://github.com/anonymous/defaultRestApi.git"
-  },
-  "main": "index",
-  "dependencies": {
-    "rest-tool-common": "2.0.3"
-  },
-  "devDependencies": {},
-  "scripts": {
-    "test": "echo No tests defined!"
-  }
+    "name": "defaultRestApi",
+    "description": "Specification of the inTime Shadow REST API endpoints",
+    "version": "1.0.0",
+    "tags": [
+        "rest",
+        "rest-api"
+    ],
+    "author": {
+        "name": "anonymous"
+    },
+    "bugs": {
+        "url": "https://github.com/anonymous/defaultRestApi/issues"
+    },
+    "homepage": "https://github.com/anonymous/defaultRestApi",
+    "repository": {
+        "type": "git",
+        "url": "http://github.com/anonymous/defaultRestApi.git"
+    },
+    "main": "index",
+    "dependencies": {
+        "rest-tool-common": "2.0.3"
+    },
+    "devDependencies": {},
+    "scripts": {
+        "test": "echo No tests defined!"
+    }
 }
