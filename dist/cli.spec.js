@@ -1,8 +1,20 @@
 'use strict';
 
+var _lodash = require('lodash');
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
 var _chai = require('chai');
 
-var _adapters = require('./adapters/');
+var _npacPdmsHemeraAdapter = require('npac-pdms-hemera-adapter');
+
+var _npacPdmsHemeraAdapter2 = _interopRequireDefault(_npacPdmsHemeraAdapter);
+
+var _npacWsgwAdapters = require('npac-wsgw-adapters');
+
+var _npacWebserverAdapter = require('npac-webserver-adapter');
+
+var _npacWebserverAdapter2 = _interopRequireDefault(_npacWebserverAdapter);
 
 var _cli = require('./cli');
 
@@ -19,39 +31,114 @@ after(function (done) {
 });
 
 describe('cli', function () {
-
-    it('encpwd', function (done) {
-        var passwordToEncode = "secretPwd1922!";
-        var processArgv = ['node', 'src/index.js', 'encpwd', '-p', passwordToEncode];
-        var expected = {
-            command: {
-                name: 'encpwd',
-                args: { password: passwordToEncode }
-            },
-            cliConfig: {}
-        };
-
-        (0, _chai.expect)(_cli2.default.parse(_adapters.defaults, processArgv)).to.eql(expected);
-        done();
-    });
-
-    it('webServer', function (done) {
-        var processArgv = ['node', 'src/index.js', 'server', '-p', "3008", '-c', 'config.yml', '-r', '/tmp/restApi'];
+    it('app without pdms', function (done) {
+        var processArgv = ['node', 'src/index.js', // 'server',
+        '-p', '3008', '-c', 'config.yml', '-r', '/tmp/restApi', '-s'];
+        var defaults = _lodash2.default.merge({}, _npacWebserverAdapter2.default.defaults, _npacPdmsHemeraAdapter2.default.defaults, _npacWsgwAdapters.wsServer.defaults, _npacWsgwAdapters.wsPdmsGw.defaults);
         var expected = {
             command: {
                 name: 'server',
                 args: {}
             },
             cliConfig: {
-                configFileName: "config.yml",
+                configFileName: 'config.yml',
                 webServer: {
-                    port: "3008",
-                    restApiPath: "/tmp/restApi"
+                    port: '3008',
+                    restApiPath: '/tmp/restApi',
+                    usePdms: false,
+                    useCompression: true
+                },
+                wsServer: {
+                    forwardTopics: false,
+                    forwarderEvent: 'message'
+                },
+                wsPdmsGw: {
+                    topics: {
+                        inbound: [],
+                        outbound: []
+                    }
+                },
+                pdms: {
+                    natsUri: 'nats://demo.nats.io:4222'
                 }
             }
         };
 
-        (0, _chai.expect)(_cli2.default.parse(_adapters.defaults, processArgv)).to.eql(expected);
+        (0, _chai.expect)(_cli2.default.parse(defaults, processArgv)).to.eql(expected);
+        done();
+    });
+
+    it('app with pdms, default NATS server', function (done) {
+        var processArgv = ['node', 'src/index.js', // 'server',
+        '-p', '3008', '-c', 'config.yml', '-r', '/tmp/restApi', '-u'];
+        var defaults = _lodash2.default.merge({}, _npacWebserverAdapter2.default.defaults, _npacPdmsHemeraAdapter2.default.defaults, _npacWsgwAdapters.wsServer.defaults, _npacWsgwAdapters.wsPdmsGw.defaults);
+        var expected = {
+            command: {
+                name: 'server',
+                args: {}
+            },
+            cliConfig: {
+                configFileName: 'config.yml',
+                webServer: {
+                    port: '3008',
+                    restApiPath: '/tmp/restApi',
+                    usePdms: true,
+                    useCompression: false
+                },
+                wsServer: {
+                    forwardTopics: false,
+                    forwarderEvent: 'message'
+                },
+                wsPdmsGw: {
+                    topics: {
+                        inbound: [],
+                        outbound: []
+                    }
+                },
+                pdms: {
+                    natsUri: 'nats://demo.nats.io:4222'
+                }
+            }
+        };
+
+        (0, _chai.expect)(_cli2.default.parse(defaults, processArgv)).to.eql(expected);
+        done();
+    });
+
+    it('app with pdms, NATS server on localhost', function (done) {
+        var processArgv = ['node', 'src/index.js', // 'server',
+        '-p', '3008', '-c', 'config.yml', '-r', '/tmp/restApi', '-u', '-n', 'nats://localhost:4222'];
+        var defaults = _lodash2.default.merge({}, _npacWebserverAdapter2.default.defaults, _npacPdmsHemeraAdapter2.default.defaults, _npacWsgwAdapters.wsServer.defaults, _npacWsgwAdapters.wsPdmsGw.defaults);
+        var expected = {
+            command: {
+                name: 'server',
+                args: {}
+            },
+            cliConfig: {
+                configFileName: 'config.yml',
+                webServer: {
+                    port: '3008',
+                    restApiPath: '/tmp/restApi',
+                    usePdms: true,
+                    useCompression: false
+                },
+                wsServer: {
+                    forwardTopics: false,
+                    forwarderEvent: 'message'
+                },
+                wsPdmsGw: {
+                    topics: {
+                        inbound: [],
+                        outbound: []
+                    }
+                },
+                pdms: {
+                    natsUri: 'nats://localhost:4222'
+                }
+            }
+        };
+
+        (0, _chai.expect)(_cli2.default.parse(defaults, processArgv)).to.eql(expected);
         done();
     });
 });

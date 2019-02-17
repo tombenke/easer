@@ -1,0 +1,15 @@
+name: The document root static content service
+description: This is the default, and only endpoint of the easer server
+uriTemplate: /
+style: STATIC
+methods:
+    GET:
+        summary: This is a static endpoint
+        notes: Responses the files from the directory defined by the path property
+        path: ./
+        responses:
+            -
+                name: OK
+                statusCode: 200
+                reason: Successful execution
+

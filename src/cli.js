@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import path from 'path'
 const yargs = require('yargs')
 
 const parse = (defaults, processArgv = process.argv) => {
@@ -81,7 +82,8 @@ const parse = (defaults, processArgv = process.argv) => {
                 port: argv.port,
                 restApiPath: argv.restApiPath,
                 usePdms: argv.usePdms,
-                useCompression: argv.useCompression
+                useCompression: argv.useCompression,
+                staticContentBasePath: path.resolve('./')
             },
             wsServer: {
                 forwardTopics: argv.forward,

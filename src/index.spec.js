@@ -1,51 +1,52 @@
-import { expect } from 'chai'
-import { startEncpwd /*, startWebServer*/ } from './index'
+import path from 'path'
+import sinon from 'sinon'
+import { removeSignalHandlers, catchExitSignals } from 'npac'
+import { startApp } from './index'
 
 describe('app', () => {
-    before(function(done) {
+    let sandbox
+
+    before(done => {
+        removeSignalHandlers()
+        sandbox = sinon.sandbox.create({})
         done()
     })
 
-    after(function(done) {
+    afterEach(done => {
+        removeSignalHandlers()
+        sandbox.restore()
         done()
     })
 
-    /*
-    it('#start - with no arguments', (done) => {
+    it('#start - default mode', done => {
+        catchExitSignals(sandbox, done)
 
-        const processArgvEmpty = [
-            'node', 'src/index.js'
-        ]
-
-        try {
-            start(processArgvEmpty)
-        } catch (err) {
-            expect(err.message).to.equal('Must use a command!')
-            done()
-        }
-    })
-*/
-    it('#start - encpwd command', done => {
-        const processArgv = ['node', 'src/index.js', 'encpwd', '--password', 'SecRetPWD0123!']
-
-        startEncpwd(processArgv, (err, res) => {
-            expect(err).to.equal(null)
-            done()
+        const processArgv = ['node', 'src/app.js', '-r', path.resolve('src')]
+        startApp(processArgv, (err, res) => {
+            console.log('Send SIGTERM signal')
+            process.kill(process.pid, 'SIGTERM')
         })
     })
 
-    it('#start - server command', done => {
-        /* TODO: start/stop the server
-        const processArgv = [
-            'node', 'src/index.js',
-            'server',
-            '--port', '3008'
-        ]
-        startWebServer(processArgv, (err, res) => {
-            expect(err).to.equal(null)
-            done()
+    it('#start - with PDMS', done => {
+        catchExitSignals(sandbox, done)
+
+        const port = 8080
+        const processArgv = ['node', 'src/app.js', '-p', `${port}`, '-u', '-r', path.resolve('src')]
+        startApp(processArgv, (err, res) => {
+            console.log('Send SIGTERM signal')
+            process.kill(process.pid, 'SIGTERM')
         })
-*/
-        done()
+    })
+
+    it('#start - with indirect args', done => {
+        catchExitSignals(sandbox, done)
+
+        const port = 8081
+        process.argv = ['node', 'src/app.js', '-p', `${port}`, '-r', path.resolve('src')]
+        startApp(port[42], (err, res) => {
+            console.log('Send SIGTERM signal')
+            process.kill(process.pid, 'SIGTERM')
+        })
     })
 })

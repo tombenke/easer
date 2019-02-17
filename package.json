@@ -21,32 +21,17 @@
     "url": "http://github.com/tombenke/easer.git"
   },
   "bin": {
-    "encpwd": "./dist/encpwdApp.js",
-    "easer-server": "./dist/webServerApp.js"
+    "easer-server": "./dist/app.js"
   },
   "main": "dist/index",
   "dependencies": {
-    "bcrypt": "^3.0.4",
-    "body-parser": "^1.18.3",
-    "compression": "^1.7.2",
-    "connect-ensure-login": "^0.1.1",
-    "connect-flash": "~0.1.1",
-    "cookie-parser": "~1.4.3",
-    "datafile": "^3.2.0",
-    "ejs": "^2.6.1",
-    "eraro": "^1.0.0",
-    "express": "^4.16.4",
-    "express-session": "^1.15.6",
     "lodash": "^4.17.11",
-    "morgan": "^1.9.1",
     "npac": "^2.0.2",
     "npac-pdms-hemera-adapter": "^1.2.0",
+    "npac-webserver-adapter": "^1.1.1",
     "npac-wsgw-adapters": "^1.1.1",
-    "passport": "^0.4.0",
-    "passport-local": "~1.0.0",
-    "rest-tool-common": "^2.1.4",
     "uuid": "^3.3.2",
-    "yargs": "12.0.5"
+    "yargs": "13.2.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -63,8 +48,8 @@
     "cookie": "^0.3.1",
     "coveralls": "^3.0.0",
     "cross-env": "^5.1.1",
-    "es6-promise": "^4.2.4",
-    "eslint": "^3.13.1",
+    "es6-promise": "^4.2.6",
+    "eslint": "^5.14.0",
     "expect": "^24.1.0",
     "gulp": "^4.0.0",
     "gulp-debug": "^4.0.0",
@@ -96,7 +81,7 @@
     "trailingComma": "none"
   },
   "scripts": {
-    "build": "babel src --presets babel-preset-es2015 --out-dir dist && cp -r src/adapters/webServer/config/defaults dist/adapters/webServer/config/",
+    "build": "babel src --presets babel-preset-es2015 --out-dir dist",
     "lint": "eslint src/**.js",
     "prettier": "prettier --single-quote --write 'src/**/*.{js,jsx,ts,tsx,json,css,scss,md}'",
     "test": "cross-env NODE_ENV=test mocha --recursive --compilers js:babel-register --timeout 15000 'src/**/*.spec.js'",

@@ -1,0 +1,19 @@
+name: The document root static content service
+description: This is the place of the documents
+uriTemplate: /docs/
+style: STATIC
+methods:
+    GET:
+        summary: This is a static endpoint
+        notes: Responses the files from the directory defined by the contentPath property
+        static:
+            contentPath: content/
+            config:
+                dotfiles: allow
+                index: true
+        responses:
+            -
+                name: OK
+                statusCode: 200
+                reason: Successful execution
+

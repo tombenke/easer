@@ -1,52 +1,59 @@
 'use strict';
 
-var _chai = require('chai');
+var _sinon = require('sinon');
+
+var _sinon2 = _interopRequireDefault(_sinon);
+
+var _npac = require('npac');
 
 var _index = require('./index');
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 describe('app', function () {
+    var sandbox = void 0;
+
     before(function (done) {
+        (0, _npac.removeSignalHandlers)();
+        sandbox = _sinon2.default.sandbox.create({});
         done();
     });
 
-    after(function (done) {
+    afterEach(function (done) {
+        (0, _npac.removeSignalHandlers)();
+        sandbox.restore();
         done();
     });
 
-    /*
-    it('#start - with no arguments', (done) => {
-         const processArgvEmpty = [
-            'node', 'src/index.js'
-        ]
-         try {
-            start(processArgvEmpty)
-        } catch (err) {
-            expect(err.message).to.equal('Must use a command!')
-            done()
-        }
-    })
-    */
-    it('#start - encpwd command', function (done) {
-        var processArgv = ['node', 'src/index.js', 'encpwd', '--password', 'SecRetPWD0123!'];
+    it('#start - default mode', function (done) {
+        (0, _npac.catchExitSignals)(sandbox, done);
 
-        (0, _index.startEncpwd)(processArgv, function (err, res) {
-            (0, _chai.expect)(err).to.equal(null);
-            done();
+        var processArgv = ['node', 'src/app.js'];
+        (0, _index.startApp)(processArgv, function (err, res) {
+            console.log('Send SIGTERM signal');
+            process.kill(process.pid, 'SIGTERM');
         });
     });
 
-    it('#start - server command', function (done) {
-        /* TODO: start/stop the server
-        const processArgv = [
-            'node', 'src/index.js',
-            'server',
-            '--port', '3008'
-        ]
-        startWebServer(processArgv, (err, res) => {
-            expect(err).to.equal(null)
-            done()
-        })
-        */
-        done();
+    it('#start - with PDMS', function (done) {
+        (0, _npac.catchExitSignals)(sandbox, done);
+
+        var port = 8080;
+        var processArgv = ['node', 'src/app.js', '-p', '' + port, '-u'];
+        (0, _index.startApp)(processArgv, function (err, res) {
+            console.log('Send SIGTERM signal');
+            process.kill(process.pid, 'SIGTERM');
+        });
+    });
+
+    it('#start - with indirect args', function (done) {
+        (0, _npac.catchExitSignals)(sandbox, done);
+
+        var port = 8081;
+        process.argv = ['node', 'src/app.js', '-p', '' + port];
+        (0, _index.startApp)(port[42], function (err, res) {
+            console.log('Send SIGTERM signal');
+            process.kill(process.pid, 'SIGTERM');
+        });
     });
 });
