@@ -105,7 +105,6 @@ var parse = function parse(defaults) {
         }
     };
 
-    console.log('cliResults', results);
     return results;
 };
 

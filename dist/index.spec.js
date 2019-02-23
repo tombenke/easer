@@ -19,7 +19,7 @@ describe('app', function () {
 
     before(function (done) {
         (0, _npac.removeSignalHandlers)();
-        sandbox = _sinon2.default.sandbox.create({});
+        sandbox = _sinon2.default.createSandbox({});
         done();
     });
 
