@@ -1,5 +1,9 @@
 'use strict';
 
+var _path = require('path');
+
+var _path2 = _interopRequireDefault(_path);
+
 var _sinon = require('sinon');
 
 var _sinon2 = _interopRequireDefault(_sinon);
@@ -28,7 +32,7 @@ describe('app', function () {
     it('#start - default mode', function (done) {
         (0, _npac.catchExitSignals)(sandbox, done);
 
-        var processArgv = ['node', 'src/app.js'];
+        var processArgv = ['node', 'src/app.js', '-r', _path2.default.resolve('src')];
         (0, _index.startApp)(processArgv, function (err, res) {
             console.log('Send SIGTERM signal');
             process.kill(process.pid, 'SIGTERM');
@@ -39,7 +43,7 @@ describe('app', function () {
         (0, _npac.catchExitSignals)(sandbox, done);
 
         var port = 8080;
-        var processArgv = ['node', 'src/app.js', '-p', '' + port, '-u'];
+        var processArgv = ['node', 'src/app.js', '-p', '' + port, '-u', '-r', _path2.default.resolve('src')];
         (0, _index.startApp)(processArgv, function (err, res) {
             console.log('Send SIGTERM signal');
             process.kill(process.pid, 'SIGTERM');
@@ -50,7 +54,7 @@ describe('app', function () {
         (0, _npac.catchExitSignals)(sandbox, done);
 
         var port = 8081;
-        process.argv = ['node', 'src/app.js', '-p', '' + port];
+        process.argv = ['node', 'src/app.js', '-p', '' + port, '-r', _path2.default.resolve('src')];
         (0, _index.startApp)(port[42], function (err, res) {
             console.log('Send SIGTERM signal');
             process.kill(process.pid, 'SIGTERM');

@@ -1,5 +1,9 @@
 'use strict';
 
+var _path = require('path');
+
+var _path2 = _interopRequireDefault(_path);
+
 var _lodash = require('lodash');
 
 var _lodash2 = _interopRequireDefault(_lodash);
@@ -45,6 +49,7 @@ describe('cli', function () {
                 webServer: {
                     port: '3008',
                     restApiPath: '/tmp/restApi',
+                    staticContentBasePath: _path2.default.resolve(),
                     usePdms: false,
                     useCompression: true
                 },
@@ -82,6 +87,7 @@ describe('cli', function () {
                 webServer: {
                     port: '3008',
                     restApiPath: '/tmp/restApi',
+                    staticContentBasePath: _path2.default.resolve(),
                     usePdms: true,
                     useCompression: false
                 },
@@ -119,6 +125,7 @@ describe('cli', function () {
                 webServer: {
                     port: '3008',
                     restApiPath: '/tmp/restApi',
+                    staticContentBasePath: _path2.default.resolve(),
                     usePdms: true,
                     useCompression: false
                 },

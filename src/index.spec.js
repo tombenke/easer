@@ -8,7 +8,7 @@ describe('app', () => {
 
     before(done => {
         removeSignalHandlers()
-        sandbox = sinon.sandbox.create({})
+        sandbox = sinon.createSandbox({})
         done()
     })
 
