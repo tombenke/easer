@@ -18,7 +18,9 @@ describe('config', () => {
                 version: thisPackage.version
             },
             configFileName: 'config.yml',
-            logLevel: 'info',
+            logger: {
+                level: 'info'
+            },
             installDir: path.resolve('./')
         }
 

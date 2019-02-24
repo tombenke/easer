@@ -26,9 +26,9 @@
   "main": "dist/index",
   "dependencies": {
     "lodash": "^4.17.11",
-    "npac": "^2.1.4",
+    "npac": "^2.1.5",
     "npac-pdms-hemera-adapter": "^1.2.0",
-    "npac-webserver-adapter": "^1.1.1",
+    "npac-webserver-adapter": "^1.2.0",
     "npac-wsgw-adapters": "^1.1.1",
     "uuid": "^3.3.2",
     "yargs": "13.2.1"
