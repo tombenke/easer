@@ -1,27 +1,13 @@
-tmp
-coverage
-node_modules
-examples/private
-examples/*/node_modules
-examples/*/*/node_modules
-templates/docs/.sass-cache
+# dependencies
+/node_modules
 
-# Eclipse
-.classpath
-.project
-.settings/
+# testing
+/coverage
 
-# Intellij
-.idea/
-*.iml
-*.iws
+# production
+/dist
 
-# Mac
-.DS_Store
+# misc
+/.local
 
-# Maven
-log/
-target/
-
-# Netbeans
-nb-configuration.xml
+npm-debug.log*
