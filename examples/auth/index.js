@@ -29,6 +29,6 @@ module.exports = {
         viewsPath: process.env.EASER_VIEWSPATH || defaultsBasePath + '/views',
         publicPagesPath: process.env.EASER_CONTENTPATH_PUBLIC || defaultsBasePath + '/content/public',
         privatePagesPath: process.env.EASER_CONTENTPATH_PRIVATE || defaultsBasePath + '/content/private',
-        restApiPath: process.env.EASER_RESTAPIPATH || defaultsBasePath + '/restapi/services'
+        restApiPath: process.env.EASER_RESTAPIPATH || defaultsBasePath + '/restapi/api.yml'
     }
 }

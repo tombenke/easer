@@ -32,7 +32,7 @@ describe('app', function () {
     it('#start - default mode', function (done) {
         (0, _npac.catchExitSignals)(sandbox, done);
 
-        var processArgv = ['node', 'src/app.js', '-r', _path2.default.resolve('src')];
+        var processArgv = ['node', 'src/app.js', '-r', _path2.default.resolve()];
         (0, _index.startApp)(processArgv, function (err, res) {
             console.log('Send SIGTERM signal');
             process.kill(process.pid, 'SIGTERM');
@@ -43,7 +43,7 @@ describe('app', function () {
         (0, _npac.catchExitSignals)(sandbox, done);
 
         var port = 8080;
-        var processArgv = ['node', 'src/app.js', '-p', '' + port, '-u', '-r', _path2.default.resolve('src')];
+        var processArgv = ['node', 'src/app.js', '-p', '' + port, '-u', '-r', _path2.default.resolve()];
         (0, _index.startApp)(processArgv, function (err, res) {
             console.log('Send SIGTERM signal');
             process.kill(process.pid, 'SIGTERM');
@@ -54,7 +54,7 @@ describe('app', function () {
         (0, _npac.catchExitSignals)(sandbox, done);
 
         var port = 8081;
-        process.argv = ['node', 'src/app.js', '-p', '' + port, '-r', _path2.default.resolve('src')];
+        process.argv = ['node', 'src/app.js', '-p', '' + port, '-r', _path2.default.resolve()];
         (0, _index.startApp)(port[42], function (err, res) {
             console.log('Send SIGTERM signal');
             process.kill(process.pid, 'SIGTERM');

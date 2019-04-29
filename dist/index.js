@@ -29,6 +29,8 @@ var _config = require('./config');
 
 var _config2 = _interopRequireDefault(_config);
 
+var _defaultApi = require('./defaultApi');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var startApp = exports.startApp = function startApp() {
@@ -46,6 +48,13 @@ var startApp = exports.startApp = function startApp() {
 
 
     var config = (0, _npac.makeConfig)(defaults, cliConfig, 'configFileName');
+
+    console.log('CONFIG: ', JSON.stringify(config, null, 2));
+    console.log('CWD: ', process.cwd());
+    if (process.cwd() === config.webServer.restApiPath) {
+        // The given restApiPath is the current working directory, so use the default-api instead
+        config.webServer.restApiPath = _defaultApi.defaultApi;
+    }
 
     // Define the adapters, executives and terminators to add to the container
     var appAdapters = [];

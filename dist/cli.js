@@ -22,6 +22,11 @@ var parse = function parse(defaults) {
         alias: 'c',
         desc: 'The name of the configuration file',
         default: defaults.configFileName
+    }).option('loglevel', {
+        alias: 'l',
+        desc: 'The log level',
+        type: 'string',
+        default: defaults.logger.level
     }).option('port', {
         alias: 'p',
         desc: 'The port the server will listen',
@@ -78,6 +83,9 @@ var parse = function parse(defaults) {
         },
         cliConfig: {
             configFileName: argv.config,
+            logger: {
+                level: argv.loglevel
+            },
             webServer: {
                 port: argv.port,
                 restApiPath: argv.restApiPath,

@@ -5,6 +5,7 @@ import webServer from 'npac-webserver-adapter/'
 import { addLogger, makeConfig, mergeConfig, start as npacStart } from 'npac'
 import _ from 'lodash'
 import appDefaults from './config'
+import { defaultApi } from './defaultApi'
 
 export const startApp = (argv = process.argv, cb = null) => {
     const defaults = _.merge({}, appDefaults, webServer.defaults, pdms.defaults, wsServer.defaults, wsPdmsGw.defaults)
@@ -14,6 +15,13 @@ export const startApp = (argv = process.argv, cb = null) => {
 
     // Create the final configuration parameter set
     const config = makeConfig(defaults, cliConfig, 'configFileName')
+
+    console.log('CONFIG: ', JSON.stringify(config, null, 2))
+    console.log('CWD: ', process.cwd())
+    if (process.cwd() === config.webServer.restApiPath) {
+        // The given restApiPath is the current working directory, so use the default-api instead
+        config.webServer.restApiPath = defaultApi
+    }
 
     // Define the adapters, executives and terminators to add to the container
     let appAdapters = []

@@ -11,6 +11,12 @@ const parse = (defaults, processArgv = process.argv) => {
             desc: 'The name of the configuration file',
             default: defaults.configFileName
         })
+        .option('loglevel', {
+            alias: 'l',
+            desc: 'The log level',
+            type: 'string',
+            default: defaults.logger.level
+        })
         .option('port', {
             alias: 'p',
             desc: 'The port the server will listen',
@@ -78,6 +84,9 @@ const parse = (defaults, processArgv = process.argv) => {
         },
         cliConfig: {
             configFileName: argv.config,
+            logger: {
+                level: argv.loglevel
+            },
             webServer: {
                 port: argv.port,
                 restApiPath: argv.restApiPath,

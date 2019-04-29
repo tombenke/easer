@@ -10,6 +10,10 @@ var _lodash2 = _interopRequireDefault(_lodash);
 
 var _chai = require('chai');
 
+var _config = require('./config');
+
+var _config2 = _interopRequireDefault(_config);
+
 var _npacPdmsHemeraAdapter = require('npac-pdms-hemera-adapter');
 
 var _npacPdmsHemeraAdapter2 = _interopRequireDefault(_npacPdmsHemeraAdapter);
@@ -38,7 +42,7 @@ describe('cli', function () {
     it('app without pdms', function (done) {
         var processArgv = ['node', 'src/index.js', // 'server',
         '-p', '3008', '-c', 'config.yml', '-r', '/tmp/restApi', '-s'];
-        var defaults = _lodash2.default.merge({}, _npacWebserverAdapter2.default.defaults, _npacPdmsHemeraAdapter2.default.defaults, _npacWsgwAdapters.wsServer.defaults, _npacWsgwAdapters.wsPdmsGw.defaults);
+        var defaults = _lodash2.default.merge({}, _config2.default, _npacWebserverAdapter2.default.defaults, _npacPdmsHemeraAdapter2.default.defaults, _npacWsgwAdapters.wsServer.defaults, _npacWsgwAdapters.wsPdmsGw.defaults);
         var expected = {
             command: {
                 name: 'server',
@@ -46,6 +50,9 @@ describe('cli', function () {
             },
             cliConfig: {
                 configFileName: 'config.yml',
+                logger: {
+                    level: "info"
+                },
                 webServer: {
                     port: '3008',
                     restApiPath: '/tmp/restApi',
@@ -76,7 +83,7 @@ describe('cli', function () {
     it('app with pdms, default NATS server', function (done) {
         var processArgv = ['node', 'src/index.js', // 'server',
         '-p', '3008', '-c', 'config.yml', '-r', '/tmp/restApi', '-u'];
-        var defaults = _lodash2.default.merge({}, _npacWebserverAdapter2.default.defaults, _npacPdmsHemeraAdapter2.default.defaults, _npacWsgwAdapters.wsServer.defaults, _npacWsgwAdapters.wsPdmsGw.defaults);
+        var defaults = _lodash2.default.merge({}, _config2.default, _npacWebserverAdapter2.default.defaults, _npacPdmsHemeraAdapter2.default.defaults, _npacWsgwAdapters.wsServer.defaults, _npacWsgwAdapters.wsPdmsGw.defaults);
         var expected = {
             command: {
                 name: 'server',
@@ -84,6 +91,9 @@ describe('cli', function () {
             },
             cliConfig: {
                 configFileName: 'config.yml',
+                logger: {
+                    level: "info"
+                },
                 webServer: {
                     port: '3008',
                     restApiPath: '/tmp/restApi',
@@ -114,7 +124,7 @@ describe('cli', function () {
     it('app with pdms, NATS server on localhost', function (done) {
         var processArgv = ['node', 'src/index.js', // 'server',
         '-p', '3008', '-c', 'config.yml', '-r', '/tmp/restApi', '-u', '-n', 'nats://localhost:4222'];
-        var defaults = _lodash2.default.merge({}, _npacWebserverAdapter2.default.defaults, _npacPdmsHemeraAdapter2.default.defaults, _npacWsgwAdapters.wsServer.defaults, _npacWsgwAdapters.wsPdmsGw.defaults);
+        var defaults = _lodash2.default.merge({}, _config2.default, _npacWebserverAdapter2.default.defaults, _npacPdmsHemeraAdapter2.default.defaults, _npacWsgwAdapters.wsServer.defaults, _npacWsgwAdapters.wsPdmsGw.defaults);
         var expected = {
             command: {
                 name: 'server',
@@ -122,6 +132,9 @@ describe('cli', function () {
             },
             cliConfig: {
                 configFileName: 'config.yml',
+                logger: {
+                    level: "info"
+                },
                 webServer: {
                     port: '3008',
                     restApiPath: '/tmp/restApi',

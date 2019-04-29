@@ -21,7 +21,7 @@ describe('app', () => {
     it('#start - default mode', done => {
         catchExitSignals(sandbox, done)
 
-        const processArgv = ['node', 'src/app.js', '-r', path.resolve('src')]
+        const processArgv = ['node', 'src/app.js', '-r', path.resolve()]
         startApp(processArgv, (err, res) => {
             console.log('Send SIGTERM signal')
             process.kill(process.pid, 'SIGTERM')
@@ -32,7 +32,7 @@ describe('app', () => {
         catchExitSignals(sandbox, done)
 
         const port = 8080
-        const processArgv = ['node', 'src/app.js', '-p', `${port}`, '-u', '-r', path.resolve('src')]
+        const processArgv = ['node', 'src/app.js', '-p', `${port}`, '-u', '-r', path.resolve()]
         startApp(processArgv, (err, res) => {
             console.log('Send SIGTERM signal')
             process.kill(process.pid, 'SIGTERM')
@@ -43,7 +43,7 @@ describe('app', () => {
         catchExitSignals(sandbox, done)
 
         const port = 8081
-        process.argv = ['node', 'src/app.js', '-p', `${port}`, '-r', path.resolve('src')]
+        process.argv = ['node', 'src/app.js', '-p', `${port}`, '-r', path.resolve()]
         startApp(port[42], (err, res) => {
             console.log('Send SIGTERM signal')
             process.kill(process.pid, 'SIGTERM')

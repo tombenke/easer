@@ -1,6 +1,7 @@
 import path from 'path'
 import _ from 'lodash'
 import { expect } from 'chai'
+import config from './config'
 import pdms from 'npac-pdms-hemera-adapter'
 import { wsServer, wsPdmsGw } from 'npac-wsgw-adapters'
 import webServer from 'npac-webserver-adapter'
@@ -27,7 +28,7 @@ describe('cli', () => {
             '/tmp/restApi',
             '-s'
         ]
-        const defaults = _.merge({}, webServer.defaults, pdms.defaults, wsServer.defaults, wsPdmsGw.defaults)
+        const defaults = _.merge({}, config, webServer.defaults, pdms.defaults, wsServer.defaults, wsPdmsGw.defaults)
         const expected = {
             command: {
                 name: 'server',
@@ -35,6 +36,9 @@ describe('cli', () => {
             },
             cliConfig: {
                 configFileName: 'config.yml',
+                logger: {
+                    level: 'info'
+                },
                 webServer: {
                     port: '3008',
                     restApiPath: '/tmp/restApi',
@@ -74,7 +78,7 @@ describe('cli', () => {
             '/tmp/restApi',
             '-u'
         ]
-        const defaults = _.merge({}, webServer.defaults, pdms.defaults, wsServer.defaults, wsPdmsGw.defaults)
+        const defaults = _.merge({}, config, webServer.defaults, pdms.defaults, wsServer.defaults, wsPdmsGw.defaults)
         const expected = {
             command: {
                 name: 'server',
@@ -82,6 +86,9 @@ describe('cli', () => {
             },
             cliConfig: {
                 configFileName: 'config.yml',
+                logger: {
+                    level: 'info'
+                },
                 webServer: {
                     port: '3008',
                     restApiPath: '/tmp/restApi',
@@ -123,7 +130,7 @@ describe('cli', () => {
             '-n',
             'nats://localhost:4222'
         ]
-        const defaults = _.merge({}, webServer.defaults, pdms.defaults, wsServer.defaults, wsPdmsGw.defaults)
+        const defaults = _.merge({}, config, webServer.defaults, pdms.defaults, wsServer.defaults, wsPdmsGw.defaults)
         const expected = {
             command: {
                 name: 'server',
@@ -131,6 +138,9 @@ describe('cli', () => {
             },
             cliConfig: {
                 configFileName: 'config.yml',
+                logger: {
+                    level: 'info'
+                },
                 webServer: {
                     port: '3008',
                     restApiPath: '/tmp/restApi',
