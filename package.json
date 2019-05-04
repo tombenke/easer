@@ -25,9 +25,8 @@
     "README.md"
   ],
   "bin": {
-    "easer-server": "./dist/app.js"
+    "easer": "./dist/app.js"
   },
-  "main": "dist/index",
   "dependencies": {
     "lodash": "^4.17.11",
     "npac": "^2.1.5",
