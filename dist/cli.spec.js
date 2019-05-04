@@ -51,7 +51,7 @@ describe('cli', function () {
             cliConfig: {
                 configFileName: 'config.yml',
                 logger: {
-                    level: "info"
+                    level: 'info'
                 },
                 webServer: {
                     port: '3008',
@@ -92,7 +92,7 @@ describe('cli', function () {
             cliConfig: {
                 configFileName: 'config.yml',
                 logger: {
-                    level: "info"
+                    level: 'info'
                 },
                 webServer: {
                     port: '3008',
@@ -133,7 +133,7 @@ describe('cli', function () {
             cliConfig: {
                 configFileName: 'config.yml',
                 logger: {
-                    level: "info"
+                    level: 'info'
                 },
                 webServer: {
                     port: '3008',
