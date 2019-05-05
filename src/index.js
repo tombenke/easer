@@ -42,13 +42,7 @@ export const startApp = (argv = process.argv, cb = null) => {
             appTerminators = [wsPdmsGw.shutdown, wsServer.shutdown, webServer.shutdown, pdms.shutdown]
         } else {
             // Use PDMS without websocket
-            appAdapters = [
-                mergeConfig(config),
-                addLogger,
-                pdms.startup,
-                webServer.startup
-            ]
-
+            appAdapters = [mergeConfig(config), addLogger, pdms.startup, webServer.startup]
             appTerminators = [webServer.shutdown, pdms.shutdown]
         }
     } else {

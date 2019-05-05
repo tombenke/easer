@@ -50,6 +50,7 @@ describe('cli', function () {
             },
             cliConfig: {
                 configFileName: 'config.yml',
+                useWebsocket: false,
                 logger: {
                     level: 'info'
                 },
@@ -91,6 +92,7 @@ describe('cli', function () {
             },
             cliConfig: {
                 configFileName: 'config.yml',
+                useWebsocket: false,
                 logger: {
                     level: 'info'
                 },
@@ -132,6 +134,7 @@ describe('cli', function () {
             },
             cliConfig: {
                 configFileName: 'config.yml',
+                useWebsocket: false,
                 logger: {
                     level: 'info'
                 },
