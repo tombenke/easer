@@ -29,6 +29,12 @@ const parse = (defaults, processArgv = process.argv) => {
             type: 'string',
             default: defaults.webServer.restApiPath
         })
+        .option('useWebsocket', {
+            alias: 'w',
+            desc: 'Use WebSocket server and message forwarding gateway',
+            type: 'boolean',
+            default: defaults.useWebsocket
+        })
         .option('usePdms', {
             alias: 'u',
             desc: 'Use Pattern Driven Micro-Service adapter to forward REST API calls',
@@ -84,6 +90,7 @@ const parse = (defaults, processArgv = process.argv) => {
         },
         cliConfig: {
             configFileName: argv.config,
+            useWebsocket: argv.useWebsocket,
             logger: {
                 level: argv.loglevel
             },

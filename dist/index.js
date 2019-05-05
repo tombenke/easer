@@ -50,7 +50,7 @@ var startApp = exports.startApp = function startApp() {
     var config = (0, _npac.makeConfig)(defaults, cliConfig, 'configFileName');
 
     console.log('CONFIG: ', JSON.stringify(config, null, 2));
-    console.log('CWD: ', process.cwd());
+
     if (process.cwd() === config.webServer.restApiPath) {
         // The given restApiPath is the current working directory, so use the default-api instead
         config.webServer.restApiPath = _defaultApi.defaultApi;
@@ -59,13 +59,23 @@ var startApp = exports.startApp = function startApp() {
     // Define the adapters, executives and terminators to add to the container
     var appAdapters = [];
     var appTerminators = [];
-    if (config.webServer.usePdms) {
-        appAdapters = [(0, _npac.mergeConfig)(config), _npac.addLogger, _npacPdmsHemeraAdapter2.default.startup, _npacWebserverAdapter2.default.startup, _npacWsgwAdapters.wsServer.startup, _npacWsgwAdapters.wsPdmsGw.startup];
 
-        appTerminators = [_npacWsgwAdapters.wsPdmsGw.shutdown, _npacWsgwAdapters.wsServer.shutdown, _npacWebserverAdapter2.default.shutdown, _npacPdmsHemeraAdapter2.default.shutdown];
+    if (config.webServer.usePdms) {
+        if (config.useWebsocket) {
+            // Use both PDMS and websocket server and message forwarding gateway
+            appAdapters = [(0, _npac.mergeConfig)(config), _npac.addLogger, _npacPdmsHemeraAdapter2.default.startup, _npacWebserverAdapter2.default.startup, _npacWsgwAdapters.wsServer.startup, _npacWsgwAdapters.wsPdmsGw.startup];
+
+            appTerminators = [_npacWsgwAdapters.wsPdmsGw.shutdown, _npacWsgwAdapters.wsServer.shutdown, _npacWebserverAdapter2.default.shutdown, _npacPdmsHemeraAdapter2.default.shutdown];
+        } else {
+            // Use PDMS without websocket
+            appAdapters = [(0, _npac.mergeConfig)(config), _npac.addLogger, _npacPdmsHemeraAdapter2.default.startup, _npacWebserverAdapter2.default.startup];
+
+            appTerminators = [_npacWebserverAdapter2.default.shutdown, _npacPdmsHemeraAdapter2.default.shutdown];
+        }
     } else {
-        appAdapters = [(0, _npac.mergeConfig)(config), _npac.addLogger, _npacWebserverAdapter2.default.startup, _npacWsgwAdapters.wsServer.startup];
-        appTerminators = [_npacWsgwAdapters.wsServer.shutdown, _npacWebserverAdapter2.default.shutdown];
+        // Websocket can not be used without PDMS
+        appAdapters = [(0, _npac.mergeConfig)(config), _npac.addLogger, _npacWebserverAdapter2.default.startup];
+        appTerminators = [_npacWebserverAdapter2.default.shutdown];
     }
 
     // Define the jobs to execute: hand over the command got by the CLI.

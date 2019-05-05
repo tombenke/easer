@@ -31,6 +31,7 @@ describe('config', function () {
                 version: _package2.default.version
             },
             configFileName: 'config.yml',
+            useWebsocket: false,
             logger: {
                 level: 'info'
             },

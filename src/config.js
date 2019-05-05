@@ -17,6 +17,7 @@ module.exports = {
         version: thisPackage.version
     },
     configFileName: 'config.yml',
+    useWebsocket: process.env.EASER_USE_WEBSOCKET || false,
     logger: {
         level: process.env.EASER_LOG_LEVEL || 'info'
     },

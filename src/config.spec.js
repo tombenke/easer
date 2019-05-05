@@ -18,6 +18,7 @@ describe('config', () => {
                 version: thisPackage.version
             },
             configFileName: 'config.yml',
+            useWebsocket: false,
             logger: {
                 level: 'info'
             },

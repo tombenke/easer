@@ -17,7 +17,7 @@ export const startApp = (argv = process.argv, cb = null) => {
     const config = makeConfig(defaults, cliConfig, 'configFileName')
 
     console.log('CONFIG: ', JSON.stringify(config, null, 2))
-    console.log('CWD: ', process.cwd())
+
     if (process.cwd() === config.webServer.restApiPath) {
         // The given restApiPath is the current working directory, so use the default-api instead
         config.webServer.restApiPath = defaultApi
@@ -26,20 +26,35 @@ export const startApp = (argv = process.argv, cb = null) => {
     // Define the adapters, executives and terminators to add to the container
     let appAdapters = []
     let appTerminators = []
-    if (config.webServer.usePdms) {
-        appAdapters = [
-            mergeConfig(config),
-            addLogger,
-            pdms.startup,
-            webServer.startup,
-            wsServer.startup,
-            wsPdmsGw.startup
-        ]
 
-        appTerminators = [wsPdmsGw.shutdown, wsServer.shutdown, webServer.shutdown, pdms.shutdown]
+    if (config.webServer.usePdms) {
+        if (config.useWebsocket) {
+            // Use both PDMS and websocket server and message forwarding gateway
+            appAdapters = [
+                mergeConfig(config),
+                addLogger,
+                pdms.startup,
+                webServer.startup,
+                wsServer.startup,
+                wsPdmsGw.startup
+            ]
+
+            appTerminators = [wsPdmsGw.shutdown, wsServer.shutdown, webServer.shutdown, pdms.shutdown]
+        } else {
+            // Use PDMS without websocket
+            appAdapters = [
+                mergeConfig(config),
+                addLogger,
+                pdms.startup,
+                webServer.startup
+            ]
+
+            appTerminators = [webServer.shutdown, pdms.shutdown]
+        }
     } else {
-        appAdapters = [mergeConfig(config), addLogger, webServer.startup, wsServer.startup]
-        appTerminators = [wsServer.shutdown, webServer.shutdown]
+        // Websocket can not be used without PDMS
+        appAdapters = [mergeConfig(config), addLogger, webServer.startup]
+        appTerminators = [webServer.shutdown]
     }
 
     // Define the jobs to execute: hand over the command got by the CLI.

@@ -37,6 +37,11 @@ var parse = function parse(defaults) {
         desc: 'The path to the REST API descriptors',
         type: 'string',
         default: defaults.webServer.restApiPath
+    }).option('useWebsocket', {
+        alias: 'w',
+        desc: 'Use WebSocket server and message forwarding gateway',
+        type: 'boolean',
+        default: defaults.useWebsocket
     }).option('usePdms', {
         alias: 'u',
         desc: 'Use Pattern Driven Micro-Service adapter to forward REST API calls',
@@ -83,6 +88,7 @@ var parse = function parse(defaults) {
         },
         cliConfig: {
             configFileName: argv.config,
+            useWebsocket: argv.useWebsocket,
             logger: {
                 level: argv.loglevel
             },
