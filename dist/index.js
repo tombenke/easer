@@ -49,7 +49,10 @@ var startApp = exports.startApp = function startApp() {
 
     var config = (0, _npac.makeConfig)(defaults, cliConfig, 'configFileName');
 
-    console.log('CONFIG: ', JSON.stringify(config, null, 2));
+    // Print the effective configuration on demand
+    if (config.dumpConfig) {
+        console.log('CONFIG: ', JSON.stringify(config, null, 2));
+    }
 
     if (process.cwd() === config.webServer.restApiPath) {
         // The given restApiPath is the current working directory, so use the default-api instead

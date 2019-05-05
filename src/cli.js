@@ -11,6 +11,12 @@ const parse = (defaults, processArgv = process.argv) => {
             desc: 'The name of the configuration file',
             default: defaults.configFileName
         })
+        .option('dumpConfig', {
+            alias: 'd',
+            desc: 'Print the effective configuration object to the console',
+            type: 'boolean',
+            default: false
+        })
         .option('logLevel', {
             alias: 'l',
             desc: 'The log level',
@@ -35,12 +41,6 @@ const parse = (defaults, processArgv = process.argv) => {
             type: 'string',
             default: defaults.webServer.restApiPath
         })
-        .option('useWebsocket', {
-            alias: 'w',
-            desc: 'Use WebSocket server and message forwarding gateway',
-            type: 'boolean',
-            default: defaults.useWebsocket
-        })
         .option('useCompression', {
             alias: 's',
             desc: 'Use middleware to compress response bodies for all request',
@@ -61,6 +61,12 @@ const parse = (defaults, processArgv = process.argv) => {
             default: defaults.pdms.natsUri
         })
         // WebSocket related parameters
+        .option('useWebsocket', {
+            alias: 'w',
+            desc: 'Use WebSocket server and message forwarding gateway',
+            type: 'boolean',
+            default: defaults.useWebsocket
+        })
         .option('forward', {
             alias: 'f',
             desc: 'Forwards messages among inbound and outbound topics',
@@ -98,6 +104,7 @@ const parse = (defaults, processArgv = process.argv) => {
         cliConfig: {
             configFileName: argv.config,
             useWebsocket: argv.useWebsocket,
+            dumpConfig: argv.dumpConfig,
             logger: {
                 level: argv.logLevel,
                 transports: {

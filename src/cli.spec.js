@@ -37,11 +37,12 @@ describe('cli', () => {
             cliConfig: {
                 configFileName: 'config.yml',
                 useWebsocket: false,
+                dumpConfig: false,
                 logger: {
                     level: 'info',
                     transports: {
                         console: {
-                            format: "plainText"
+                            format: 'plainText'
                         }
                     }
                 },
@@ -93,11 +94,12 @@ describe('cli', () => {
             cliConfig: {
                 configFileName: 'config.yml',
                 useWebsocket: false,
+                dumpConfig: false,
                 logger: {
                     level: 'info',
                     transports: {
                         console: {
-                            format: "plainText"
+                            format: 'plainText'
                         }
                     }
                 },
@@ -151,11 +153,12 @@ describe('cli', () => {
             cliConfig: {
                 configFileName: 'config.yml',
                 useWebsocket: false,
+                dumpConfig: false,
                 logger: {
                     level: 'info',
                     transports: {
                         console: {
-                            format: "plainText"
+                            format: 'plainText'
                         }
                     }
                 },
