@@ -19,7 +19,12 @@ module.exports = {
     configFileName: 'config.yml',
     useWebsocket: process.env.EASER_USE_WEBSOCKET || false,
     logger: {
-        level: process.env.EASER_LOG_LEVEL || 'info'
+        level: process.env.EASER_LOG_LEVEL || 'info',
+        transports: {
+            console: {
+                format: process.env.EASER_LOG_FORMAT || 'plainText' // 'plainText' or 'json'
+            }
+        }
     },
     installDir: path.resolve('./')
 }

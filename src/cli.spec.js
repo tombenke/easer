@@ -38,7 +38,12 @@ describe('cli', () => {
                 configFileName: 'config.yml',
                 useWebsocket: false,
                 logger: {
-                    level: 'info'
+                    level: 'info',
+                    transports: {
+                        console: {
+                            format: "plainText"
+                        }
+                    }
                 },
                 webServer: {
                     port: '3008',
@@ -89,7 +94,12 @@ describe('cli', () => {
                 configFileName: 'config.yml',
                 useWebsocket: false,
                 logger: {
-                    level: 'info'
+                    level: 'info',
+                    transports: {
+                        console: {
+                            format: "plainText"
+                        }
+                    }
                 },
                 webServer: {
                     port: '3008',
@@ -142,7 +152,12 @@ describe('cli', () => {
                 configFileName: 'config.yml',
                 useWebsocket: false,
                 logger: {
-                    level: 'info'
+                    level: 'info',
+                    transports: {
+                        console: {
+                            format: "plainText"
+                        }
+                    }
                 },
                 webServer: {
                     port: '3008',

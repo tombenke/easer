@@ -33,7 +33,12 @@ describe('config', function () {
             configFileName: 'config.yml',
             useWebsocket: false,
             logger: {
-                level: 'info'
+                level: 'info',
+                transports: {
+                    console: {
+                        format: 'plainText'
+                    }
+                }
             },
             installDir: _path2.default.resolve('./')
         };

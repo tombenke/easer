@@ -69,7 +69,6 @@ var startApp = exports.startApp = function startApp() {
         } else {
             // Use PDMS without websocket
             appAdapters = [(0, _npac.mergeConfig)(config), _npac.addLogger, _npacPdmsHemeraAdapter2.default.startup, _npacWebserverAdapter2.default.startup];
-
             appTerminators = [_npacWebserverAdapter2.default.shutdown, _npacPdmsHemeraAdapter2.default.shutdown];
         }
     } else {

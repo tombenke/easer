@@ -20,7 +20,12 @@ describe('config', () => {
             configFileName: 'config.yml',
             useWebsocket: false,
             logger: {
-                level: 'info'
+                level: 'info',
+                transports: {
+                    console: {
+                        format: 'plainText'
+                    }
+                }
             },
             installDir: path.resolve('./')
         }

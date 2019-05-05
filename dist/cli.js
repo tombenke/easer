@@ -22,11 +22,16 @@ var parse = function parse(defaults) {
         alias: 'c',
         desc: 'The name of the configuration file',
         default: defaults.configFileName
-    }).option('loglevel', {
+    }).option('logLevel', {
         alias: 'l',
         desc: 'The log level',
         type: 'string',
         default: defaults.logger.level
+    }).option('logFormat', {
+        alias: 't',
+        desc: 'The log (`plainText` or `json`)',
+        type: 'string',
+        default: defaults.logger.transports.console.format
     }).option('port', {
         alias: 'p',
         desc: 'The port the server will listen',
@@ -42,16 +47,18 @@ var parse = function parse(defaults) {
         desc: 'Use WebSocket server and message forwarding gateway',
         type: 'boolean',
         default: defaults.useWebsocket
-    }).option('usePdms', {
-        alias: 'u',
-        desc: 'Use Pattern Driven Micro-Service adapter to forward REST API calls',
-        type: 'boolean',
-        default: defaults.webServer.usePdms
     }).option('useCompression', {
         alias: 's',
         desc: 'Use middleware to compress response bodies for all request',
         type: 'boolean',
         default: defaults.webServer.useCompression
+    })
+    // PDMS related parameters
+    .option('usePdms', {
+        alias: 'u',
+        desc: 'Use Pattern Driven Micro-Service adapter to forward REST API calls',
+        type: 'boolean',
+        default: defaults.webServer.usePdms
     }).option('natsUri', {
         alias: 'n',
         desc: 'NATS server URI used by the pdms adapter.',
@@ -90,7 +97,12 @@ var parse = function parse(defaults) {
             configFileName: argv.config,
             useWebsocket: argv.useWebsocket,
             logger: {
-                level: argv.loglevel
+                level: argv.logLevel,
+                transports: {
+                    console: {
+                        format: argv.logFormat
+                    }
+                }
             },
             webServer: {
                 port: argv.port,
