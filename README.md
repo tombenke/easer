@@ -132,6 +132,7 @@ You should see something like this:
 ### Server configuration
 
 #### General server parameters
+
 `easer` can be configured via:
 - configuration file,
 - environment variables,
@@ -145,30 +146,30 @@ Set the port where the server will listen:
 - CLI parameter: `-p 8081` or `--port 8081`.
 - Environment: `WEBSERVER_PORT`.
 - Config object property: `webServer.port`
-Default value: `3007`.
+- Default value: `3007`.
 
 Define the REST API, using swagger or OpenApi descriptor(s):
 - CLI parameter: `-r /app/rest-api/api.yml`, or `--restApiPath /app/rest-api/api.yml`.
 - Environment: `WEBSERVER_RESTAPIPATH`.
 - Config object property: `webServer.restApiPath`
-Default: the current working directory.
+- Default value: the current working directory.
 
 - CLI parameter: TODO
 - Environment: `WEBSERVER_STATIC_CONTENT_BASEPATH`.
 - Config object property: `webServer.staticContentBasePath`.
-Default: the current working directory.
+- Default value: the current working directory.
 
 Compress response bodies for all request:
 - CLI parameter: `--useCompression [true]`, or `-s [true]`.
 - Environment: `WEBSERVER_USE_COMPRESSION`.
 - Config object property: `webServer.useCompression`.
-Default: `false`.
+- Default value: `false`.
 
 API calls return with response time header:
 - CLI parameter: TODO.
 - Environment: `webServer.useResponseTime`.
 - Config object property: `WEBSERVER_USE_RESPONSE_TIME`.
-Default: `false`.
+- Default value: `false`.
 
 #### Logging
 
@@ -176,15 +177,15 @@ Set the log level of the server and its internal components:
 - CLI parameter: `-l <level>`, or `logLevel <level>`
 - Environment: `EASER_LOG_LEVEL`.
 - Config object property: `logger.level`.
-Possible values: `info`, `debug`, `warn`, `error`.
-Default value: `info`.
+- Possible values: `info`, `debug`, `warn`, `error`.
+- Default value: `info`.
 
 Set the log format of the server and its internal components:
 - CLI parameter: `-t <format>`, or `--logFormat <format>`.
 - Environment: `EASER_LOG_FORMAT`.
 - Config object property: `logger.transports.console.format`.
-Possible values: `plainText`, `json`.
-Default: `plainText`.
+- Possible values: `plainText`, `json`.
+- Default value: `plainText`.
 
 #### PDMS (NATS) Gateway
 
@@ -192,19 +193,19 @@ Use Pattern Driven Micro-Service adapter and enable the NATS forwarding of incom
 - CLI parameter: `-u [true]`, or `--usePdms [true]`.
 - Environment: `WEBSERVER_USE_PDMS`
 - Config object property: `webServer.usePdms`.
-Default value: `false`.
+- Default value: `false`.
 
 Define the URI of the NATS server used by the pdms adapter:
 - CLI parameter: `-n <nats-uri>`, or `--natsUri <nats-uri>`.
 - Environment: `PDMS_NATS_URI`.
 - Config object parameter: `pdms.natsUri`.
-Default value: `"nats://demo.nats.io:4222"`.
+- Default value: `"nats://demo.nats.io:4222"`.
 
 Define the NATS timeout value:
 - CLI parameter: TODO.
 - Environment: `PDMS_TIMEOUT`.
 - Config object property: `pdms.timeout`.
-Default value: `2000`.
+- Default value: `2000`.
 
 See [npac-pdms-hemera-adapter](https://www.npmjs.com/package/npac-pdms-hemera-adapter) for further details.
 
@@ -214,13 +215,13 @@ Use WebSocket server and message forwarding gateway:
 - CLI parameter: `--useWebsocket [true]`, or `-w [true]`.
 - Environment: `EASER_USE_WEBSOCKET`.
 - Config object property: `useWebsocket`.
-Default value: `false`.
+- Default value: `false`.
 
 Set the name of the event, the WebSocket server listens for and will forward towards NATS topics:
 - CLI parameter: `--forwarderEvent <event-name>`, `-e <event-name>`.
 - Environment: `WSSERVER_FORWARDER_EVENT`.
 - Config object property: `wsServer.forwarderEvent`.
-Default value: `message`.
+- Default value: `message`.
 
 Note: The messages should have a `topic` property, that holds the name of the WebSocket event in case of inbound messages, or the name of the NATS topic in case of the outbound messages.
 
@@ -228,19 +229,19 @@ Enable the WebSocket server to forward the messages among inbound and outbound t
 - CLI parameter: `--forward [true]`, or `-f [true]`
 - Environment: `WSSERVER_FORWARD_TOPICS`.
 - Config object property: `wsServer.forwardTopics`.
-Default value: `false`.
+- Default value: `false`.
 
 Define the inbound NATS topics as a comma-separated list that will be forwarded towards websocket:
 - CLI parameter: `--inbound <list-of-topics>`, `-i <list-of-topics>`.
 - Environment: `WSPDMSGW_INBOUND_TOPICS`.
 - Config object property: `wsPdmsGw.topics.bound`.
-Default value: `""`.
+- Default value: `""`.
 
 Define the outbound NATS topics as a comma separated list that will be forwarded from websocket towards NATS topics:
 - CLI parameter: `--outbound <list-of-topics>`, `-o <list-of-topics>`.
 - Environment: `WSPDMSGW_OUTBOUND_TOPICS`.
 - Config object property: `wsPdmsGw.topics.outbound`.
-Default value: `""`.
+- Default value: `""`.
 
 [npm-badge]: https://badge.fury.io/js/easer.svg
 [npm-url]: https://badge.fury.io/js/easer

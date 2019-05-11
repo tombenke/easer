@@ -44,76 +44,183 @@
 
     <section>
         <article><h1>easer</h1><p><a href="http://github.com/badges/stability-badges"><img src="http://badges.github.io/stability-badges/dist/unstable.svg" alt="unstable"></a><br><a href="https://badge.fury.io/js/easer"><img src="https://badge.fury.io/js/easer.svg" alt="npm version"></a><br><a href="https://travis-ci.org/tombenke/easer"><img src="https://api.travis-ci.org/tombenke/easer.svg" alt="Build Status"></a><br><a href="https://coveralls.io/github/tombenke/easer?branch=master"><img src="https://coveralls.io/repos/github/tombenke/easer/badge.svg?branch=master" alt="Coveralls"></a></p>
-<h2>About</h2><p>A simple, generic express server with built-in authentication and authorization.</p>
-<p>It is built on top of Express.js which runs on Node.js.</p>
-<p>It reads the rest-api module, and provides a simple express server,<br>which echoes the mock data defined under the services.</p>
-<p>You can modify and extend this code as you like to fit your needs.</p>
-<p>Note: It is in experimental stage, and its features under development and matter of continuous change.</p>
+<h2>About</h2><p>The main goal with the implementation of <code>easer</code> is to have a general purpose, cloud ready server that connects client applications with backend services using configuration only, but no infrastructure coding is required.</p>
+<p>The clients want to access to the backend services through standard synchronous REST APIs, and/or asynchronous websocket channels. Easer makes this possible, and needs only some configuration parameter and a standard description of the REST API.</p>
+<p>Easer is a generic web server built on top of <a href="https://expressjs.com/">express</a>, that has pre-built middlewares and components to deliver the following features:</p>
+<ul>
+<li>Acts as static web content server.</li>
+<li>Provides REST API that is described by swagger/OpenApi descriptors.</li>
+<li>Accomplish messaging gateway functionality that maps the REST API calls to synchronous <a href="https://nats.io/">NATS</a> calls towards service implementations, that can be implemented in different programming languages.</li>
+<li>Connects the frontend applications to backing services and pipelines via asynchronous topic-like messaging channels using websocket and <a href="https://nats.io/">NATS</a>.</li>
+<li>Implements internal features required for graceful shutdown, logging, monitoring, etc.</li>
+</ul>
+<p>These are the typical usage scenarios:</p>
+<ol>
+<li>Static web server.</li>
+<li>PDMS Gateway: Pattern Driven Micro Service (PDMS) calls through the REST API and NATS topics.</li>
+<li>PDMS/WS Gateway: WebSocket Server and Gateway to NATS topics using Pattern Driven Micro Service calls and asynchronous data pipelines. </li>
+</ol>
+<p>In order to have all the basic functions a cloud ready component should have, <code>easer</code> is built-upon the <a href="https://www.npmjs.com/package/npac">npac</a> architecture, which is a lightweight Ports and Adapters Container for applications running on Node.js platform.</p>
+<p>To act as PDMS Gateway, <code>easer</code> uses the built-in <a href="https://www.npmjs.com/package/npac-webserver-adapter">npac-webserver-adapter</a>.<br>Note: There are two ways of implementing service modules with the <a href="https://www.npmjs.com/package/npac-webserver-adapter">npac-webserver-adapter</a>:</p>
+<ol>
+<li>Service implementations are built-into the server. in this case you need to make a standalone <a href="https://www.npmjs.com/package/npac">npac</a> based server, using directly the <a href="https://www.npmjs.com/package/npac-wsgw-adapters">npac-wsgw-adapters</a> module, and integrate the endpoint implementations into this server. In this case the endpoint implementations have to be referred in the swagger files via the <code>operationId</code> properties of the endpoint descriptors.</li>
+<li>The <code>easer</code> way: You implement a standalone service module, that listens to NATS topic (defined by the endpoint URI and method), define the API via swagger, and start the following system components: the NATS server, the service implementation module, and the <code>easer</code> server configured with the API descriptors.</li>
+</ol>
+<p>It is <code>easer</code> possible to create two-way asynchronous communication between the frontend and the backing services. The frontend uses websocket and the <code>easer</code> forwards the messages towards NATS topics. it also works in the opposite direction, <code>easer</code> can subscibe to NATS topics and the received messages are forwarded towards the frontend via websocked. This feature is build upon the <a href="https://www.npmjs.com/package/npac-wsgw-adapters">npac-wsgw-adapters</a> module. There is helper tool called <a href="https://www.npmjs.com/package/wsgw">wsgw</a>, that makes possible to publish to and subscribe for topics. This tool can send and recive messages through both NATS and websocket topics. See the README files of the mentioned modules and tools for details.</p>
+<p>Note: </p>
+<ul>
+<li>Easer is in experimental stage. Its features are under development and are matter of continuous change.</li>
+<li>The original implementation of basic Authorization is removed, and will be implemented using the Autorization schemas of swagger descriptors.</li>
+</ul>
 <h2>Prerequisites</h2><p>In order to run the server, you need to have the Node.js and npm installed on your machine.</p>
 <h2>Installation</h2><p>The <code>easer</code> is made to act as a standalone application server, so it's preferred installation is:</p>
 <pre class="prettyprint source lang-bash"><code>    npm install -g easer</code></pre><p>For development purposes clone the <a href="https://github.com/tombenke/easer">easer</a> server into a folder:</p>
 <pre class="prettyprint source lang-bash"><code>    clone git@github.com:/easer.git</code></pre><p>Install the required dependencies:</p>
 <pre class="prettyprint source lang-bash"><code>    cd easer
-    npm install</code></pre><h2>Usage</h2><h3>Start the server</h3><p>In global mode you can start the server with the <code>easer server</code> command.</p>
-<p>During development, execute the following command in the project folder:</p>
+    npm install</code></pre><h2>Usage</h2><h3>Start the server</h3><p>In global mode you can start the server with the <code>easer</code> command. To get help, execute the following:</p>
+<pre class="prettyprint source lang-bash"><code>    easer --help
+
+    Options:
+      --version             Show version number                            [boolean]
+      --config, -c          The name of the configuration file
+                                                             [default: &quot;config.yml&quot;]
+      --dumpConfig, -d      Print the effective configuration object to the console
+                                                          [boolean] [default: false]
+      --logLevel, -l        The log level                 [string] [default: &quot;info&quot;]
+      --logFormat, -t       The log (`plainText` or `json`)
+                                                     [string] [default: &quot;plainText&quot;]
+      --port, -p            The port the server will listen [string] [default: 3007]
+      --restApiPath, -r     The path to the REST API descriptors
+                                   [string] [default: &quot;/home/tombenke/topics/easer&quot;]
+      --useCompression, -s  Use middleware to compress response bodies for all
+                            request                       [boolean] [default: false]
+      --usePdms, -u         Use Pattern Driven Micro-Service adapter to forward REST
+                            API calls                     [boolean] [default: false]
+      --natsUri, -n         NATS server URI used by the pdms adapter.
+                                      [string] [default: &quot;nats://demo.nats.io:4222&quot;]
+      --useWebsocket, -w    Use WebSocket server and message forwarding gateway
+                                                          [boolean] [default: false]
+      --forward, -f         Forwards messages among inbound and outbound topics
+                                                          [boolean] [default: false]
+      --forwarderEvent, -e  The name of the event the server is listen to forward
+                            the incoming messages      [string] [default: &quot;message&quot;]
+      --inbound, -i         Comma separated list of inbound NATS topics to forward
+                            through websocket                 [string] [default: &quot;&quot;]
+      --outbound, -o        Comma separated list of outbound NATS topics to forward
+                            towards from websocket            [string] [default: &quot;&quot;]
+      --help                Show help                                      [boolean]</code></pre><p>During development, execute the following command in the project folder:</p>
 <p>Start the server:</p>
-<pre class="prettyprint source lang-bash"><code>    $ npm start ./dist/webServerApp.js
+<pre class="prettyprint source lang-bash"><code>    $ npm start ./dist/app.js
 
-    > easer@1.0.0 start /home/tombenke/topics/easer
-    > node server/index.js
-
-    Express server listening on port 3007</code></pre><p>then open the <a href="http://localhost:3007">public landing page URL</a>.<br>Login with the guest/guest username/password credentials,<br>and see the user profile under the private pages.<br>Logout, then try to access again to the private area, then you should be forwarded<br>to the login form again.</p>
-<p>Double check the server log, and you should see something like this:</p>
-<pre class="prettyprint source lang-bash"><code>    GET / 200 24.014 ms - 791
-    GET /favicon.ico 404 4.760 ms - 24
-    GET /login.html 304 7.633 ms - -
-    POST /login 302 51.621 ms - 62
-    GET /private/ 304 2.385 ms - -
-    GET /private/profile 200 7.420 ms - 1275
-    GET /logout 302 3.989 ms - 46
-    GET / 304 3.283 ms - -
-    GET /private/profile 302 3.500 ms - 66
-    GET /login.html 304 1.980 ms - -</code></pre><h3>Server configuration</h3><p><code>easer</code> is configured through the following environment variables:</p>
+    2019-05-11T15:21:56.389Z [easer@2.7.6] info: Start up webServer
+    2019-05-11T15:21:56.414Z [easer@2.7.6] info: Express server listening on port 3007
+    2019-05-11T15:21:56.415Z [easer@2.7.6] info: App runs the jobs...</code></pre><p>Open the http://localhost:3007/ URL with browser and check the server log.<br>You should see something like this:</p>
+<pre class="prettyprint source lang-bash"><code>    2019-05-11T15:23:03.550Z [easer@2.7.6] info: HTTP GET /
+    2019-05-11T15:23:03.557Z [easer@2.7.6] info: HTTP GET /docs/bootstrap/css/bootstrap.min.css
+    2019-05-11T15:23:03.558Z [easer@2.7.6] info: HTTP GET /docs/stylesheets/jumbotron-narrow.css
+    2019-05-11T15:23:05.186Z [easer@2.7.6] info: HTTP GET /docs/assets/ico/favicon.ico
+</code></pre><h3>Server configuration</h3><h4>General server parameters</h4><p><code>easer</code> can be configured via:</p>
 <ul>
-<li><code>EASER_PORT</code>: The port where the server will listen.</li>
-<li><code>EASER_USE_PDMS</code> If <code>true</code>, then uses the Pattern Driven Micro Service API<br> of the npac container. Default: <code>false</code>.<br> See <a href="https://www.npmjs.com/package/npac-pdms-hemera-adapter">npac-pdms-hemera-adapter</a><br> for further details.</li>
-<li><code>PDMS_NATS_URI</code>: The NATS server uri used by the pdms adapter.<br>Default: &quot;nats://demo.nats.io:4222&quot;.</li>
-<li><code>EASER_VIEWSPATH</code>: The base path for the server-side view templates.</li>
-<li><code>EASER_CONTENTPATH_PUBLIC</code>: The base path for the public content.</li>
-<li><code>EASER_CONTENTPATH_PRIVATE</code>: The base path for the private pages.</li>
-<li><code>EASER_USERS</code>: YAML format file, which describes the user credentials.</li>
-<li><code>EASER_AUTH_SUCCESS_REDIRECT</code>: The <code>successRedirect</code> config parameter of the authentication middleware.<br>Default: <code>null</code>.</li>
-<li><code>EASER_AUTH_FAILURE_REDIRECT</code>: The <code>failureRedirect</code> config parameter of the authentication middleware.<br>Default: <code>null</code>.</li>
-<li><code>EASER_LOGOUT_REDIRECT</code>: The redirect path of logout operation. Default: <code>null</code>.</li>
-<li><code>EASER_RESTAPIPATH</code>: The base path to the rest api endpoint descriptors.<br>See <a href="https://www.npmjs.com/package/rest-tool">rest-tool</a> for further details.</li>
+<li>configuration file,</li>
+<li>environment variables,</li>
+<li>command line arguments,</li>
+<li>the combination of these above.</li>
 </ul>
-<p>See <a href="src/config/index.js">src/config/index.js</a> for default values.</p>
-<p><strong>Note:</strong> The server holds a default content to demonstrate the login, logout, and private pages.<br>By default the redirections of authentication is not configured,<br>so you have to set the following environment variables to see the full demo of login/logout process:</p>
-<pre class="prettyprint source lang-bash"><code>    export EASER_AUTH_SUCCESS_REDIRECT=&quot;/private/&quot;
-    export EASER_AUTH_FAILURE_REDIRECT=&quot;/login.html&quot;</code></pre><h4>Managing user credentials</h4><p>See <a href="src/config/defaults/users.yml">src/config/defaults/users.yml</a> as an example.</p>
-<p>To add a new user, simply create a new user object, in the <code>users.yml</code> file,<br>and define the <code>username</code>, <code>email</code> and <code>fullName</code> values.<br>The <code>id</code> field must be unique, that you can generate via the <code>uuidgen</code> utility.<br>The password hash can be generated via the <code>easer encpwd -p &lt;password&gt;</code> command:</p>
-<pre class="prettyprint source lang-bash"><code>    ./dist/encpwdApp.js -p SeCRet-paZZw0rd
-    SeCRet-paZZw0rd >> $2a$10$j4flrJ4WTMG.disTrEZ4juEkn3pz20zvFuNYbt6gli3Qiuv5emTDe</code></pre><p>Then copy the bcrypted result into the user's <code>password</code> field.</p>
-<p><strong>Note:</strong> <em>This is temporary, not really secure solution to the CLI tool,<br>so make sure that nobody can see the screen and access to the console log.<br>Also make sure that the users.yml is not placed to a publicly available place,<br>nor into a folder, where the normal users can easily access to it.</em></p>
-<h3>TODO</h3><ul>
-<li>Add public static pages and forwarding to 404(/401, Unauthorized) and 500</li>
-<li>Implement ACL for authorization.</li>
-<li>Select between HTTP/HTTPS.</li>
-<li>Implement password generator to work directly into the user credentials file.</li>
+<p>Dump the effective configuration object, before start:</p>
+<ul>
+<li>CLI parameter: <code>-d [true]</code>, or <code>--dumpConfig [true]</code>.</li>
 </ul>
-<h3>References</h3><ul>
-<li><a href="http://www.passportjs.org/">Passport - Simple, unobtrusive authentication for Node.js</a></li>
-<li><a href="https://github.com/jaredhanson/passport-local">jaredhanson/passport-local</a></li>
-<li><a href="https://scotch.io/tutorials/easy-node-authentication-setup-and-local">Easy Node Authentication...</a></li>
-<li><p><a href="http://blog.mgechev.com/2014/02/19/create-https-tls-ssl-application-with-express-nodejs/">Express over HTTPS</a></p>
+<p>Set the port where the server will listen:</p>
+<ul>
+<li>CLI parameter: <code>-p 8081</code> or <code>--port 8081</code>.</li>
+<li>Environment: <code>WEBSERVER_PORT</code>.</li>
+<li>Config object property: <code>webServer.port</code><br>Default value: <code>3007</code>.</li>
+</ul>
+<p>Define the REST API, using swagger or OpenApi descriptor(s):</p>
+<ul>
+<li>CLI parameter: <code>-r /app/rest-api/api.yml</code>, or <code>--restApiPath /app/rest-api/api.yml</code>.</li>
+<li>Environment: <code>WEBSERVER_RESTAPIPATH</code>.</li>
+<li><p>Config object property: <code>webServer.restApiPath</code><br>Default: the current working directory.</p>
 </li>
-<li><p><a href="https://codahale.com/how-to-safely-store-a-password/">How To Safely Store A Password</a></p>
+<li><p>CLI parameter: TODO</p>
 </li>
-<li><a href="https://en.wikipedia.org/wiki/Bcrypt">bcrypt / wikipedia</a></li>
-<li><a href="https://www.npmjs.com/package/bcrypt">bcrypt / npmjs.org</a></li>
+<li>Environment: <code>WEBSERVER_STATIC_CONTENT_BASEPATH</code>.</li>
+<li>Config object property: <code>webServer.staticContentBasePath</code>.<br>Default: the current working directory.</li>
 </ul>
-<hr>
-<p>This project was generated from the <a href="https://github.com/tombenke/ncli-archetype">ncli-archetype</a><br>project archetype, using the <a href="https://github.com/tombenke/kickoff">kickoff</a> utility.</p></article>
+<p>Compress response bodies for all request:</p>
+<ul>
+<li>CLI parameter: <code>--useCompression [true]</code>, or <code>-s [true]</code>.</li>
+<li>Environment: <code>WEBSERVER_USE_COMPRESSION</code>.</li>
+<li>Config object property: <code>webServer.useCompression</code>.<br>Default: <code>false</code>.</li>
+</ul>
+<p>API calls return with response time header:</p>
+<ul>
+<li>CLI parameter: TODO.</li>
+<li>Environment: <code>webServer.useResponseTime</code>.</li>
+<li>Config object property: <code>WEBSERVER_USE_RESPONSE_TIME</code>.<br>Default: <code>false</code>.</li>
+</ul>
+<h4>Logging</h4><p>Set the log level of the server and its internal components:</p>
+<ul>
+<li>CLI parameter: <code>-l &lt;level&gt;</code>, or <code>logLevel &lt;level&gt;</code></li>
+<li>Environment: <code>EASER_LOG_LEVEL</code>.</li>
+<li>Config object property: <code>logger.level</code>.<br>Possible values: <code>info</code>, <code>debug</code>, <code>warn</code>, <code>error</code>.<br>Default value: <code>info</code>.</li>
+</ul>
+<p>Set the log format of the server and its internal components:</p>
+<ul>
+<li>CLI parameter: <code>-t &lt;format&gt;</code>, or <code>--logFormat &lt;format&gt;</code>.</li>
+<li>Environment: <code>EASER_LOG_FORMAT</code>.</li>
+<li>Config object property: <code>logger.transports.console.format</code>.<br>Possible values: <code>plainText</code>, <code>json</code>.<br>Default: <code>plainText</code>.</li>
+</ul>
+<h4>PDMS (NATS) Gateway</h4><p>Use Pattern Driven Micro-Service adapter and enable the NATS forwarding of incoming API calls:</p>
+<ul>
+<li>CLI parameter: <code>-u [true]</code>, or <code>--usePdms [true]</code>.</li>
+<li>Environment: <code>WEBSERVER_USE_PDMS</code></li>
+<li>Config object property: <code>webServer.usePdms</code>.<br>Default value: <code>false</code>.</li>
+</ul>
+<p>Define the URI of the NATS server used by the pdms adapter:</p>
+<ul>
+<li>CLI parameter: <code>-n &lt;nats-uri&gt;</code>, or <code>--natsUri &lt;nats-uri&gt;</code>.</li>
+<li>Environment: <code>PDMS_NATS_URI</code>.</li>
+<li>Config object parameter: <code>pdms.natsUri</code>.<br>Default value: <code>&quot;nats://demo.nats.io:4222&quot;</code>.</li>
+</ul>
+<p>Define the NATS timeout value:</p>
+<ul>
+<li>CLI parameter: TODO.</li>
+<li>Environment: <code>PDMS_TIMEOUT</code>.</li>
+<li>Config object property: <code>pdms.timeout</code>.<br>Default value: <code>2000</code>.</li>
+</ul>
+<p>See <a href="https://www.npmjs.com/package/npac-pdms-hemera-adapter">npac-pdms-hemera-adapter</a> for further details.</p>
+<h4>WebSocket Gateway</h4><p>Use WebSocket server and message forwarding gateway:</p>
+<ul>
+<li>CLI parameter: <code>--useWebsocket [true]</code>, or <code>-w [true]</code>.</li>
+<li>Environment: <code>EASER_USE_WEBSOCKET</code>.</li>
+<li>Config object property: <code>useWebsocket</code>.<br>Default value: <code>false</code>.</li>
+</ul>
+<p>Set the name of the event, the WebSocket server listens for and will forward towards NATS topics:</p>
+<ul>
+<li>CLI parameter: <code>--forwarderEvent &lt;event-name&gt;</code>, <code>-e &lt;event-name&gt;</code>.</li>
+<li>Environment: <code>WSSERVER_FORWARDER_EVENT</code>.</li>
+<li>Config object property: <code>wsServer.forwarderEvent</code>.<br>Default value: <code>message</code>.</li>
+</ul>
+<p>Note: The messages should have a <code>topic</code> property, that holds the name of the WebSocket event in case of inbound messages, or the name of the NATS topic in case of the outbound messages.</p>
+<p>Enable the WebSocket server to forward the messages among inbound and outbound topics:</p>
+<ul>
+<li>CLI parameter: <code>--forward [true]</code>, or <code>-f [true]</code></li>
+<li>Environment: <code>WSSERVER_FORWARD_TOPICS</code>.</li>
+<li>Config object property: <code>wsServer.forwardTopics</code>.<br>Default value: <code>false</code>.</li>
+</ul>
+<p>Define the inbound NATS topics as a comma-separated list that will be forwarded towards websocket:</p>
+<ul>
+<li>CLI parameter: <code>--inbound &lt;list-of-topics&gt;</code>, <code>-i &lt;list-of-topics&gt;</code>.</li>
+<li>Environment: <code>WSPDMSGW_INBOUND_TOPICS</code>.</li>
+<li>Config object property: <code>wsPdmsGw.topics.bound</code>.<br>Default value: <code>&quot;&quot;</code>.</li>
+</ul>
+<p>Define the outbound NATS topics as a comma separated list that will be forwarded from websocket towards NATS topics:</p>
+<ul>
+<li>CLI parameter: <code>--outbound &lt;list-of-topics&gt;</code>, <code>-o &lt;list-of-topics&gt;</code>.</li>
+<li>Environment: <code>WSPDMSGW_OUTBOUND_TOPICS</code>.</li>
+<li>Config object property: <code>wsPdmsGw.topics.outbound</code>.<br>Default value: <code>&quot;&quot;</code>.</li>
+</ul></article>
     </section>
 
 
