@@ -10,13 +10,13 @@ easer
 
 The main goal with the implementation of `easer` is to have a general purpose, cloud ready server that connects client applications with backend services using configuration only, but no infrastructure coding is required.
 
-The clients want to access to the backend services through standard synchronous REST APIs, and/or asynchronous websocket channels. Easer makes this possible, and needs only some configuration parameter and a standard description of the REST API.
+The clients want to access to the backend services through standard synchronous REST APIs, and/or asynchronous websocket channels. `easer` makes this possible, and it needs only some configuration parameter and a standard description of the REST API.
 
-Easer is a generic web server built on top of [express](https://expressjs.com/), that has pre-built middlewares and components to deliver the following features:
+`easer` is a generic web server built on top of [express](https://expressjs.com/), that has pre-built middlewares and components to deliver the following features:
 
 - Acts as static web content server.
-- Provides REST API that is described by swagger/OpenApi descriptors.
-- Accomplish messaging gateway functionality that maps the REST API calls to synchronous [NATS](https://nats.io/) calls towards service implementations, that can be implemented in different programming languages.
+- Provides REST API that is described by [Swagger/OpenApi](https://swagger.io/resources/open-api/) descriptors.
+- Accomplishes messaging gateway functionality that maps the REST API calls to synchronous [NATS](https://nats.io/) calls towards service implementations, that can be implemented in different programming languages.
 - Connects the frontend applications to backing services and pipelines via asynchronous topic-like messaging channels using websocket and [NATS](https://nats.io/).
 - Implements internal features required for graceful shutdown, logging, monitoring, etc.
 
@@ -29,11 +29,13 @@ These are the typical usage scenarios:
 In order to have all the basic functions a cloud ready component should have, `easer` is built-upon the [npac](https://www.npmjs.com/package/npac) architecture, which is a lightweight Ports and Adapters Container for applications running on Node.js platform.
 
 To act as PDMS Gateway, `easer` uses the built-in [npac-webserver-adapter](https://www.npmjs.com/package/npac-webserver-adapter).
+
 Note: There are two ways of implementing service modules with the [npac-webserver-adapter](https://www.npmjs.com/package/npac-webserver-adapter):
+
 1. Service implementations are built-into the server. in this case you need to make a standalone [npac](https://www.npmjs.com/package/npac) based server, using directly the [npac-wsgw-adapters](https://www.npmjs.com/package/npac-wsgw-adapters) module, and integrate the endpoint implementations into this server. In this case the endpoint implementations have to be referred in the swagger files via the `operationId` properties of the endpoint descriptors.
 2. The `easer` way: You implement a standalone service module, that listens to NATS topic (defined by the endpoint URI and method), define the API via swagger, and start the following system components: the NATS server, the service implementation module, and the `easer` server configured with the API descriptors.
 
-It is `easer` possible to create two-way asynchronous communication between the frontend and the backing services. The frontend uses websocket and the `easer` forwards the messages towards NATS topics. it also works in the opposite direction, `easer` can subscibe to NATS topics and the received messages are forwarded towards the frontend via websocked. This feature is build upon the [npac-wsgw-adapters](https://www.npmjs.com/package/npac-wsgw-adapters) module. There is helper tool called [wsgw](https://www.npmjs.com/package/wsgw), that makes possible to publish to and subscribe for topics. This tool can send and recive messages through both NATS and websocket topics. See the README files of the mentioned modules and tools for details.
+With `easer` it possible to create two-way asynchronous communication between the frontend and the backing services. The frontend uses websocket and the `easer` forwards the messages towards NATS topics. it also works in the opposite direction, `easer` can subscibe to NATS topics and the received messages are forwarded towards the frontend via websocked. This feature is build upon the [npac-wsgw-adapters](https://www.npmjs.com/package/npac-wsgw-adapters) module. There is helper tool called [wsgw](https://www.npmjs.com/package/wsgw), that makes possible to publish to and subscribe for topics. This tool can send and recive messages through both NATS and websocket topics. See the README files of the mentioned modules and tools for details.
 
 Note: 
 - Easer is in experimental stage. Its features are under development and are matter of continuous change.
