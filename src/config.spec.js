@@ -19,6 +19,9 @@ describe('config', () => {
             },
             configFileName: 'config.yml',
             useWebsocket: false,
+            webServer: {
+                ignoreApiOperationIds: true, // Ignore operationIds by default
+            },
             logger: {
                 level: 'info',
                 transports: {

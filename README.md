@@ -16,15 +16,17 @@ The clients want to access to the backend services through standard synchronous 
 
 - Acts as static web content server.
 - Provides REST API that is described by [Swagger/OpenApi](https://swagger.io/resources/open-api/) descriptors.
-- Accomplishes messaging gateway functionality that maps the REST API calls to synchronous [NATS](https://nats.io/) calls towards service implementations, that can be implemented in different programming languages.
+- Serves examples defined in the swagger files in mocking mode.
+- Acts as edge server. Accomplishes messaging gateway functionality that maps the REST API calls to synchronous [NATS](https://nats.io/) calls towards service implementations, that can be implemented in different programming languages.
 - Connects the frontend applications to backing services and pipelines via asynchronous topic-like messaging channels using websocket and [NATS](https://nats.io/).
 - Implements internal features required for graceful shutdown, logging, monitoring, etc.
 
 These are the typical usage scenarios:
 
 1. Static web server.
-2. PDMS Gateway: Pattern Driven Micro Service (PDMS) calls through the REST API and NATS topics.
-3. PDMS/WS Gateway: WebSocket Server and Gateway to NATS topics using Pattern Driven Micro Service calls and asynchronous data pipelines. 
+2. Mock server.
+3. Edge server / NATS Gateway: Exposes Pattern Driven Micro Services (PDMS) through the REST API via NATS topics.
+4. WS/NATS Gateway: WebSocket Server and Gateway to NATS topics using Pattern Driven Micro Service calls and asynchronous data pipelines. 
 
 In order to have all the basic functions a cloud ready component should have, `easer` is built-upon the [npac](https://www.npmjs.com/package/npac) architecture, which is a lightweight Ports and Adapters Container for applications running on Node.js platform.
 
@@ -33,6 +35,7 @@ To act as PDMS Gateway, `easer` uses the built-in [npac-webserver-adapter](https
 Note: There are two ways of implementing service modules with the [npac-webserver-adapter](https://www.npmjs.com/package/npac-webserver-adapter):
 
 1. Service implementations are built-into the server. in this case you need to make a standalone [npac](https://www.npmjs.com/package/npac) based server, using directly the [npac-wsgw-adapters](https://www.npmjs.com/package/npac-wsgw-adapters) module, and integrate the endpoint implementations into this server. In this case the endpoint implementations have to be referred in the swagger files via the `operationId` properties of the endpoint descriptors.
+
 2. The `easer` way: You implement a standalone service module, that listens to NATS topic (defined by the endpoint URI and method), define the API via swagger, and start the following system components: the NATS server, the service implementation module, and the `easer` server configured with the API descriptors.
 
 With `easer` it possible to create two-way asynchronous communication between the frontend and the backing services. The frontend uses websocket and the `easer` forwards the messages towards NATS topics. it also works in the opposite direction, `easer` can subscibe to NATS topics and the received messages are forwarded towards the frontend via websocked. This feature is build upon the [npac-wsgw-adapters](https://www.npmjs.com/package/npac-wsgw-adapters) module. There is helper tool called [wsgw](https://www.npmjs.com/package/wsgw), that makes possible to publish to and subscribe for topics. This tool can send and recive messages through both NATS and websocket topics. See the README files of the mentioned modules and tools for details.
@@ -105,6 +108,9 @@ In global mode you can start the server with the `easer` command. To get help, e
                             through websocket                 [string] [default: ""]
       --outbound, -o        Comma separated list of outbound NATS topics to forward
                             towards from websocket            [string] [default: ""]
+      --enableMocking, -m   Enable the server to use examples data defined in
+                            swagger files as mock responses.
+                                                          [boolean] [default: false]
       --help                Show help                                      [boolean]
 ```
 
@@ -131,6 +137,7 @@ You should see something like this:
 
 ```
 
+
 ### Server configuration
 
 #### General server parameters
@@ -156,7 +163,20 @@ Define the REST API, using swagger or OpenApi descriptor(s):
 - Config object property: `webServer.restApiPath`
 - Default value: the current working directory.
 
-- CLI parameter: TODO
+Enable Mocking. The server will response the first example found in the `examples` array of endpoint descriptor if there is any. For proper working, it requires the `ignoreApiOperationIds` config parameter to be `true` in case the `operationId`s of the endpoints are defined. The easer set this parameter to `true` by default:
+- CLI parameter: `--enableMocking`, or `-m`.
+- Environment: `WEBSERVER_ENABLE_MOCKING`.
+- Config object property: `webServer.enableMocking`.
+- Default value: `true`.
+
+Ignore the `operationId` property of the API endpoint descriptor:
+- CLI parameter: N.A.
+- Environment: `WEBSERVER_IGNORE_API_OPERATION_IDS`.
+- Config object property: `webServer.ignoreApiOperationIds`.
+- Default value: `true`.
+
+Set the base path of the endpoints that provide static content:
+- CLI parameter: N.A.
 - Environment: `WEBSERVER_STATIC_CONTENT_BASEPATH`.
 - Config object property: `webServer.staticContentBasePath`.
 - Default value: the current working directory.
@@ -168,7 +188,7 @@ Compress response bodies for all request:
 - Default value: `false`.
 
 API calls return with response time header:
-- CLI parameter: TODO.
+- CLI parameter: N.A.
 - Environment: `webServer.useResponseTime`.
 - Config object property: `WEBSERVER_USE_RESPONSE_TIME`.
 - Default value: `false`.

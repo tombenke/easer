@@ -8,7 +8,7 @@ import appDefaults from './config'
 import { defaultApi } from './defaultApi'
 
 export const startApp = (argv = process.argv, cb = null) => {
-    const defaults = _.merge({}, appDefaults, webServer.defaults, pdms.defaults, wsServer.defaults, wsPdmsGw.defaults)
+    const defaults = _.merge({}, webServer.defaults, pdms.defaults, wsServer.defaults, wsPdmsGw.defaults, appDefaults)
 
     // Use CLI to gain additional parameters, and command to execute
     const { cliConfig /*, command*/ } = cli.parse(defaults, argv)

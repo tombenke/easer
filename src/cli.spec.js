@@ -50,6 +50,7 @@ describe('cli', () => {
                     port: '3008',
                     restApiPath: '/tmp/restApi',
                     staticContentBasePath: path.resolve(),
+                    enableMocking: false,
                     usePdms: false,
                     useCompression: true
                 },
@@ -107,6 +108,7 @@ describe('cli', () => {
                     port: '3008',
                     restApiPath: '/tmp/restApi',
                     staticContentBasePath: path.resolve(),
+                    enableMocking: false,
                     usePdms: true,
                     useCompression: false
                 },
@@ -166,6 +168,7 @@ describe('cli', () => {
                     port: '3008',
                     restApiPath: '/tmp/restApi',
                     staticContentBasePath: path.resolve(),
+                    enableMocking: false,
                     usePdms: true,
                     useCompression: false
                 },

@@ -55,22 +55,28 @@
 <ul>
 <li>Acts as static web content server.</li>
 <li>Provides REST API that is described by <a href="https://swagger.io/resources/open-api/">Swagger/OpenApi</a> descriptors.</li>
-<li>Accomplishes messaging gateway functionality that maps the REST API calls to synchronous <a href="https://nats.io/">NATS</a> calls towards service implementations, that can be implemented in different programming languages.</li>
+<li>Serves examples defined in the swagger files in mocking mode.</li>
+<li>Acts as edge server. Accomplishes messaging gateway functionality that maps the REST API calls to synchronous <a href="https://nats.io/">NATS</a> calls towards service implementations, that can be implemented in different programming languages.</li>
 <li>Connects the frontend applications to backing services and pipelines via asynchronous topic-like messaging channels using websocket and <a href="https://nats.io/">NATS</a>.</li>
 <li>Implements internal features required for graceful shutdown, logging, monitoring, etc.</li>
 </ul>
 <p>These are the typical usage scenarios:</p>
 <ol>
 <li>Static web server.</li>
-<li>PDMS Gateway: Pattern Driven Micro Service (PDMS) calls through the REST API and NATS topics.</li>
-<li>PDMS/WS Gateway: WebSocket Server and Gateway to NATS topics using Pattern Driven Micro Service calls and asynchronous data pipelines.</li>
+<li>Mock server.</li>
+<li>Edge server / NATS Gateway: Exposes Pattern Driven Micro Services (PDMS) through the REST API via NATS topics.</li>
+<li>WS/NATS Gateway: WebSocket Server and Gateway to NATS topics using Pattern Driven Micro Service calls and asynchronous data pipelines.</li>
 </ol>
 <p>In order to have all the basic functions a cloud ready component should have, <code>easer</code> is built-upon the <a href="https://www.npmjs.com/package/npac">npac</a> architecture, which is a lightweight Ports and Adapters Container for applications running on Node.js platform.</p>
 <p>To act as PDMS Gateway, <code>easer</code> uses the built-in <a href="https://www.npmjs.com/package/npac-webserver-adapter">npac-webserver-adapter</a>.</p>
 <p>Note: There are two ways of implementing service modules with the <a href="https://www.npmjs.com/package/npac-webserver-adapter">npac-webserver-adapter</a>:</p>
 <ol>
-<li>Service implementations are built-into the server. in this case you need to make a standalone <a href="https://www.npmjs.com/package/npac">npac</a> based server, using directly the <a href="https://www.npmjs.com/package/npac-wsgw-adapters">npac-wsgw-adapters</a> module, and integrate the endpoint implementations into this server. In this case the endpoint implementations have to be referred in the swagger files via the <code>operationId</code> properties of the endpoint descriptors.</li>
-<li>The <code>easer</code> way: You implement a standalone service module, that listens to NATS topic (defined by the endpoint URI and method), define the API via swagger, and start the following system components: the NATS server, the service implementation module, and the <code>easer</code> server configured with the API descriptors.</li>
+<li>
+<p>Service implementations are built-into the server. in this case you need to make a standalone <a href="https://www.npmjs.com/package/npac">npac</a> based server, using directly the <a href="https://www.npmjs.com/package/npac-wsgw-adapters">npac-wsgw-adapters</a> module, and integrate the endpoint implementations into this server. In this case the endpoint implementations have to be referred in the swagger files via the <code>operationId</code> properties of the endpoint descriptors.</p>
+</li>
+<li>
+<p>The <code>easer</code> way: You implement a standalone service module, that listens to NATS topic (defined by the endpoint URI and method), define the API via swagger, and start the following system components: the NATS server, the service implementation module, and the <code>easer</code> server configured with the API descriptors.</p>
+</li>
 </ol>
 <p>With <code>easer</code> it possible to create two-way asynchronous communication between the frontend and the backing services. The frontend uses websocket and the <code>easer</code> forwards the messages towards NATS topics. it also works in the opposite direction, <code>easer</code> can subscibe to NATS topics and the received messages are forwarded towards the frontend via websocked. This feature is build upon the <a href="https://www.npmjs.com/package/npac-wsgw-adapters">npac-wsgw-adapters</a> module. There is helper tool called <a href="https://www.npmjs.com/package/wsgw">wsgw</a>, that makes possible to publish to and subscribe for topics. This tool can send and recive messages through both NATS and websocket topics. See the README files of the mentioned modules and tools for details.</p>
 <p>Note:</p>
@@ -124,6 +130,9 @@
                             through websocket                 [string] [default: &quot;&quot;]
       --outbound, -o        Comma separated list of outbound NATS topics to forward
                             towards from websocket            [string] [default: &quot;&quot;]
+      --enableMocking, -m   Enable the server to use examples data defined in
+                            swagger files as mock responses.
+                                                          [boolean] [default: false]
       --help                Show help                                      [boolean]
 </code></pre>
 <p>During development, execute the following command in the project folder:</p>
@@ -164,30 +173,31 @@ You should see something like this:</p>
 </ul>
 <p>Define the REST API, using swagger or OpenApi descriptor(s):</p>
 <ul>
-<li>
-<p>CLI parameter: <code>-r /app/rest-api/api.yml</code>, or <code>--restApiPath /app/rest-api/api.yml</code>.</p>
-</li>
-<li>
-<p>Environment: <code>WEBSERVER_RESTAPIPATH</code>.</p>
-</li>
-<li>
-<p>Config object property: <code>webServer.restApiPath</code></p>
-</li>
-<li>
-<p>Default value: the current working directory.</p>
-</li>
-<li>
-<p>CLI parameter: TODO</p>
-</li>
-<li>
-<p>Environment: <code>WEBSERVER_STATIC_CONTENT_BASEPATH</code>.</p>
-</li>
-<li>
-<p>Config object property: <code>webServer.staticContentBasePath</code>.</p>
-</li>
-<li>
-<p>Default value: the current working directory.</p>
-</li>
+<li>CLI parameter: <code>-r /app/rest-api/api.yml</code>, or <code>--restApiPath /app/rest-api/api.yml</code>.</li>
+<li>Environment: <code>WEBSERVER_RESTAPIPATH</code>.</li>
+<li>Config object property: <code>webServer.restApiPath</code></li>
+<li>Default value: the current working directory.</li>
+</ul>
+<p>Enable Mocking. The server will response the first example found in the <code>examples</code> array of endpoint descriptor if there is any. For proper working, it requires the <code>ignoreApiOperationIds</code> config parameter to be <code>true</code> in case the <code>operationId</code>s of the endpoints are defined. The easer set this parameter to <code>true</code> by default:</p>
+<ul>
+<li>CLI parameter: <code>--enableMocking</code>, or <code>-m</code>.</li>
+<li>Environment: <code>WEBSERVER_ENABLE_MOCKING</code>.</li>
+<li>Config object property: <code>webServer.enableMocking</code>.</li>
+<li>Default value: <code>true</code>.</li>
+</ul>
+<p>Ignore the <code>operationId</code> property of the API endpoint descriptor:</p>
+<ul>
+<li>CLI parameter: N.A.</li>
+<li>Environment: <code>WEBSERVER_IGNORE_API_OPERATION_IDS</code>.</li>
+<li>Config object property: <code>webServer.ignoreApiOperationIds</code>.</li>
+<li>Default value: <code>true</code>.</li>
+</ul>
+<p>Set the base path of the endpoints that provide static content:</p>
+<ul>
+<li>CLI parameter: N.A.</li>
+<li>Environment: <code>WEBSERVER_STATIC_CONTENT_BASEPATH</code>.</li>
+<li>Config object property: <code>webServer.staticContentBasePath</code>.</li>
+<li>Default value: the current working directory.</li>
 </ul>
 <p>Compress response bodies for all request:</p>
 <ul>
@@ -198,7 +208,7 @@ You should see something like this:</p>
 </ul>
 <p>API calls return with response time header:</p>
 <ul>
-<li>CLI parameter: TODO.</li>
+<li>CLI parameter: N.A.</li>
 <li>Environment: <code>webServer.useResponseTime</code>.</li>
 <li>Config object property: <code>WEBSERVER_USE_RESPONSE_TIME</code>.</li>
 <li>Default value: <code>false</code>.</li>

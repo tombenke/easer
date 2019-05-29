@@ -91,6 +91,12 @@ const parse = (defaults, processArgv = process.argv) => {
             type: 'string',
             default: ''
         })
+        .option('enableMocking', {
+            alias: 'm',
+            desc: 'Enable the server to use examples data defined in swagger files as mock responses.',
+            type: 'boolean',
+            default: defaults.webServer.enableMocking
+        })
         .demandOption([])
         .showHelpOnFail(false, 'Specify --help for available options')
         .help()
@@ -118,7 +124,8 @@ const parse = (defaults, processArgv = process.argv) => {
                 restApiPath: argv.restApiPath,
                 usePdms: argv.usePdms,
                 useCompression: argv.useCompression,
-                staticContentBasePath: path.resolve('./')
+                staticContentBasePath: path.resolve('./'),
+                enableMocking: argv.enableMocking
             },
             wsServer: {
                 forwardTopics: argv.forward,

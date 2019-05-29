@@ -31,7 +31,7 @@
     "lodash": "^4.17.11",
     "npac": "^2.1.5",
     "npac-pdms-hemera-adapter": "^1.2.0",
-    "npac-webserver-adapter": "^2.5.0",
+    "npac-webserver-adapter": "^2.5.1",
     "npac-wsgw-adapters": "^1.1.1",
     "yargs": "^13.2.4"
   },
