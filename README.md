@@ -84,6 +84,8 @@ In global mode you can start the server with the `easer` command. To get help, e
       --version             Show version number                            [boolean]
       --config, -c          The name of the configuration file
                                                              [default: "config.yml"]
+      --basePath, -b        The base-path URL prefix to each REST endpoints
+                                                             [string] [default: "/"]
       --dumpConfig, -d      Print the effective configuration object to the console
                                                           [boolean] [default: false]
       --logLevel, -l        The log level                 [string] [default: "info"]
@@ -162,6 +164,12 @@ Define the REST API, using swagger or OpenApi descriptor(s):
 - Environment: `WEBSERVER_RESTAPIPATH`.
 - Config object property: `webServer.restApiPath`
 - Default value: the current working directory.
+
+Define the base-path (prefix) for the REST API endpoints:
+- CLI parameter: `-b /base/path`, or `--basePath /base/path`.
+- Environment: `WEBSERVER_BASEPATH`.
+- Config object property: `webServer.basePath`
+- Default value: `/`.
 
 Enable Mocking. The server will response the first example found in the `examples` array of endpoint descriptor if there is any. For proper working, it requires the `ignoreApiOperationIds` config parameter to be `true` in case the `operationId`s of the endpoints are defined. The easer set this parameter to `true` by default:
 - CLI parameter: `--enableMocking`, or `-m`.
