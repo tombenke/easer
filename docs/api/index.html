@@ -106,6 +106,8 @@
       --version             Show version number                            [boolean]
       --config, -c          The name of the configuration file
                                                              [default: &quot;config.yml&quot;]
+      --basePath, -b        The base-path URL prefix to each REST endpoints
+                                                             [string] [default: &quot;/&quot;]
       --dumpConfig, -d      Print the effective configuration object to the console
                                                           [boolean] [default: false]
       --logLevel, -l        The log level                 [string] [default: &quot;info&quot;]
@@ -177,6 +179,13 @@ You should see something like this:</p>
 <li>Environment: <code>WEBSERVER_RESTAPIPATH</code>.</li>
 <li>Config object property: <code>webServer.restApiPath</code></li>
 <li>Default value: the current working directory.</li>
+</ul>
+<p>Define the base-path (prefix) for the REST API endpoints:</p>
+<ul>
+<li>CLI parameter: <code>-b /base/path</code>, or <code>--basePath /base/path</code>.</li>
+<li>Environment: <code>WEBSERVER_BASEPATH</code>.</li>
+<li>Config object property: <code>webServer.basePath</code></li>
+<li>Default value: <code>/</code>.</li>
 </ul>
 <p>Enable Mocking. The server will response the first example found in the <code>examples</code> array of endpoint descriptor if there is any. For proper working, it requires the <code>ignoreApiOperationIds</code> config parameter to be <code>true</code> in case the <code>operationId</code>s of the endpoints are defined. The easer set this parameter to <code>true</code> by default:</p>
 <ul>
