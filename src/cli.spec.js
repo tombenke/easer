@@ -49,6 +49,7 @@ describe('cli', () => {
                 webServer: {
                     port: '3008',
                     restApiPath: '/tmp/restApi',
+                    basePath: '/',
                     staticContentBasePath: path.resolve(),
                     enableMocking: false,
                     usePdms: false,
@@ -107,6 +108,7 @@ describe('cli', () => {
                 webServer: {
                     port: '3008',
                     restApiPath: '/tmp/restApi',
+                    basePath: '/',
                     staticContentBasePath: path.resolve(),
                     enableMocking: false,
                     usePdms: true,
@@ -167,6 +169,7 @@ describe('cli', () => {
                 webServer: {
                     port: '3008',
                     restApiPath: '/tmp/restApi',
+                    basePath: '/',
                     staticContentBasePath: path.resolve(),
                     enableMocking: false,
                     usePdms: true,

@@ -11,12 +11,20 @@ const parse = (defaults, processArgv = process.argv) => {
             desc: 'The name of the configuration file',
             default: defaults.configFileName
         })
+        .option('basePath', {
+            alias: 'b',
+            desc: 'The base-path URL prefix to each REST endpoints',
+            type: 'string',
+            default: defaults.webServer.basePath
+        })
+
         .option('dumpConfig', {
             alias: 'd',
             desc: 'Print the effective configuration object to the console',
             type: 'boolean',
             default: false
         })
+
         .option('logLevel', {
             alias: 'l',
             desc: 'The log level',
@@ -122,6 +130,7 @@ const parse = (defaults, processArgv = process.argv) => {
             webServer: {
                 port: argv.port,
                 restApiPath: argv.restApiPath,
+                basePath: argv.basePath,
                 usePdms: argv.usePdms,
                 useCompression: argv.useCompression,
                 staticContentBasePath: path.resolve('./'),
