@@ -1,7 +1,7 @@
 {
   "name": "easer",
   "description": "A simple, generic express server with built-in authentication and authorization",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "keywords": [
     "cli",
     "util",
