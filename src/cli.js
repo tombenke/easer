@@ -62,6 +62,11 @@ const parse = (defaults, processArgv = process.argv) => {
             type: 'boolean',
             default: defaults.webServer.usePdms
         })
+        .option('pdmsTopic', {
+            desc: 'The name of the NATS topic where the REST API calls will be forwarded',
+            type: 'string',
+            default: defaults.webServer.pdmsTopic
+        })
         .option('natsUri', {
             alias: 'n',
             desc: 'NATS server URI used by the pdms adapter.',
@@ -132,6 +137,7 @@ const parse = (defaults, processArgv = process.argv) => {
                 restApiPath: argv.restApiPath,
                 basePath: argv.basePath,
                 usePdms: argv.usePdms,
+                pdmsTopic: argv.pdmsTopic,
                 useCompression: argv.useCompression,
                 staticContentBasePath: path.resolve('./'),
                 enableMocking: argv.enableMocking

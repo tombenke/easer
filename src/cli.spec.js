@@ -53,6 +53,7 @@ describe('cli', () => {
                     staticContentBasePath: path.resolve(),
                     enableMocking: false,
                     usePdms: false,
+                    pdmsTopic: 'easer',
                     useCompression: true
                 },
                 wsServer: {
@@ -112,6 +113,7 @@ describe('cli', () => {
                     staticContentBasePath: path.resolve(),
                     enableMocking: false,
                     usePdms: true,
+                    pdmsTopic: 'easer',
                     useCompression: false
                 },
                 wsServer: {
@@ -145,6 +147,8 @@ describe('cli', () => {
             '-r',
             '/tmp/restApi',
             '-u',
+            '--pdmsTopic',
+            'web',
             '-n',
             'nats://localhost:4222'
         ]
@@ -173,6 +177,7 @@ describe('cli', () => {
                     staticContentBasePath: path.resolve(),
                     enableMocking: false,
                     usePdms: true,
+                    pdmsTopic: 'web',
                     useCompression: false
                 },
                 wsServer: {
