@@ -98,6 +98,8 @@ In global mode you can start the server with the `easer` command. To get help, e
                             request                       [boolean] [default: false]
       --usePdms, -u         Use Pattern Driven Micro-Service adapter to forward REST
                             API calls                     [boolean] [default: false]
+      --pdmsTopic           The name of the NATS topic where the REST API calls will
+                            be forwarded                 [string] [default: "easer"]
       --natsUri, -n         NATS server URI used by the pdms adapter.
                                       [string] [default: "nats://demo.nats.io:4222"]
       --useWebsocket, -w    Use WebSocket server and message forwarding gateway
@@ -224,6 +226,11 @@ Use Pattern Driven Micro-Service adapter and enable the NATS forwarding of incom
 - Environment: `WEBSERVER_USE_PDMS`
 - Config object property: `webServer.usePdms`.
 - Default value: `false`.
+
+Define the name of the NATS topic where the REST API calls will be forwarded:
+- CLI parameter: `--pdmsTopic <topic-name>`.
+- Config object property: `webServer.pdmsTopic`.
+- Default value: "easer".
 
 Define the URI of the NATS server used by the pdms adapter:
 - CLI parameter: `-n <nats-uri>`, or `--natsUri <nats-uri>`.

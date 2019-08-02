@@ -120,6 +120,8 @@
                             request                       [boolean] [default: false]
       --usePdms, -u         Use Pattern Driven Micro-Service adapter to forward REST
                             API calls                     [boolean] [default: false]
+      --pdmsTopic           The name of the NATS topic where the REST API calls will
+                            be forwarded                 [string] [default: &quot;easer&quot;]
       --natsUri, -n         NATS server URI used by the pdms adapter.
                                       [string] [default: &quot;nats://demo.nats.io:4222&quot;]
       --useWebsocket, -w    Use WebSocket server and message forwarding gateway
@@ -246,6 +248,12 @@ You should see something like this:</p>
 <li>Environment: <code>WEBSERVER_USE_PDMS</code></li>
 <li>Config object property: <code>webServer.usePdms</code>.</li>
 <li>Default value: <code>false</code>.</li>
+</ul>
+<p>Define the name of the NATS topic where the REST API calls will be forwarded:</p>
+<ul>
+<li>CLI parameter: <code>--pdmsTopic &lt;topic-name&gt;</code>.</li>
+<li>Config object property: <code>webServer.pdmsTopic</code>.</li>
+<li>Default value: &quot;easer&quot;.</li>
 </ul>
 <p>Define the URI of the NATS server used by the pdms adapter:</p>
 <ul>
