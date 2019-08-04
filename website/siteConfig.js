@@ -28,8 +28,8 @@ const siteConfig = {
   customDocsPath: 'website-docs',
   title: 'easer', // Title for your website.
   tagline: 'A generic edge server for microservices behind REST API',
-  url: 'https://tombenke.github.io/easer', // Your website URL
-  baseUrl: '/', // Base URL for your project */
+  url: 'https://tombenke.github.io', // Your website URL
+  baseUrl: '/easer/', // Base URL for your project */
   // For github.io type URLs, you would set the url and baseUrl like:
   //   url: 'https://facebook.github.io',
   //   baseUrl: '/test-site/',
