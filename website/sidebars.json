@@ -1,0 +1,17 @@
+{
+  "docs": {
+    "Getting Started": ["overview", "installation", "basic-operations"],
+    "Guides": [
+        "configuration",
+        "rest-api-specification",
+        "static-webserver-mode",
+        "rest-api-nats-gw-mode",
+        "mock-server-mode",
+        "websocket-nats-gw-mode",
+        "beyond-easer"
+    ]
+  },
+  "tutorial": {
+    "Tutorial": ["tutorial-1"]
+  }
+}

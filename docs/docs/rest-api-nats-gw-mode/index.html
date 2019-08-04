@@ -1,0 +1,68 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>REST API / NATS Gateway · easer</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="The `easer` REST API Proxy loads the endpoint descriptors from OAS format files. After loading the descriptors, it immediately is able to respond to the incoming REST calls, however the service implementations are missing, so the responses will be errors in all cases."/><meta name="docsearch:language" content="en"/><meta property="og:title" content="REST API / NATS Gateway · easer"/><meta property="og:type" content="website"/><meta property="og:url" content="https://tombenke.github.io/easer/"/><meta property="og:description" content="The `easer` REST API Proxy loads the endpoint descriptors from OAS format files. After loading the descriptors, it immediately is able to respond to the incoming REST calls, however the service implementations are missing, so the responses will be errors in all cases."/><meta property="og:image" content="https://tombenke.github.io/easer/img/undraw_online.svg"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://tombenke.github.io/easer/img/undraw_tweetstorm.svg"/><link rel="shortcut icon" href="/img/favicon.ico"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><link rel="alternate" type="application/atom+xml" href="https://tombenke.github.io/easer/blog/atom.xml" title="easer Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://tombenke.github.io/easer/blog/feed.xml" title="easer Blog RSS Feed"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/favicon.ico" alt="easer"/><h2 class="headerTitleWithLogo">easer</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/docs/overview" target="_self">Docs</a></li><li class=""><a href="https://github.com/tombenke/easer" target="_self">GitHub</a></li><li class=""><a href="/blog/" target="_self">Blog</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>Guides</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Getting Started<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/docs/overview">Overview</a></li><li class="navListItem"><a class="navItem" href="/docs/installation">Installation</a></li><li class="navListItem"><a class="navItem" href="/docs/basic-operations">Basic Operations</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Guides<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/docs/configuration">Configuration of the Server</a></li><li class="navListItem"><a class="navItem" href="/docs/rest-api-specification">REST API Specification</a></li><li class="navListItem"><a class="navItem" href="/docs/static-webserver-mode">Static Web Server</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/docs/rest-api-nats-gw-mode">REST API / NATS Gateway</a></li><li class="navListItem"><a class="navItem" href="/docs/mock-server-mode">Mock Server</a></li><li class="navListItem"><a class="navItem" href="/docs/websocket-nats-gw-mode">WebSocket / NATS Gateway</a></li><li class="navListItem"><a class="navItem" href="/docs/beyond-easer">Beyond easer</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle">REST API / NATS Gateway</h1></header><article><div><span><p>The <code>easer</code> REST API Proxy loads the endpoint descriptors from OAS format files. After loading the descriptors, it immediately is able to respond to the incoming REST calls, however the service implementations are missing, so the responses will be errors in all cases.</p>
+<p>In order to bind the incoming endpoint calls with the service functions, the <code>easer</code> uses a messaging middleware, and synchronous, topic based, RPC-like calls to the service functions. The requests are passed towards the service implementations in JSON format messages through a previously agreed topic.</p>
+<p>These messages contain the most relevant parts of the incoming request, such as: the query and path parameters, the headers, the method, the path, and the body. Beside the request, this message also contains the minimized version of the service descriptor itself, to help the service implementation to successfully do its job.</p>
+<p>The RPC-like topic call works on a way, that the messaging system creates a temporary response topic, that the service implementation can use for sending the response back to the <code>easer</code> server.
+So the service endpoint will send back another message, that has to contain all the information which is needed to create a well formed REST response, such as: the status code, the headers, and the body, if there is any.</p>
+<p>The service implementations are independent applications, that can run in a distributed environment. For the same endpoint, there may be several implementations exist at the same time, so how will the messages find the right service implementation?</p>
+<p>A answer to this question is the pattern matching. The endpoints uses a special library, that makes possible to register the handler functions with partial message patterns, that the middleware will check when a message arrives through the topic, and those handler will get the right to serve the message, that has the pattern which the most deeply matches to the incoming message. If there are more than one service registered with the same pattern, then that will serve, that is not busy, and quicker than the other. So this approach can also act as a kind of load balancer.
+This solution is called, Pattern Driven Micro Services (PDMS). The messaging middleware used for this is the NATS, and the library, which puts this PDMS feature on top of it, is the Hemera.js.</p>
+<p>So the <code>easer</code> REST API Proxy can communicate with Pattern Driven Micro Services, and passes the incoming requests towards these services. The service handlers sends back the responses to <code>easer</code> that finally forwards the responses towards the client.</p>
+<p>The following figure shows the architecture of the REST API / NATS Gateway Mode</p>
+<p><img src="/img/rest-nats-gw-architecture.png" alt="The Architecture of the REST API / NATS Gateway Mode"></p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/static-webserver-mode"><span class="arrow-prev">← </span><span>Static Web Server</span></a><a class="docs-next button" href="/docs/mock-server-mode"><span>Mock Server</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/favicon.ico" alt="easer" width="66" height="58"/></a><div><h5>Docs</h5><a href="/docs/en/overview.html">Getting Started</a><a href="/docs/en/configuration.html">Guides</a><a href="/docs/en/refcard.html">Reference Card</a></div><div><h5>Community</h5><a href="/en/users.html">User Showcase</a></div><div><h5>More</h5><a href="/blog">Blog</a><a href="https://github.com/tombenke/easer">GitHub</a><a class="github-button" href="https://github.com/tombenke/easer" data-icon="octicon-star" data-count-href="/tombenke/easer/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2019 Tamás Benke</section></footer></div></body></html>

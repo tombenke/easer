@@ -1,0 +1,157 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Basic Operations · easer</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="## Get version"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Basic Operations · easer"/><meta property="og:type" content="website"/><meta property="og:url" content="https://tombenke.github.io/easer/"/><meta property="og:description" content="## Get version"/><meta property="og:image" content="https://tombenke.github.io/easer/img/undraw_online.svg"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://tombenke.github.io/easer/img/undraw_tweetstorm.svg"/><link rel="shortcut icon" href="/img/favicon.ico"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><link rel="alternate" type="application/atom+xml" href="https://tombenke.github.io/easer/blog/atom.xml" title="easer Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://tombenke.github.io/easer/blog/feed.xml" title="easer Blog RSS Feed"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/favicon.ico" alt="easer"/><h2 class="headerTitleWithLogo">easer</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/docs/overview" target="_self">Docs</a></li><li class=""><a href="https://github.com/tombenke/easer" target="_self">GitHub</a></li><li class=""><a href="/blog/" target="_self">Blog</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>Getting Started</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Getting Started<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/docs/overview">Overview</a></li><li class="navListItem"><a class="navItem" href="/docs/installation">Installation</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/docs/basic-operations">Basic Operations</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Guides<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/docs/configuration">Configuration of the Server</a></li><li class="navListItem"><a class="navItem" href="/docs/rest-api-specification">REST API Specification</a></li><li class="navListItem"><a class="navItem" href="/docs/static-webserver-mode">Static Web Server</a></li><li class="navListItem"><a class="navItem" href="/docs/rest-api-nats-gw-mode">REST API / NATS Gateway</a></li><li class="navListItem"><a class="navItem" href="/docs/mock-server-mode">Mock Server</a></li><li class="navListItem"><a class="navItem" href="/docs/websocket-nats-gw-mode">WebSocket / NATS Gateway</a></li><li class="navListItem"><a class="navItem" href="/docs/beyond-easer">Beyond easer</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle">Basic Operations</h1></header><article><div><span><h2><a class="anchor" aria-hidden="true" id="get-version"></a><a href="#get-version" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Get version</h2>
+<pre><code class="hljs css language-bash">$ easer --version
+
+4.0.0
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="get-help"></a><a href="#get-help" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Get help</h2>
+<pre><code class="hljs css language-bash">$ easer --<span class="hljs-built_in">help</span>
+
+Options:
+  --version             Show version number                            [boolean]
+  --config, -c          The name of the configuration file
+                                                         [default: <span class="hljs-string">"config.yml"</span>]
+  --basePath, -b        The base-path URL prefix to each REST endpoints
+                                                         [string] [default: <span class="hljs-string">"/"</span>]
+  --dumpConfig, -d      Print the effective configuration object to the console
+                                                      [boolean] [default: <span class="hljs-literal">false</span>]
+  --logLevel, -l        The <span class="hljs-built_in">log</span> level                 [string] [default: <span class="hljs-string">"info"</span>]
+  --logFormat, -t       The <span class="hljs-built_in">log</span> (`plainText` or `json`)
+                                                 [string] [default: <span class="hljs-string">"plainText"</span>]
+  --port, -p            The port the server will listen [string] [default: 3007]
+  --restApiPath, -r     The path to the REST API descriptors
+           [string] [default: <span class="hljs-string">"/home/tombenke/topics/easer/website/build/easer"</span>]
+  --useCompression, -s  Use middleware to compress response bodies <span class="hljs-keyword">for</span> all
+                        request                       [boolean] [default: <span class="hljs-literal">false</span>]
+  --usePdms, -u         Use Pattern Driven Micro-Service adapter to forward REST
+                        API calls                     [boolean] [default: <span class="hljs-literal">false</span>]
+  --pdmsTopic           The name of the NATS topic <span class="hljs-built_in">where</span> the REST API calls will
+                        be forwarded                 [string] [default: <span class="hljs-string">"easer"</span>]
+  --natsUri, -n         NATS server URI used by the pdms adapter.
+                                  [string] [default: <span class="hljs-string">"nats://demo.nats.io:4222"</span>]
+  --useWebsocket, -w    Use WebSocket server and message forwarding gateway
+                                                      [boolean] [default: <span class="hljs-literal">false</span>]
+  --forward, -f         Forwards messages among inbound and outbound topics
+                                                      [boolean] [default: <span class="hljs-literal">false</span>]
+  --forwarderEvent, -e  The name of the event the server is listen to forward
+                        the incoming messages      [string] [default: <span class="hljs-string">"message"</span>]
+  --inbound, -i         Comma separated list of inbound NATS topics to forward
+                        through websocket                 [string] [default: <span class="hljs-string">""</span>]
+  --outbound, -o        Comma separated list of outbound NATS topics to forward
+                        towards from websocket            [string] [default: <span class="hljs-string">""</span>]
+  --enableMocking, -m   Enable the server to use examples data defined <span class="hljs-keyword">in</span>
+                        swagger files as mock responses.
+                                                      [boolean] [default: <span class="hljs-literal">false</span>]
+  --<span class="hljs-built_in">help</span>                Show <span class="hljs-built_in">help</span>                                      [boolean]
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="set-the-port"></a><a href="#set-the-port" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Set the port</h2>
+<pre><code class="hljs css language-bash">easer -p 8081
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="set-the-log-level-and-format"></a><a href="#set-the-log-level-and-format" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Set the log level and format</h2>
+<p>Use the following parameters:</p>
+<pre><code class="hljs css language-bash">    easer -logLevel &lt;<span class="hljs-built_in">log</span>-level&gt; -logFormat &lt;<span class="hljs-built_in">log</span>-format&gt;
+</code></pre>
+<p>or</p>
+<pre><code class="hljs css language-bash">    easer -l &lt;<span class="hljs-built_in">log</span>-level&gt; -t &lt;<span class="hljs-built_in">log</span>-format&gt;
+</code></pre>
+<p>The valid log-level values are:</p>
+<ul>
+<li><code>error</code>: 0,</li>
+<li><code>warn</code>: 1,</li>
+<li><code>info</code>: 2 (default),</li>
+<li><code>verbose</code>: 3,</li>
+<li><code>debug</code>: 4,</li>
+<li><code>silly</code>: 5.</li>
+</ul>
+<p>The log-format value is one of <code>plainText</code> (default) or <code>json</code>.</p>
+<p>For example the <code>info</code> level looks like this with <code>plainText</code> format:</p>
+<pre><code class="hljs css language-bash">$ easer -l info
+
+2019-08-04T12:44:42.905Z [easer@4.0.0] info: Start up webServer
+2019-08-04T12:44:42.917Z [easer@4.0.0] info: Express server listening on port 3007
+2019-08-04T12:44:42.918Z [easer@4.0.0] info: App runs the <span class="hljs-built_in">jobs</span>...
+</code></pre>
+<p>in json format:</p>
+<pre><code class="hljs css language-bash">$ easer -l info -t json
+
+{<span class="hljs-string">"message"</span>:<span class="hljs-string">"Start up webServer"</span>,<span class="hljs-string">"level"</span>:<span class="hljs-string">"info"</span>,<span class="hljs-string">"label"</span>:<span class="hljs-string">"easer@4.0.0"</span>,<span class="hljs-string">"timestamp"</span>:<span class="hljs-string">"2019-08-04T12:45:28.789Z"</span>}
+{<span class="hljs-string">"message"</span>:<span class="hljs-string">"Express server listening on port 3007"</span>,<span class="hljs-string">"level"</span>:<span class="hljs-string">"info"</span>,<span class="hljs-string">"label"</span>:<span class="hljs-string">"easer@4.0.0"</span>,<span class="hljs-string">"timestamp"</span>:<span class="hljs-string">"2019-08-04T12:45:28.801Z"</span>}
+{<span class="hljs-string">"message"</span>:<span class="hljs-string">"App runs the jobs..."</span>,<span class="hljs-string">"level"</span>:<span class="hljs-string">"info"</span>,<span class="hljs-string">"label"</span>:<span class="hljs-string">"easer@4.0.0"</span>,<span class="hljs-string">"timestamp"</span>:<span class="hljs-string">"2019-08-04T12:45:28.802Z"</span>}
+</code></pre>
+<p>And the debug level in <code>plainText</code>:</p>
+<pre><code class="hljs css language-bash">$ easer -l debug
+
+2019-08-04T12:46:27.703Z [easer@4.0.0] debug: webServer config:{<span class="hljs-string">"app"</span>:{<span class="hljs-string">"name"</span>:<span class="hljs-string">"easer"</span>,<span class="hljs-string">"version"</span>:<span class="hljs-string">"4.0.0"</span>},<span class="hljs-string">"NODE_ENV"</span>:<span class="hljs-string">"development"</span>,<span class="hljs-string">"webServer"</span>:{<span class="hljs-string">"logBlackList"</span>:[],<span class="hljs-string">"port"</span>:3007,<span class="hljs-string">"useCompression"</span>:<span class="hljs-literal">false</span>,<span class="hljs-string">"useResponseTime"</span>:<span class="hljs-literal">false</span>,<span class="hljs-string">"usePdms"</span>:<span class="hljs-literal">false</span>,<span class="hljs-string">"pdmsTopic"</span>:<span class="hljs-string">"easer"</span>,<span class="hljs-string">"middlewares"</span>:{<span class="hljs-string">"preRouting"</span>:[],<span class="hljs-string">"postRouting"</span>:[]},<span class="hljs-string">"restApiPath"</span>:{<span class="hljs-string">"swagger"</span>:<span class="hljs-string">"2.0"</span>,<span class="hljs-string">"info"</span>:{<span class="hljs-string">"title"</span>:<span class="hljs-string">"An API that provides the current directory as static content"</span>,<span class="hljs-string">"version"</span>:<span class="hljs-string">"1.0"</span>},<span class="hljs-string">"paths"</span>:{<span class="hljs-string">"/"</span>:{<span class="hljs-string">"get"</span>:{<span class="hljs-string">"x-static"</span>:{<span class="hljs-string">"contentPath"</span>:<span class="hljs-string">"/home/tombenke/topics/easer-tutorial"</span>,<span class="hljs-string">"config"</span>:{<span class="hljs-string">"dotfiles"</span>:<span class="hljs-string">"allow"</span>,<span class="hljs-string">"index"</span>:<span class="hljs-literal">true</span>}},<span class="hljs-string">"responses"</span>:{<span class="hljs-string">"200"</span>:{<span class="hljs-string">"description"</span>:<span class="hljs-string">"OK"</span>}}}}}},<span class="hljs-string">"staticContentBasePath"</span>:<span class="hljs-string">"/home/tombenke/topics/easer-tutorial"</span>,<span class="hljs-string">"ignoreApiOperationIds"</span>:<span class="hljs-literal">true</span>,<span class="hljs-string">"enableMocking"</span>:<span class="hljs-literal">false</span>,<span class="hljs-string">"basePath"</span>:<span class="hljs-string">"/"</span>,<span class="hljs-string">"oasConfig"</span>:{<span class="hljs-string">"parse"</span>:{<span class="hljs-string">"yaml"</span>:{<span class="hljs-string">"allowEmpty"</span>:<span class="hljs-literal">false</span>},<span class="hljs-string">"resolve"</span>:{<span class="hljs-string">"file"</span>:<span class="hljs-literal">true</span>}}}},<span class="hljs-string">"pdms"</span>:{<span class="hljs-string">"natsUri"</span>:<span class="hljs-string">"nats://demo.nats.io:4222"</span>,<span class="hljs-string">"timeout"</span>:2000},<span class="hljs-string">"wsServer"</span>:{<span class="hljs-string">"forwarderEvent"</span>:<span class="hljs-string">"message"</span>,<span class="hljs-string">"forwardTopics"</span>:<span class="hljs-literal">false</span>},<span class="hljs-string">"wsPdmsGw"</span>:{<span class="hljs-string">"topics"</span>:{<span class="hljs-string">"inbound"</span>:[],<span class="hljs-string">"outbound"</span>:[]}},<span class="hljs-string">"configFileName"</span>:<span class="hljs-string">"config.yml"</span>,<span class="hljs-string">"useWebsocket"</span>:<span class="hljs-literal">false</span>,<span class="hljs-string">"logger"</span>:{<span class="hljs-string">"level"</span>:<span class="hljs-string">"debug"</span>,<span class="hljs-string">"transports"</span>:{<span class="hljs-string">"console"</span>:{<span class="hljs-string">"format"</span>:<span class="hljs-string">"plainText"</span>}}},<span class="hljs-string">"installDir"</span>:<span class="hljs-string">"/home/tombenke/topics/easer-tutorial"</span>,<span class="hljs-string">"dumpConfig"</span>:<span class="hljs-literal">false</span>}
+2019-08-04T12:46:27.705Z [easer@4.0.0] info: Start up webServer
+2019-08-04T12:46:27.712Z [easer@4.0.0] debug: Bind /home/tombenke/topics/easer-tutorial to / as static content service
+2019-08-04T12:46:27.713Z [easer@4.0.0] debug: restapi.setEndpoints/endpointMap []
+2019-08-04T12:46:27.716Z [easer@4.0.0] info: Express server listening on port 3007
+2019-08-04T12:46:27.717Z [easer@4.0.0] info: App runs the <span class="hljs-built_in">jobs</span>...
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="static-content-server"></a><a href="#static-content-server" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Static Content Server</h2>
+<p>By default, the <code>easer</code> server works as a static content server, that provides the content of the current working directory.
+For example, let's suppose your current working directory is the root of the easer repository, then you start the server:</p>
+<pre><code class="hljs css language-bash">$ easer
+
+2019-08-04T13:08:42.398Z [easer@4.0.0] info: Start up webServer
+2019-08-04T13:08:42.409Z [easer@4.0.0] info: Express server listening on port 3007
+2019-08-04T13:08:42.411Z [easer@4.0.0] info: App runs the <span class="hljs-built_in">jobs</span>...
+</code></pre>
+<p>When the server started, you can open the <a href="http://localhost:3007/">http://localhost:3007/</a> URL with a browser, then you will something like this:</p>
+<p><img src="/img/static-content-example.png" alt="Static Content Example"></p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/installation"><span class="arrow-prev">← </span><span>Installation</span></a><a class="docs-next button" href="/docs/configuration"><span>Configuration of the Server</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#get-version">Get version</a></li><li><a href="#get-help">Get help</a></li><li><a href="#set-the-port">Set the port</a></li><li><a href="#set-the-log-level-and-format">Set the log level and format</a></li><li><a href="#static-content-server">Static Content Server</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/favicon.ico" alt="easer" width="66" height="58"/></a><div><h5>Docs</h5><a href="/docs/en/overview.html">Getting Started</a><a href="/docs/en/configuration.html">Guides</a><a href="/docs/en/refcard.html">Reference Card</a></div><div><h5>Community</h5><a href="/en/users.html">User Showcase</a></div><div><h5>More</h5><a href="/blog">Blog</a><a href="https://github.com/tombenke/easer">GitHub</a><a class="github-button" href="https://github.com/tombenke/easer" data-icon="octicon-star" data-count-href="/tombenke/easer/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2019 Tamás Benke</section></footer></div></body></html>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://tombenke.github.io/easer/blog</id>
+    <title>easer Blog</title>
+    <updated>2019-08-02T06:00:00Z</updated>
+    <generator>Feed for Node.js</generator>
+    <link rel="alternate" href="https://tombenke.github.io/easer/blog"/>
+    <subtitle>The best place to stay up-to-date with the latest easer news and events.</subtitle>
+    <logo>https://tombenke.github.io/easer/img/favicon.ico</logo>
+    <rights>Copyright © 2019 Tamás Benke</rights>
+    <entry>
+        <title type="html"><![CDATA[New Version 4.0.0]]></title>
+        <id>https://tombenke.github.io/easer/blog/2019/08/02/new-version-4.0.0.html</id>
+        <link href="https://tombenke.github.io/easer/blog/2019/08/02/new-version-4.0.0.html">
+        </link>
+        <updated>2019-08-02T06:00:00Z</updated>
+        <summary type="html"><![CDATA[<p>The new v4.0.0 version enables you to do static mocking and implementing dynamic service handler function to work together.</p> <p>TBD.</p> ]]></summary>
+        <author>
+            <name>Tamás Benke</name>
+            <uri>https://tombenke.github.io/me/</uri>
+        </author>
+    </entry>
+</feed>
