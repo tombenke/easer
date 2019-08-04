@@ -1,6 +1,7 @@
 # dependencies
 /node_modules
 /website/node_modules
+/website/build
 
 # testing
 /coverage
