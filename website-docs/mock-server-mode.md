@@ -10,4 +10,4 @@ Even in case the two teams are the same, or it is only same individual person, i
 In order to switch `easer` to mock server mode, we need to use the `--enableMocking` or, simply the `-m`switch.
 
 
-![The Architecture of the Static Mocking Mode](/img/static-mock-server-architecture.png)
+![The Architecture of the Static Mocking Mode](/easer/img/static-mock-server-architecture.png)

@@ -5,7 +5,7 @@ title: Static Web Server
 
 We can define the service endpoints to the `easer` server via standard endpoint descriptors, as the following Figure shows:
 
-![Default Static Webserver Architecture](/img/default-static-webserver-architecture.png)
+![Default Static Webserver Architecture](/easer/img/default-static-webserver-architecture.png)
 
 However, in case we do not create endpoint descriptors, neither give it to easer, then the server uses its built-in descriptor, that looks like this:
 
@@ -51,6 +51,6 @@ $ easer
 
 Open the [http://localhost:3007/](http://localhost:3007/) URL with a browser, then you will something like this:
 
-![Static Content Example](/img/static-content-example.png)
+![Static Content Example](/easer/img/static-content-example.png)
 
 

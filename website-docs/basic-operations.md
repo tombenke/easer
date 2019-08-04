@@ -133,5 +133,5 @@ $ easer
 
 When the server started, you can open the [http://localhost:3007/](http://localhost:3007/) URL with a browser, then you will something like this:
 
-![Static Content Example](/img/static-content-example.png)
+![Static Content Example](/easer/img/static-content-example.png)
 

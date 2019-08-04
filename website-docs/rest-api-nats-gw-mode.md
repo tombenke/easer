@@ -22,7 +22,7 @@ So the `easer` REST API Proxy can communicate with Pattern Driven Micro Services
 
 The following figure shows the architecture of the REST API / NATS Gateway Mode
 
-![The Architecture of the REST API / NATS Gateway Mode](/img/rest-nats-gw-architecture.png)
+![The Architecture of the REST API / NATS Gateway Mode](/easer/img/rest-nats-gw-architecture.png)
 
 
 
