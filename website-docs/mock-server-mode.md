@@ -36,7 +36,9 @@ $ curl http://localhost:3007/persons/anakin
 
 The responses are coming from the examples defined to the specific endpoint responses. The server takes into consideration of the `Accept` header, so examples can be defined for multiple mime-types.
 
-There are cases, when the static mocking is not satisfying. We need to implement some intelligence to the mocked service. Another challenge is, when we have implemented some of the backing services, but some of them are not completed, and we need to mock a combination of static and dynamic mocking.
+There are cases, when the static mocking is not satisfying. We need to implement some intelligence to the mocked service. Another challenge is, when we have implemented some of the backing services, but some of them are not completed, and we need to mock a combination of static and dynamic mocking, as you can see on the next Figure, below:
+
+![The Architecture of the Combined Mocking Mode](/easer/img/combined-mock-server-architecture.png)
 
 In order to combine the two modes, we need to switch on the NATS middleware and the message forwarding, but at the same time we also can enable the mocking as well:
 
