@@ -1,6 +1,6 @@
 ---
-id: beyond-easer
-title: Beyond easer
+id: easer-internals
+title: easer internals
 ---
 
 In order to have all the basic functions a cloud ready component should have, `easer` is built-upon the [npac](https://www.npmjs.com/package/npac) architecture, which is a lightweight Ports and Adapters Container for applications running on Node.js platform.

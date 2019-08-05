@@ -8,11 +8,11 @@
       "basic-operations": {
         "title": "Basic Operations"
       },
-      "beyond-easer": {
-        "title": "Beyond easer"
-      },
       "configuration": {
         "title": "Configuration of the Server"
+      },
+      "easer-internals": {
+        "title": "easer internals"
       },
       "installation": {
         "title": "Installation"

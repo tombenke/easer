@@ -8,7 +8,7 @@ easer
 
 ## About
 
-The main goal with the implementation of `easer` is to have a general purpose, cloud ready server that connects client applications with backend services using configuration only, but no infrastructure coding is required.
+The main goal with the implementation of [`easer`](https://tombenke.github.io/easer) is to have a general purpose, cloud ready server that connects client applications with backend services using configuration only, but no infrastructure coding is required.
 
 The clients want to access to the backend services through standard synchronous REST APIs, and/or asynchronous websocket channels. `easer` makes this possible, and it needs only some configuration parameter and a standard description of the REST API.
 
@@ -28,21 +28,7 @@ These are the typical usage scenarios:
 3. Edge server / NATS Gateway: Exposes Pattern Driven Micro Services (PDMS) through the REST API via NATS topics.
 4. WS/NATS Gateway: WebSocket Server and Gateway to NATS topics using Pattern Driven Micro Service calls and asynchronous data pipelines. 
 
-In order to have all the basic functions a cloud ready component should have, `easer` is built-upon the [npac](https://www.npmjs.com/package/npac) architecture, which is a lightweight Ports and Adapters Container for applications running on Node.js platform.
-
-To act as PDMS Gateway, `easer` uses the built-in [npac-webserver-adapter](https://www.npmjs.com/package/npac-webserver-adapter).
-
-Note: There are two ways of implementing service modules with the [npac-webserver-adapter](https://www.npmjs.com/package/npac-webserver-adapter):
-
-1. Service implementations are built-into the server. in this case you need to make a standalone [npac](https://www.npmjs.com/package/npac) based server, using directly the [npac-wsgw-adapters](https://www.npmjs.com/package/npac-wsgw-adapters) module, and integrate the endpoint implementations into this server. In this case the endpoint implementations have to be referred in the swagger files via the `operationId` properties of the endpoint descriptors.
-
-2. The `easer` way: You implement a standalone service module, that listens to NATS topic (defined by the endpoint URI and method), define the API via swagger, and start the following system components: the NATS server, the service implementation module, and the `easer` server configured with the API descriptors.
-
-With `easer` it possible to create two-way asynchronous communication between the frontend and the backing services. The frontend uses websocket and the `easer` forwards the messages towards NATS topics. it also works in the opposite direction, `easer` can subscibe to NATS topics and the received messages are forwarded towards the frontend via websocked. This feature is build upon the [npac-wsgw-adapters](https://www.npmjs.com/package/npac-wsgw-adapters) module. There is helper tool called [wsgw](https://www.npmjs.com/package/wsgw), that makes possible to publish to and subscribe for topics. This tool can send and recive messages through both NATS and websocket topics. See the README files of the mentioned modules and tools for details.
-
-Note: 
-- Easer is in experimental stage. Its features are under development and are matter of continuous change.
-- The original implementation of basic Authorization is removed, and will be implemented using the Autorization schemas of swagger descriptors.
+Visit the [easer project website](https://tombenke.github.io/easer) to read the detailed documentation.
 
 
 ## Prerequisites
@@ -144,141 +130,7 @@ You should see something like this:
 
 ### Server configuration
 
-#### General server parameters
-
-`easer` can be configured via:
-- configuration file,
-- environment variables,
-- command line arguments,
-- the combination of these above.
-
-Dump the effective configuration object, before start:
-- CLI parameter: `-d [true]`, or `--dumpConfig [true]`.
-
-Set the port where the server will listen:
-- CLI parameter: `-p 8081` or `--port 8081`.
-- Environment: `WEBSERVER_PORT`.
-- Config object property: `webServer.port`
-- Default value: `3007`.
-
-Define the REST API, using swagger or OpenApi descriptor(s):
-- CLI parameter: `-r /app/rest-api/api.yml`, or `--restApiPath /app/rest-api/api.yml`.
-- Environment: `WEBSERVER_RESTAPIPATH`.
-- Config object property: `webServer.restApiPath`
-- Default value: the current working directory.
-
-Define the base-path (prefix) for the REST API endpoints:
-- CLI parameter: `-b /base/path`, or `--basePath /base/path`.
-- Environment: `WEBSERVER_BASEPATH`.
-- Config object property: `webServer.basePath`
-- Default value: `/`.
-
-Enable Mocking. The server will response the first example found in the `examples` array of endpoint descriptor if there is any. For proper working, it requires the `ignoreApiOperationIds` config parameter to be `true` in case the `operationId`s of the endpoints are defined. The easer set this parameter to `true` by default:
-- CLI parameter: `--enableMocking`, or `-m`.
-- Environment: `WEBSERVER_ENABLE_MOCKING`.
-- Config object property: `webServer.enableMocking`.
-- Default value: `true`.
-
-Ignore the `operationId` property of the API endpoint descriptor:
-- CLI parameter: N.A.
-- Environment: `WEBSERVER_IGNORE_API_OPERATION_IDS`.
-- Config object property: `webServer.ignoreApiOperationIds`.
-- Default value: `true`.
-
-Set the base path of the endpoints that provide static content:
-- CLI parameter: N.A.
-- Environment: `WEBSERVER_STATIC_CONTENT_BASEPATH`.
-- Config object property: `webServer.staticContentBasePath`.
-- Default value: the current working directory.
-
-Compress response bodies for all request:
-- CLI parameter: `--useCompression [true]`, or `-s [true]`.
-- Environment: `WEBSERVER_USE_COMPRESSION`.
-- Config object property: `webServer.useCompression`.
-- Default value: `false`.
-
-API calls return with response time header:
-- CLI parameter: N.A.
-- Environment: `webServer.useResponseTime`.
-- Config object property: `WEBSERVER_USE_RESPONSE_TIME`.
-- Default value: `false`.
-
-#### Logging
-
-Set the log level of the server and its internal components:
-- CLI parameter: `-l <level>`, or `logLevel <level>`
-- Environment: `EASER_LOG_LEVEL`.
-- Config object property: `logger.level`.
-- Possible values: `info`, `debug`, `warn`, `error`.
-- Default value: `info`.
-
-Set the log format of the server and its internal components:
-- CLI parameter: `-t <format>`, or `--logFormat <format>`.
-- Environment: `EASER_LOG_FORMAT`.
-- Config object property: `logger.transports.console.format`.
-- Possible values: `plainText`, `json`.
-- Default value: `plainText`.
-
-#### PDMS (NATS) Gateway
-
-Use Pattern Driven Micro-Service adapter and enable the NATS forwarding of incoming API calls:
-- CLI parameter: `-u [true]`, or `--usePdms [true]`.
-- Environment: `WEBSERVER_USE_PDMS`
-- Config object property: `webServer.usePdms`.
-- Default value: `false`.
-
-Define the name of the NATS topic where the REST API calls will be forwarded:
-- CLI parameter: `--pdmsTopic <topic-name>`.
-- Config object property: `webServer.pdmsTopic`.
-- Default value: "easer".
-
-Define the URI of the NATS server used by the pdms adapter:
-- CLI parameter: `-n <nats-uri>`, or `--natsUri <nats-uri>`.
-- Environment: `PDMS_NATS_URI`.
-- Config object parameter: `pdms.natsUri`.
-- Default value: `"nats://demo.nats.io:4222"`.
-
-Define the NATS timeout value:
-- CLI parameter: TODO.
-- Environment: `PDMS_TIMEOUT`.
-- Config object property: `pdms.timeout`.
-- Default value: `2000`.
-
-See [npac-pdms-hemera-adapter](https://www.npmjs.com/package/npac-pdms-hemera-adapter) for further details.
-
-#### WebSocket Gateway
-
-Use WebSocket server and message forwarding gateway:
-- CLI parameter: `--useWebsocket [true]`, or `-w [true]`.
-- Environment: `EASER_USE_WEBSOCKET`.
-- Config object property: `useWebsocket`.
-- Default value: `false`.
-
-Set the name of the event, the WebSocket server listens for and will forward towards NATS topics:
-- CLI parameter: `--forwarderEvent <event-name>`, `-e <event-name>`.
-- Environment: `WSSERVER_FORWARDER_EVENT`.
-- Config object property: `wsServer.forwarderEvent`.
-- Default value: `message`.
-
-Note: The messages should have a `topic` property, that holds the name of the WebSocket event in case of inbound messages, or the name of the NATS topic in case of the outbound messages.
-
-Enable the WebSocket server to forward the messages among inbound and outbound topics:
-- CLI parameter: `--forward [true]`, or `-f [true]`
-- Environment: `WSSERVER_FORWARD_TOPICS`.
-- Config object property: `wsServer.forwardTopics`.
-- Default value: `false`.
-
-Define the inbound NATS topics as a comma-separated list that will be forwarded towards websocket:
-- CLI parameter: `--inbound <list-of-topics>`, `-i <list-of-topics>`.
-- Environment: `WSPDMSGW_INBOUND_TOPICS`.
-- Config object property: `wsPdmsGw.topics.bound`.
-- Default value: `""`.
-
-Define the outbound NATS topics as a comma separated list that will be forwarded from websocket towards NATS topics:
-- CLI parameter: `--outbound <list-of-topics>`, `-o <list-of-topics>`.
-- Environment: `WSPDMSGW_OUTBOUND_TOPICS`.
-- Config object property: `wsPdmsGw.topics.outbound`.
-- Default value: `""`.
+See [configuration](website-docs/configuration.md) page.
 
 [npm-badge]: https://badge.fury.io/js/easer.svg
 [npm-url]: https://badge.fury.io/js/easer

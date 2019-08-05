@@ -8,7 +8,7 @@
         "rest-api-nats-gw-mode",
         "mock-server-mode",
         "websocket-nats-gw-mode",
-        "beyond-easer"
+        "easer-internals"
     ]
   },
   "tutorial": {
