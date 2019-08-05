@@ -15,13 +15,17 @@ The [person-rest-api](https://github.com/tombenke/person-rest-api) repository ho
 - [in swagger-ui format](https://tombenke.github.io/person-rest-api/swagger.html)
 - [in redoc format](https://tombenke.github.io/person-rest-api/redoc-static.html)
 
-Just clone this repo, and read the [README](https://github.com/tombenke/person-rest-api) to learn more about how to use it as a template for your REST API specifications.
+Just clone this repo, and read the [README](https://github.com/tombenke/person-rest-api) to learn more about how to use it as a template for your REST API specifications:
 
-## Define Static Content
+```bash
+git clone git@github.com:tombenke/person-rest-api.git
+```
+
+## Define Paths for Static Content
 
 On top of the OAS standard, there is an extension to the Path Item object that should be used, if you want to define paths that the server should provide via its `static` middleware.
 
-Let's suppose we want to make the `swagger.json` file available via the server, at the `/api/docs` path, using the GET method. Then we need to create a path definition similar to this:
+Let's suppose we want to make the `swagger.json` file available via the server, at the `/api-docs` path, using the GET method. Then we need to create a path definition similar to this:
 
 ```YAML
 #/api-docs:

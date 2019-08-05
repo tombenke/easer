@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>REST API / NATS Gateway · easer</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="The `easer` REST API Proxy loads the endpoint descriptors from OAS format files. After loading the descriptors, it immediately is able to respond to the incoming REST calls, however the service implementations are missing, so the responses will be errors in all cases."/><meta name="docsearch:language" content="en"/><meta property="og:title" content="REST API / NATS Gateway · easer"/><meta property="og:type" content="website"/><meta property="og:url" content="https://tombenke.github.io/easer/"/><meta property="og:description" content="The `easer` REST API Proxy loads the endpoint descriptors from OAS format files. After loading the descriptors, it immediately is able to respond to the incoming REST calls, however the service implementations are missing, so the responses will be errors in all cases."/><meta property="og:image" content="https://tombenke.github.io/easer/img/undraw_online.svg"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://tombenke.github.io/easer/img/undraw_tweetstorm.svg"/><link rel="shortcut icon" href="/easer/img/favicon.ico"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><link rel="alternate" type="application/atom+xml" href="https://tombenke.github.io/easer/blog/atom.xml" title="easer Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://tombenke.github.io/easer/blog/feed.xml" title="easer Blog RSS Feed"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="/easer/js/scrollSpy.js"></script><link rel="stylesheet" href="/easer/css/main.css"/><script src="/easer/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/easer/"><img class="logo" src="/easer/img/favicon.ico" alt="easer"/><h2 class="headerTitleWithLogo">easer</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/easer/docs/overview" target="_self">Docs</a></li><li class=""><a href="https://github.com/tombenke/easer" target="_self">GitHub</a></li><li class=""><a href="/easer/blog/" target="_self">Blog</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>Guides</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Getting Started<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/easer/docs/overview">Overview</a></li><li class="navListItem"><a class="navItem" href="/easer/docs/installation">Installation</a></li><li class="navListItem"><a class="navItem" href="/easer/docs/basic-operations">Basic Operations</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Guides<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/easer/docs/configuration">Configuration of the Server</a></li><li class="navListItem"><a class="navItem" href="/easer/docs/rest-api-specification">REST API Specification</a></li><li class="navListItem"><a class="navItem" href="/easer/docs/static-webserver-mode">Static Web Server</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/easer/docs/rest-api-nats-gw-mode">REST API / NATS Gateway</a></li><li class="navListItem"><a class="navItem" href="/easer/docs/mock-server-mode">Mock Server</a></li><li class="navListItem"><a class="navItem" href="/easer/docs/websocket-nats-gw-mode">WebSocket / NATS Gateway</a></li><li class="navListItem"><a class="navItem" href="/easer/docs/beyond-easer">Beyond easer</a></li></ul></div></div></section></div><script>
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>REST API / NATS Gateway · easer</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="This section describes how we can use the `easer` server as a REST API Proxy that delegates the incoming REST API calls to microservices, that are implemented in a separate, standalone application."/><meta name="docsearch:language" content="en"/><meta property="og:title" content="REST API / NATS Gateway · easer"/><meta property="og:type" content="website"/><meta property="og:url" content="https://tombenke.github.io/easer/"/><meta property="og:description" content="This section describes how we can use the `easer` server as a REST API Proxy that delegates the incoming REST API calls to microservices, that are implemented in a separate, standalone application."/><meta property="og:image" content="https://tombenke.github.io/easer/img/undraw_online.svg"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://tombenke.github.io/easer/img/undraw_tweetstorm.svg"/><link rel="shortcut icon" href="/easer/img/favicon.ico"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><link rel="alternate" type="application/atom+xml" href="https://tombenke.github.io/easer/blog/atom.xml" title="easer Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://tombenke.github.io/easer/blog/feed.xml" title="easer Blog RSS Feed"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="/easer/js/scrollSpy.js"></script><link rel="stylesheet" href="/easer/css/main.css"/><script src="/easer/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/easer/"><img class="logo" src="/easer/img/favicon.ico" alt="easer"/><h2 class="headerTitleWithLogo">easer</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/easer/docs/overview" target="_self">Docs</a></li><li class=""><a href="https://github.com/tombenke/easer" target="_self">GitHub</a></li><li class=""><a href="/easer/blog/" target="_self">Blog</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>Guides</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Getting Started<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/easer/docs/overview">Overview</a></li><li class="navListItem"><a class="navItem" href="/easer/docs/installation">Installation</a></li><li class="navListItem"><a class="navItem" href="/easer/docs/basic-operations">Basic Operations</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Guides<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/easer/docs/configuration">Configuration of the Server</a></li><li class="navListItem"><a class="navItem" href="/easer/docs/rest-api-specification">REST API Specification</a></li><li class="navListItem"><a class="navItem" href="/easer/docs/static-webserver-mode">Static Web Server</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/easer/docs/rest-api-nats-gw-mode">REST API / NATS Gateway</a></li><li class="navListItem"><a class="navItem" href="/easer/docs/mock-server-mode">Mock Server</a></li><li class="navListItem"><a class="navItem" href="/easer/docs/websocket-nats-gw-mode">WebSocket / NATS Gateway</a></li><li class="navListItem"><a class="navItem" href="/easer/docs/beyond-easer">Beyond easer</a></li></ul></div></div></section></div><script>
             var coll = document.getElementsByClassName('collapsible');
             var checkActiveCategory = true;
             for (var i = 0; i < coll.length; i++) {
@@ -54,15 +54,162 @@
                 };
               }
             });
-        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle">REST API / NATS Gateway</h1></header><article><div><span><p>The <code>easer</code> REST API Proxy loads the endpoint descriptors from OAS format files. After loading the descriptors, it immediately is able to respond to the incoming REST calls, however the service implementations are missing, so the responses will be errors in all cases.</p>
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle">REST API / NATS Gateway</h1></header><article><div><span><p>This section describes how we can use the <code>easer</code> server as a REST API Proxy that delegates the incoming REST API calls to microservices, that are implemented in a separate, standalone application.</p>
+<p>We will use the following example projects for demonstration:</p>
+<ul>
+<li>The <a href="https://github.com/tombenke/person-rest-api">person-rest-api</a> is the specification of REST API endpoints of a simple person service;</li>
+<li>The <a href="https://github.com/tombenke/person-service-js">person-service-js</a> is the JavaScript implementation of REST API endpoints of a simple person service.</li>
+</ul>
+<p>First clone these repositories:</p>
+<pre><code class="hljs css language-bash">git <span class="hljs-built_in">clone</span> git@github.com:tombenke/person-rest-api.git
+git <span class="hljs-built_in">clone</span> git@github.com:tombenke/person-service-js.git
+</code></pre>
+<p>The <code>easer</code> REST API Proxy loads the endpoint descriptors from OAS format files. After loading the descriptors, it immediately is able to respond to the incoming REST calls.</p>
+<p>Start the easer, with the REST API:</p>
+<pre><code class="hljs css language-bash">$ easer -r person-rest-api/rest-api/api.yml 
+2019-08-05T04:03:03.117Z [easer@4.0.0] info: Load endpoints from /home/tombenke/topics/easer-tutorial/person-rest-api/rest-api/api.yml
+2019-08-05T04:03:03.187Z [easer@4.0.0] info: Start up webServer
+2019-08-05T04:03:03.200Z [easer@4.0.0] info: Express server listening on port 3007
+2019-08-05T04:03:03.201Z [easer@4.0.0] info: App runs the <span class="hljs-built_in">jobs</span>...
+</code></pre>
+<p>Now the server is running and the REST endpoints are available, so try to call them:</p>
+<pre><code class="hljs css language-bash">$ curl http://localhost:3007/persons -v
+
+*   Trying 127.0.0.1...
+* Connected to localhost (127.0.0.1) port 3007 (<span class="hljs-comment">#0)</span>
+&gt; GET /persons HTTP/1.1
+&gt; Host: localhost:3007
+&gt; User-Agent: curl/7.47.0
+&gt; Accept: */*
+&gt; 
+&lt; HTTP/1.1 501 Not Implemented
+&lt; X-Powered-By: Express
+&lt; Content-Type: application/json; charset=utf-8
+&lt; Content-Length: 78
+&lt; ETag: W/<span class="hljs-string">"4e-mVxPm4tUvCVz9epJEB6Bbkm4UMA"</span>
+&lt; Date: Mon, 05 Aug 2019 04:03:21 GMT
+&lt; Connection: keep-alive
+&lt; 
+* Connection <span class="hljs-comment">#0 to host localhost left intact</span>
+
+{<span class="hljs-string">"error"</span>:<span class="hljs-string">"The endpoint is either not implemented or `operationId` is ignored"</span>}
+</code></pre>
+<p>We got <code>501</code> error in the response, and the body says that the enpoint is not implemented.
+This is because the <code>easer</code> is responsible for the REST API at the edge, and not for the implementation of them, so the responses will be errors in all cases.</p>
 <p>In order to bind the incoming endpoint calls with the service functions, the <code>easer</code> uses a messaging middleware, and synchronous, topic based, RPC-like calls to the service functions. The requests are passed towards the service implementations in JSON format messages through a previously agreed topic.</p>
-<p>These messages contain the most relevant parts of the incoming request, such as: the query and path parameters, the headers, the method, the path, and the body. Beside the request, this message also contains the minimized version of the service descriptor itself, to help the service implementation to successfully do its job.</p>
-<p>The RPC-like topic call works on a way, that the messaging system creates a temporary response topic, that the service implementation can use for sending the response back to the <code>easer</code> server.
-So the service endpoint will send back another message, that has to contain all the information which is needed to create a well formed REST response, such as: the status code, the headers, and the body, if there is any.</p>
-<p>The service implementations are independent applications, that can run in a distributed environment. For the same endpoint, there may be several implementations exist at the same time, so how will the messages find the right service implementation?</p>
-<p>A answer to this question is the pattern matching. The endpoints uses a special library, that makes possible to register the handler functions with partial message patterns, that the middleware will check when a message arrives through the topic, and those handler will get the right to serve the message, that has the pattern which the most deeply matches to the incoming message. If there are more than one service registered with the same pattern, then that will serve, that is not busy, and quicker than the other. So this approach can also act as a kind of load balancer.
-This solution is called, Pattern Driven Micro Services (PDMS). The messaging middleware used for this is the NATS, and the library, which puts this PDMS feature on top of it, is the Hemera.js.</p>
-<p>So the <code>easer</code> REST API Proxy can communicate with Pattern Driven Micro Services, and passes the incoming requests towards these services. The service handlers sends back the responses to <code>easer</code> that finally forwards the responses towards the client.</p>
+<p>The service implementations are independently running, standalone applications.</p>
 <p>The following figure shows the architecture of the REST API / NATS Gateway Mode</p>
 <p><img src="/easer/img/rest-nats-gw-architecture.png" alt="The Architecture of the REST API / NATS Gateway Mode"></p>
+<p>in order to have a completely working system, we need to start all the three main components:</p>
+<ul>
+<li>The NATS middleware,</li>
+<li>The application, that implements the service endpoints,</li>
+<li>The easer, which is configured to connect to the NAT server, and to forward the traffic towards the service implementations.</li>
+</ul>
+<p>First, let's start the NATS server, using Docker:</p>
+<pre><code class="hljs css language-bash">$ docker run -it --rm --network=host -p 4222:4222 -p 6222:6222 -p 8222:8222 --name nats-main nats 
+
+[1] 2019/08/05 04:21:42.975522 [INF] Starting nats-server version 2.0.2
+[1] 2019/08/05 04:21:42.975579 [INF] Git commit [6a40503]
+[1] 2019/08/05 04:21:42.975687 [INF] Starting http monitor on 0.0.0.0:8222
+[1] 2019/08/05 04:21:42.975760 [INF] Listening <span class="hljs-keyword">for</span> client connections on 0.0.0.0:4222
+[1] 2019/08/05 04:21:42.975782 [INF] Server id is NBW6XLRZ4SJRIRYTRDLVHUTBY55DLH64T6IDP37MRW2MMA3E7DIPLI6P
+[1] 2019/08/05 04:21:42.975791 [INF] Server is ready
+[1] 2019/08/05 04:21:42.976324 [INF] Listening <span class="hljs-keyword">for</span> route connections on 0.0.0.0:6222
+</code></pre>
+<p>The NATS server will provide its services on the <code>nats://localhost:4222</code> URI.</p>
+<p>Then starts the service application, in a new terminal:</p>
+<pre><code class="hljs css language-bash">$ node person-service-js/index.js 
+Hemera is connected
+</code></pre>
+<p>Finally restart the easer server with the following parameters:</p>
+<pre><code class="hljs css language-bash">$ easer -r person-rest-api/rest-api/api.yml -n nats://localhost:4222 --pdmsTopic person-demo -u
+
+2019-08-05T04:43:04.362Z [easer@4.0.0] info: Start up pdmsHemera
+2019-08-05T04:43:04.382Z [easer@4.0.0] info: hemera: <span class="hljs-string">"Connected!"</span>
+2019-08-05T04:43:04.383Z [easer@4.0.0] info: Hemera is connected
+2019-08-05T04:43:04.384Z [easer@4.0.0] info: Load endpoints from /home/tombenke/topics/easer-tutorial/person-rest-api/rest-api/api.yml
+2019-08-05T04:43:04.449Z [easer@4.0.0] info: Start up webServer
+2019-08-05T04:43:04.461Z [easer@4.0.0] info: Express server listening on port 3007
+2019-08-05T04:43:04.462Z [easer@4.0.0] info: App runs the <span class="hljs-built_in">jobs</span>...
+</code></pre>
+<p>Where:</p>
+<ul>
+<li><code>-n nats://localhost:4222</code>: defines the URI of the NATS server;</li>
+<li><code>--pdmsTopic person-demo</code>: defines the name of the topic to use;</li>
+<li><code>-u</code>: Enables <code>easer</code> to forward the incoming calls as messages to the NATS topic.</li>
+</ul>
+<p>If we try to call again the REST API, it will successfully serve the request:</p>
+<pre><code class="hljs css language-bash">$ curl http://localhost:3007/persons -v
+*   Trying 127.0.0.1...
+* Connected to localhost (127.0.0.1) port 3007 (<span class="hljs-comment">#0)</span>
+&gt; GET /persons HTTP/1.1
+&gt; Host: localhost:3007
+&gt; User-Agent: curl/7.47.0
+&gt; Accept: */*
+&gt; 
+&lt; HTTP/1.1 200 OK
+&lt; X-Powered-By: Express
+&lt; Content-Type: application/json; charset=utf-8
+&lt; Content-Length: 2
+&lt; ETag: W/<span class="hljs-string">"2-l9Fw4VUO7kr8CvBlt4zaMCqXZ0w"</span>
+&lt; Date: Mon, 05 Aug 2019 04:47:38 GMT
+&lt; Connection: keep-alive
+&lt; 
+* Connection <span class="hljs-comment">#0 to host localhost left intact</span>
+[]
+</code></pre>
+<p>The response is an empty array, since there is no <code>persons</code> uploaded to the services yet.</p>
+<p>We can use other endpoints to make sure, the API is working correctly:</p>
+<pre><code class="hljs css language-bash">$ curl -X PUT http://localhost:3007/persons/leia -H <span class="hljs-string">"Content-type: application/json"</span> -d <span class="hljs-string">'{"id":"leia","familyName":"Organa","givenName":"Leia"}'</span>
+{<span class="hljs-string">"id"</span>:<span class="hljs-string">"leia"</span>,<span class="hljs-string">"familyName"</span>:<span class="hljs-string">"Organa"</span>,<span class="hljs-string">"givenName"</span>:<span class="hljs-string">"Leia"</span>}
+
+$ curl http://localhost:3007/persons 
+[{<span class="hljs-string">"id"</span>:<span class="hljs-string">"leia"</span>,<span class="hljs-string">"familyName"</span>:<span class="hljs-string">"Organa"</span>,<span class="hljs-string">"givenName"</span>:<span class="hljs-string">"Leia"</span>}]
+</code></pre>
+<p>The messages that the <code>easer</code> sends to the NATS topic contain the most relevant parts of the incoming request, such as: the query and path parameters, the headers, the method, the path, and the body. Beside the request, this message also contains the minimized version of the service descriptor itself, to help the service implementation to successfully do its job.</p>
+<p>The RPC-like topic call works on a way, that the messaging system creates a temporary response topic, that the service implementation can use for sending the response back to the <code>easer</code> server.
+So the service endpoint will send back another message, that has to contain all the information which is needed to create a well formed REST response, such as: the status code, the headers, and the body, if there is any.</p>
+<p>This is an example for an incoming <code>GET /persons</code> request:</p>
+<pre><code class="hljs css language-JSON">{
+  <span class="hljs-attr">"topic"</span>: <span class="hljs-string">"person-demo"</span>,
+  <span class="hljs-attr">"method"</span>: <span class="hljs-string">"get"</span>,
+  <span class="hljs-attr">"uri"</span>: <span class="hljs-string">"/persons"</span>,
+  <span class="hljs-attr">"endpointDesc"</span>: {
+    <span class="hljs-attr">"uri"</span>: <span class="hljs-string">"/persons"</span>,
+    <span class="hljs-attr">"jsfUri"</span>: <span class="hljs-string">"/persons"</span>,
+    <span class="hljs-attr">"method"</span>: <span class="hljs-string">"get"</span>,
+    <span class="hljs-attr">"operationId"</span>: <span class="hljs-literal">null</span>,
+    <span class="hljs-attr">"consumes"</span>: [
+      <span class="hljs-string">"application/json"</span>
+    ],
+    <span class="hljs-attr">"produces"</span>: [
+      <span class="hljs-string">"application/json"</span>
+    ],
+    <span class="hljs-attr">"responses"</span>: {
+      <span class="hljs-attr">"200"</span>: {
+        <span class="hljs-attr">"status"</span>: <span class="hljs-string">"200"</span>,
+        <span class="hljs-attr">"headers"</span>: {}
+      }
+    }
+  },
+  <span class="hljs-attr">"request"</span>: {
+    <span class="hljs-attr">"cookies"</span>: {},
+    <span class="hljs-attr">"headers"</span>: {
+      <span class="hljs-attr">"host"</span>: <span class="hljs-string">"localhost:3007"</span>,
+      <span class="hljs-attr">"user-agent"</span>: <span class="hljs-string">"curl/7.47.0"</span>,
+      <span class="hljs-attr">"accept"</span>: <span class="hljs-string">"*/*"</span>
+    },
+    <span class="hljs-attr">"parameters"</span>: {
+      <span class="hljs-attr">"query"</span>: {},
+      <span class="hljs-attr">"uri"</span>: {}
+    },
+    <span class="hljs-attr">"body"</span>: {}
+  }
+}
+</code></pre>
+<p>The service implementations are independent applications, that can run in a distributed environment. For the same endpoint, there may be several implementations exist at the same time, so how will the messages find the right service implementation?</p>
+<p>A answer to this question is the pattern matching. The endpoints uses a special library, that makes possible to register the handler functions with partial message patterns, that the middleware will check when a message arrives through the topic, and those handler will get the right to serve the message, that has the pattern which the most deeply matches to the incoming message. If there are more than one service registered with the same pattern, then that will serve, that is not busy, and quicker than the other. So this approach can also act as a kind of load balancer.
+This solution is called, Pattern Driven Micro Services (PDMS). The messaging middleware used for this is the <a href="https://nats.io/">NATS</a>, and the library, which puts this PDMS feature on top of it, is the <a href="https://hemerajs.github.io/hemera/">Hemera.js</a>. To learn more about pattern matching, see also: <a href="https://hemerajs.github.io/hemera/docs/pattern-matching.html">Hemera documentation on Pattern Matching</a>, and the <a href="https://github.com/mcollina/bloomrun">Bloomrun</a> library.</p>
+<p>So the <code>easer</code> REST API Proxy can communicate with Pattern Driven Micro Services, and passes the incoming requests towards these services. The service handlers sends back the responses to <code>easer</code> that finally forwards the responses towards the client.</p>
 </span></div></article></div><div class="docLastUpdate"><em>Last updated on 8/4/2019</em></div><div class="docs-prevnext"><a class="docs-prev button" href="/easer/docs/static-webserver-mode"><span class="arrow-prev">← </span><span>Static Web Server</span></a><a class="docs-next button" href="/easer/docs/mock-server-mode"><span>Mock Server</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/easer/" class="nav-home"><img src="/easer/img/favicon.ico" alt="easer" width="66" height="58"/></a><div><h5>Docs</h5><a href="/easer/docs/en/overview.html">Getting Started</a><a href="/easer/docs/en/configuration.html">Guides</a><a href="/easer/docs/en/refcard.html">Reference Card</a></div><div><h5>Community</h5><a href="/easer/en/users.html">User Showcase</a></div><div><h5>More</h5><a href="/easer/blog">Blog</a><a href="https://github.com/tombenke/easer">GitHub</a><a class="github-button" href="https://github.com/tombenke/easer" data-icon="octicon-star" data-count-href="/tombenke/easer/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2019 Tamás Benke</section></footer></div></body></html>

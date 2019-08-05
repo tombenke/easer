@@ -3,13 +3,89 @@ id: configuration
 title: Configuration of the Server
 ---
 
-## General server parameters
+## Overview
 
 `easer` can be configured via:
 - configuration file,
 - environment variables,
 - command line arguments,
 - the combination of these above.
+
+The preferred way of configuring the server is via environment, especially in the production environment, however it makes sense to use the other two methods, or even you need to combine them, for example during development.
+since there are many configuration parameters, it is not trivial to find out what is the current, effective parameter setup.
+
+You can use the following CLI parameter to make the `easer` dump out its actual configuration:
+
+```bash
+$ easer -d
+```
+
+This is an example for the output:
+```json
+{
+  "webServer": {
+    "logBlackList": [],
+    "port": 3007,
+    "useCompression": false,
+    "useResponseTime": false,
+    "usePdms": false,
+    "pdmsTopic": "easer",
+    "middlewares": {
+      "preRouting": [],
+      "postRouting": []
+    },
+    "restApiPath": "/home/tombenke/topics/easer/docs",
+    "staticContentBasePath": "/home/tombenke/topics/easer/docs",
+    "ignoreApiOperationIds": true,
+    "enableMocking": false,
+    "basePath": "/",
+    "oasConfig": {
+      "parse": {
+        "yaml": {
+          "allowEmpty": false
+        },
+        "resolve": {
+          "file": true
+        }
+      }
+    }
+  },
+  "pdms": {
+    "natsUri": "nats://demo.nats.io:4222",
+    "timeout": 2000
+  },
+  "wsServer": {
+    "forwarderEvent": "message",
+    "forwardTopics": false
+  },
+  "wsPdmsGw": {
+    "topics": {
+      "inbound": [],
+      "outbound": []
+    }
+  },
+  "app": {
+    "name": "easer",
+    "version": "4.0.0"
+  },
+  "configFileName": "config.yml",
+  "useWebsocket": false,
+  "logger": {
+    "level": "info",
+    "transports": {
+      "console": {
+        "format": "plainText"
+      }
+    }
+  },
+  "installDir": "/home/tombenke/topics/easer/docs",
+  "dumpConfig": true
+}
+```
+
+## Overview of the config parameters
+
+### General server parameters
 
 Dump the effective configuration object, before start:
 - CLI parameter: `-d [true]`, or `--dumpConfig [true]`.
@@ -62,7 +138,7 @@ API calls return with response time header:
 - Config object property: `WEBSERVER_USE_RESPONSE_TIME`.
 - Default value: `false`.
 
-## Logging
+### Logging
 
 Set the log level of the server and its internal components:
 - CLI parameter: `-l <level>`, or `logLevel <level>`
@@ -78,7 +154,7 @@ Set the log format of the server and its internal components:
 - Possible values: `plainText`, `json`.
 - Default value: `plainText`.
 
-## PDMS (NATS) Gateway
+### PDMS (NATS) Gateway
 
 Use Pattern Driven Micro-Service adapter and enable the NATS forwarding of incoming API calls:
 - CLI parameter: `-u [true]`, or `--usePdms [true]`.
@@ -105,7 +181,7 @@ Define the NATS timeout value:
 
 See [npac-pdms-hemera-adapter](https://www.npmjs.com/package/npac-pdms-hemera-adapter) for further details.
 
-## WebSocket Gateway
+### WebSocket Gateway
 
 Use WebSocket server and message forwarding gateway:
 - CLI parameter: `--useWebsocket [true]`, or `-w [true]`.
