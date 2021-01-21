@@ -16,7 +16,7 @@ export const defaultApi = {
                 },
 
                 responses: {
-                    '200': {
+                    200: {
                         description: 'OK'
                     }
                 }

@@ -7,16 +7,16 @@ import { wsServer, wsPdmsGw } from 'npac-wsgw-adapters'
 import webServer from 'npac-webserver-adapter'
 import cli from './cli'
 
-before(done => {
+before((done) => {
     done()
 })
 
-after(done => {
+after((done) => {
     done()
 })
 
 describe('cli', () => {
-    it('app without pdms', done => {
+    it('app without pdms', (done) => {
         const processArgv = [
             'node',
             'src/index.js', // 'server',
@@ -76,7 +76,7 @@ describe('cli', () => {
         done()
     })
 
-    it('app with pdms, default NATS server', done => {
+    it('app with pdms, default NATS server', (done) => {
         const processArgv = [
             'node',
             'src/index.js', // 'server',
@@ -136,7 +136,7 @@ describe('cli', () => {
         done()
     })
 
-    it('app with pdms, NATS server on localhost', done => {
+    it('app with pdms, NATS server on localhost', (done) => {
         const processArgv = [
             'node',
             'src/index.js', // 'server',

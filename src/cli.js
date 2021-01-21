@@ -148,8 +148,8 @@ const parse = (defaults, processArgv = process.argv) => {
             },
             wsPdmsGw: {
                 topics: {
-                    inbound: argv.inbound != '' ? _.map(argv.inbound.split(','), t => t.trim()) : [],
-                    outbound: argv.outbound != '' ? _.map(argv.outbound.split(','), t => t.trim()) : []
+                    inbound: argv.inbound != '' ? _.map(argv.inbound.split(','), (t) => t.trim()) : [],
+                    outbound: argv.outbound != '' ? _.map(argv.outbound.split(','), (t) => t.trim()) : []
                 }
             },
             pdms: {

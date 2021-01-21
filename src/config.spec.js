@@ -3,15 +3,15 @@ import config from './config'
 import path from 'path'
 import thisPackage from '../package.json'
 
-before(done => {
+before((done) => {
     done()
 })
-after(done => {
+after((done) => {
     done()
 })
 
 describe('config', () => {
-    it('defaults', done => {
+    it('defaults', (done) => {
         const expected = {
             app: {
                 name: thisPackage.name,

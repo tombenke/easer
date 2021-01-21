@@ -6,19 +6,19 @@ import { startApp } from './index'
 describe('app', () => {
     let sandbox
 
-    before(done => {
+    before((done) => {
         removeSignalHandlers()
         sandbox = sinon.createSandbox({})
         done()
     })
 
-    afterEach(done => {
+    afterEach((done) => {
         removeSignalHandlers()
         sandbox.restore()
         done()
     })
 
-    it('#start - default mode', done => {
+    it('#start - default mode', (done) => {
         catchExitSignals(sandbox, done)
 
         const processArgv = ['node', 'src/app.js', '-r', path.resolve()]
@@ -28,7 +28,7 @@ describe('app', () => {
         })
     })
 
-    it('#start - with PDMS', done => {
+    it('#start - with PDMS', (done) => {
         catchExitSignals(sandbox, done)
 
         const port = 8080
@@ -39,7 +39,7 @@ describe('app', () => {
         })
     })
 
-    it('#start - with indirect args', done => {
+    it('#start - with indirect args', (done) => {
         catchExitSignals(sandbox, done)
 
         const port = 8081
