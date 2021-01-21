@@ -28,17 +28,17 @@
     "easer": "./dist/app.js"
   },
   "dependencies": {
-    "lodash": "^4.17.15",
-    "npac": "^2.1.7",
-    "npac-pdms-hemera-adapter": "^1.4.7",
-    "npac-webserver-adapter": "^3.0.2",
-    "npac-wsgw-adapters": "^1.1.5",
+    "lodash": "^4.17.20",
+    "npac": "^2.1.8",
+    "npac-pdms-hemera-adapter": "^1.4.8",
+    "npac-webserver-adapter": "^3.0.3",
+    "npac-wsgw-adapters": "^1.1.6",
     "yargs": "^13.3.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
-    "babel-loader": "^8.0.6",
+    "babel-loader": "^8.2.2",
     "babel-plugin-transform-es2015-parameters": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "6.26.0",
     "babel-polyfill": "6.26.0",
@@ -48,7 +48,7 @@
     "babel-register": "^6.26.0",
     "chai": "^4.1.2",
     "cookie": "^0.4.0",
-    "coveralls": "^3.0.5",
+    "coveralls": "^3.1.0",
     "cross-env": "^5.1.1",
     "es6-promise": "^4.2.8",
     "eslint": "^6.1.0",
@@ -66,7 +66,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run prettier && npm run lint && npm run docs && npm run test && npm run build"
+      "pre-commit": "npm run prettier && npm run lint && npm run test && npm run build"
     }
   },
   "prettier": {
