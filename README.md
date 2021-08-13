@@ -86,6 +86,14 @@ In global mode you can start the server with the `easer` command. To get help, e
                             API calls                     [boolean] [default: false]
       --pdmsTopic           The name of the NATS topic where the REST API calls will
                             be forwarded                 [string] [default: "easer"]
+      --parseRaw            Enable the raw body parser for the web server.
+                                                           [boolean] [default: true]
+      --parseJson           Enable the JSON body parser for the web server.
+                                                          [boolean] [default: false]
+      --parseXml            Enable the XML body parser for the web server.
+                                                          [boolean] [default: false]
+      --parseUrlencoded     Enable the URL Encoded body parser for the web server.
+                                                          [boolean] [default: false]
       --natsUri, -n         NATS server URI used by the pdms adapter.
                                       [string] [default: "nats://demo.nats.io:4222"]
       --useWebsocket, -w    Use WebSocket server and message forwarding gateway
