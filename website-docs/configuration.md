@@ -140,8 +140,8 @@ Compress response bodies for all request:
 
 API calls return with response time header:
 - CLI parameter: N.A.
-- Environment: `webServer.useResponseTime`.
-- Config object property: `WEBSERVER_USE_RESPONSE_TIME`.
+- Environment: `WEBSERVER_USE_RESPONSE_TIME`.
+- Config object property: `webServer.useResponseTime`.
 - Default value: `false`.
 
 Enable the raw body parser for the web server:
