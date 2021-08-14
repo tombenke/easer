@@ -21,10 +21,10 @@ module.exports = {
     webServer: {
         ignoreApiOperationIds: true, // Ignore operationIds by default
         bodyParser: {
-            raw: process.env.PARSE_RAW_BODY || true,
-            json: process.env.PARSE_JSON_BODY || false,
-            xml: process.env.PARSE_XML_BODY || false,
-            urlencoded: process.env.PARSE_URL_ENCODED_BODY || false
+            raw: process.env.WEBSERVER_PARSE_RAW_BODY || true,
+            json: process.env.WEBSERVER_PARSE_JSON_BODY || false,
+            xml: process.env.WEBSERVER_PARSE_XML_BODY || false,
+            urlencoded: process.env.WEBSERVER_PARSE_URL_ENCODED_BODY || false
         }
     },
     logger: {
