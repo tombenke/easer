@@ -1,9 +1,9 @@
 easer
 =====
 
+[![Actions Status](https://github.com/tombenke/easer/workflows/Quality%20Check/badge.svg)](https://github.com/tombenke/easer)
 [![unstable](http://badges.github.io/stability-badges/dist/unstable.svg)](http://github.com/badges/stability-badges)
 [![npm version][npm-badge]][npm-url]
-[![Build Status][travis-badge]][travis-url]
 [![Coveralls][BadgeCoveralls]][Coveralls]
 
 ## About
@@ -142,7 +142,5 @@ See [configuration](website-docs/configuration.md) page.
 
 [npm-badge]: https://badge.fury.io/js/easer.svg
 [npm-url]: https://badge.fury.io/js/easer
-[travis-badge]: https://api.travis-ci.org/tombenke/easer.svg
-[travis-url]: https://travis-ci.org/tombenke/easer
 [Coveralls]: https://coveralls.io/github/tombenke/easer?branch=master
 [BadgeCoveralls]: https://coveralls.io/repos/github/tombenke/easer/badge.svg?branch=master
