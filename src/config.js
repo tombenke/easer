@@ -19,7 +19,13 @@ module.exports = {
     configFileName: 'config.yml',
     useWebsocket: process.env.EASER_USE_WEBSOCKET || false,
     webServer: {
-        ignoreApiOperationIds: true // Ignore operationIds by default
+        ignoreApiOperationIds: true, // Ignore operationIds by default
+        bodyParser: {
+            raw: process.env.WEBSERVER_PARSE_RAW_BODY || true,
+            json: process.env.WEBSERVER_PARSE_JSON_BODY || false,
+            xml: process.env.WEBSERVER_PARSE_XML_BODY || false,
+            urlencoded: process.env.WEBSERVER_PARSE_URL_ENCODED_BODY || false
+        }
     },
     logger: {
         level: process.env.EASER_LOG_LEVEL || 'info',

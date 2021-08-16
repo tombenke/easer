@@ -54,7 +54,13 @@ describe('cli', () => {
                     enableMocking: false,
                     usePdms: false,
                     pdmsTopic: 'easer',
-                    useCompression: true
+                    useCompression: true,
+                    bodyParser: {
+                        raw: true,
+                        json: false,
+                        xml: false,
+                        urlencoded: false
+                    }
                 },
                 wsServer: {
                     forwardTopics: false,
@@ -114,7 +120,13 @@ describe('cli', () => {
                     enableMocking: false,
                     usePdms: true,
                     pdmsTopic: 'easer',
-                    useCompression: false
+                    useCompression: false,
+                    bodyParser: {
+                        raw: true,
+                        json: false,
+                        xml: false,
+                        urlencoded: false
+                    }
                 },
                 wsServer: {
                     forwardTopics: false,
@@ -178,7 +190,13 @@ describe('cli', () => {
                     enableMocking: false,
                     usePdms: true,
                     pdmsTopic: 'web',
-                    useCompression: false
+                    useCompression: false,
+                    bodyParser: {
+                        raw: true,
+                        json: false,
+                        xml: false,
+                        urlencoded: false
+                    }
                 },
                 wsServer: {
                     forwardTopics: false,
@@ -192,6 +210,77 @@ describe('cli', () => {
                 },
                 pdms: {
                     natsUri: 'nats://localhost:4222'
+                }
+            }
+        }
+
+        expect(cli.parse(defaults, processArgv)).to.eql(expected)
+        done()
+    })
+
+    it('app with changed parsers', (done) => {
+        const processArgv = [
+            'node',
+            'src/index.js', // 'server',
+            '-p',
+            '3008',
+            '-r',
+            '/tmp/restApi',
+            '--parseRaw',
+            false,
+            '--parseJson',
+            true,
+            '--parseXml',
+            true,
+            '--parseUrlencoded',
+            true
+        ]
+        const defaults = _.merge({}, config, webServer.defaults, pdms.defaults, wsServer.defaults, wsPdmsGw.defaults)
+        const expected = {
+            command: {
+                name: 'server',
+                args: {}
+            },
+            cliConfig: {
+                configFileName: 'config.yml',
+                useWebsocket: false,
+                dumpConfig: false,
+                logger: {
+                    level: 'info',
+                    transports: {
+                        console: {
+                            format: 'plainText'
+                        }
+                    }
+                },
+                webServer: {
+                    port: '3008',
+                    restApiPath: '/tmp/restApi',
+                    basePath: '/',
+                    staticContentBasePath: path.resolve(),
+                    enableMocking: false,
+                    usePdms: false,
+                    pdmsTopic: 'easer',
+                    useCompression: false,
+                    bodyParser: {
+                        raw: false,
+                        json: true,
+                        xml: true,
+                        urlencoded: true
+                    }
+                },
+                wsServer: {
+                    forwardTopics: false,
+                    forwarderEvent: 'message'
+                },
+                wsPdmsGw: {
+                    topics: {
+                        inbound: [],
+                        outbound: []
+                    }
+                },
+                pdms: {
+                    natsUri: 'nats://demo.nats.io:4222'
                 }
             }
         }

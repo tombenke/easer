@@ -67,6 +67,27 @@ const parse = (defaults, processArgv = process.argv) => {
             type: 'string',
             default: defaults.webServer.pdmsTopic
         })
+        // body parser config
+        .option('parseRaw', {
+            desc: 'Enable the raw body parser for the web server.',
+            type: 'boolean',
+            default: defaults.webServer.bodyParser.raw
+        })
+        .option('parseJson', {
+            desc: 'Enable the JSON body parser for the web server.',
+            type: 'boolean',
+            default: defaults.webServer.bodyParser.json
+        })
+        .option('parseXml', {
+            desc: 'Enable the XML body parser for the web server.',
+            type: 'boolean',
+            default: defaults.webServer.bodyParser.xml
+        })
+        .option('parseUrlencoded', {
+            desc: 'Enable the URL Encoded body parser for the web server.',
+            type: 'boolean',
+            default: defaults.webServer.bodyParser.urlencoded
+        })
         .option('natsUri', {
             alias: 'n',
             desc: 'NATS server URI used by the pdms adapter.',
@@ -140,7 +161,13 @@ const parse = (defaults, processArgv = process.argv) => {
                 pdmsTopic: argv.pdmsTopic,
                 useCompression: argv.useCompression,
                 staticContentBasePath: path.resolve('./'),
-                enableMocking: argv.enableMocking
+                enableMocking: argv.enableMocking,
+                bodyParser: {
+                    json: argv.parseJson,
+                    raw: argv.parseRaw,
+                    urlencoded: argv.parseUrlencoded,
+                    xml: argv.parseXml
+                }
             },
             wsServer: {
                 forwardTopics: argv.forward,

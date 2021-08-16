@@ -48,6 +48,12 @@ This is an example for the output:
           "file": true
         }
       }
+    },
+    "bodyParser": {
+      "raw": true,
+      "json": false,
+      "xml": false,
+      "urlencoded": false
     }
   },
   "pdms": {
@@ -134,8 +140,32 @@ Compress response bodies for all request:
 
 API calls return with response time header:
 - CLI parameter: N.A.
-- Environment: `webServer.useResponseTime`.
-- Config object property: `WEBSERVER_USE_RESPONSE_TIME`.
+- Environment: `WEBSERVER_USE_RESPONSE_TIME`.
+- Config object property: `webServer.useResponseTime`.
+- Default value: `false`.
+
+Enable the raw body parser for the web server:
+- CLI parameter: `--parseRaw <boolean>`.
+- Environment: `WEBSERVER_PARSE_RAW_BODY`.
+- Config object property: `webServer.bodyParser.raw`.
+- Default value: `true`.
+
+Enable the JSON body parser for the web server:
+- CLI parameter: `--parseJson <boolean>`.
+- Environment: `WEBSERVER_PARSE_JSON_BODY`.
+- Config object property: `webServer.bodyParser.json`.
+- Default value: `false`.
+
+Enable the XML body parser for the web server:
+- CLI parameter: `--parseXml <boolean>`.
+- Environment: `WEBSERVER_PARSE_XML_BODY`.
+- Config object property: `webServer.bodyParser.xml`.
+- Default value: `false`.
+
+Enable the URL Encoded body parser for the web server:
+- CLI parameter: `--parseUrlencoded <boolean>`.
+- Environment: `WEBSERVER_PARSE_URL_ENCODED_BODY`.
+- Config object property: `webServer.bodyParser.urlencoded`.
 - Default value: `false`.
 
 ### Logging

@@ -1,9 +1,9 @@
 easer
 =====
 
+[![Actions Status](https://github.com/tombenke/easer/workflows/Quality%20Check/badge.svg)](https://github.com/tombenke/easer)
 [![unstable](http://badges.github.io/stability-badges/dist/unstable.svg)](http://github.com/badges/stability-badges)
 [![npm version][npm-badge]][npm-url]
-[![Build Status][travis-badge]][travis-url]
 [![Coveralls][BadgeCoveralls]][Coveralls]
 
 ## About
@@ -86,6 +86,14 @@ In global mode you can start the server with the `easer` command. To get help, e
                             API calls                     [boolean] [default: false]
       --pdmsTopic           The name of the NATS topic where the REST API calls will
                             be forwarded                 [string] [default: "easer"]
+      --parseRaw            Enable the raw body parser for the web server.
+                                                           [boolean] [default: true]
+      --parseJson           Enable the JSON body parser for the web server.
+                                                          [boolean] [default: false]
+      --parseXml            Enable the XML body parser for the web server.
+                                                          [boolean] [default: false]
+      --parseUrlencoded     Enable the URL Encoded body parser for the web server.
+                                                          [boolean] [default: false]
       --natsUri, -n         NATS server URI used by the pdms adapter.
                                       [string] [default: "nats://demo.nats.io:4222"]
       --useWebsocket, -w    Use WebSocket server and message forwarding gateway
@@ -134,7 +142,5 @@ See [configuration](website-docs/configuration.md) page.
 
 [npm-badge]: https://badge.fury.io/js/easer.svg
 [npm-url]: https://badge.fury.io/js/easer
-[travis-badge]: https://api.travis-ci.org/tombenke/easer.svg
-[travis-url]: https://travis-ci.org/tombenke/easer
 [Coveralls]: https://coveralls.io/github/tombenke/easer?branch=master
 [BadgeCoveralls]: https://coveralls.io/repos/github/tombenke/easer/badge.svg?branch=master
