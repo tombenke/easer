@@ -1,0 +1,14 @@
+version: "3.2"
+services:
+
+  nats:
+    image: nats-streaming:latest
+    command: -store file -dir datastore -cid "npac-cluster" -m 8222 -V
+    restart: unless-stopped
+    ports:
+      - "4222:4222"
+      - "6222:6222"
+      - "8222:8222"
+
+networks:
+  npac-network:

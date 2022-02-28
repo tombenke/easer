@@ -51,21 +51,14 @@
     "es6-promise": "^4.2.8",
     "eslint": "^7.32.0",
     "expect": "^27.0.6",
-    "husky": "^7.0.1",
     "isomorphic-fetch": "^3.0.0",
     "istanbul": "1.1.0-alpha.1",
     "mocha": "^9.0.3",
     "mocha-lcov-reporter": "^1.3.0",
-    "pre-push": "^0.1.1",
     "prettier": "^2.3.2",
     "sinon": "^11.1.2",
     "swagger-cli": "^4.0.4",
     "vinyl-buffer": "^1.0.0"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run prettier && npm run lint && npm run test && npm run build"
-    }
   },
   "prettier": {
     "printWidth": 120,
@@ -83,12 +76,6 @@
     "test:watch": "npm test -- --watch",
     "coverage": "NODE_ENV=test istanbul cover _mocha -- recursive --require @babel/register --timeout 15000 'src/**/*.spec.js'",
     "coveralls": "NODE_ENV=test istanbul cover _mocha --report lcovonly -- recursive --require @babel/register --timeout 15000 'src/**/*.spec.js' -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
-    "prepublishOnly": "npm run lint && npm run test && npm run build",
     "all": "npm run lint && npm run coverage && npm run build"
-  },
-  "pre-push": [
-    "lint",
-    "test",
-    "prepublishOnly"
-  ]
+  }
 }

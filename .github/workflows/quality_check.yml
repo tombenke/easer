@@ -1,4 +1,5 @@
 name: Quality Check
+
 on:
   push:
     branches:
@@ -6,20 +7,23 @@ on:
       - "*/*" # matches every branch containing a single '/'
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      
-      - uses: actions/setup-node@v2
-      
-      - name: Install dependencies
-        run: npm install
-      
-      - name: Run tests
-        run: npm test
-        env:
-          CI: true
-      
-      - name: Run build
-        run: npm build
+      - name: Set up task tool
+        uses: arduino/setup-task@v1
+
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup test environment
+        run: task install
+
+      - name: Validate the source files
+        run: task lint
+
+      - name: Run unit-tests
+        run: task test
+
+      - name: Build the package
+        run: task build
