@@ -32,7 +32,7 @@
     "npac": "^2.1.11",
     "npac-pdms-hemera-adapter": "^1.4.12",
     "npac-webserver-adapter": "^4.0.2",
-    "npac-wsgw-adapters": "^1.1.9",
+    "npac-wsgw-adapters": "^1.1.10",
     "yargs": "^17.3.1"
   },
   "devDependencies": {
