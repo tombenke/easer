@@ -6,8 +6,28 @@ title: WebSocket / NATS Gateway
 ## About WebSocket-NATS-Gateway feature of easer
 
 WebSocket Server and Gateway to NATS topics using Pattern Driven Micro Service calls and asynchronous data pipelines. 
+It makes possible the passing of messages among websocket clients and/or NATS clients.
 
 ![The WebSocket / NATS Gateway Mode Architecture](/easer/img/websocket-nats-gw-architecture.png)
+
+The WebSocket uses event handlers to manage the receiving and sending of messages.
+The websocket clients can subscribe to event names, that they observe, and act in case an incoming message arrives.
+
+The messaging middlewares typically use the topic to name the channels through which the messages are transferred.
+
+The messages can be forwarded back-and-forth between websocket event channels and messaging topics
+using their names to associate them. 
+
+__Important Note:__
+In the followings we will use the terms of inbound and outbound message channels.
+It refers to the grouping of event channels to which the messages will be send or received from by the websocket client.
+So They meant to be __inbound and outbound from the viewpoint of the websocket client__ (or UI frontend application).
+
+The functioning of the websocket gateway is quite simple:
+1. We define the list of inbound and outbound event channel names.
+2. The gateway will forward the messages coming in the outbound event channels to the NATS topics with the same name.
+3. The gateway will also forward the messages coming in the NATS topics toward the inbound event channels.
+
 
 ## Configure the websocket gateway
 
@@ -53,13 +73,13 @@ For example, in one terminal window start receiving messages at the websocket si
 
 Then send some message from the NATS side with the producer in another terminal:
 ```bash
-    $ wsgw producer -u nats://localhost:4222 -t "IN" -m '{"notes":"Some content..."}'
+    $ wsgw producer -u nats://localhost:4222 -t "IN" -m '{"notes":"Some text..."}'
 
     2022-03-08T09:16:16.292Z [wsgw@1.8.6] info: pdms: Start up
     2022-03-08T09:16:16.305Z [wsgw@1.8.6] info: hemera: ["Connected!"]
     2022-03-08T09:16:16.306Z [wsgw@1.8.6] info: pdms: Connected to NATS
     2022-03-08T09:16:16.306Z [wsgw@1.8.6] info: App runs the jobs...
-    2022-03-08T09:16:16.309Z [wsgw@1.8.6] info: {"notes":"Some content..."} >> [IN]
+    2022-03-08T09:16:16.309Z [wsgw@1.8.6] info: {"notes":"Some text..."} >> [IN]
     2022-03-08T09:16:16.310Z [wsgw@1.8.6] info: Successfully completed.
     2022-03-08T09:16:16.310Z [wsgw@1.8.6] info: App starts the shutdown process...
     2022-03-08T09:16:16.311Z [wsgw@1.8.6] info: pdms: Shutting down
@@ -69,7 +89,7 @@ Then send some message from the NATS side with the producer in another terminal:
 on the console, running the consumer, you should see something like this as a result:
 ```bash
     ...
-    2022-03-08T09:16:16.312Z [wsgw@1.8.6] info: WS[IN] >> "{\"notes\":\"Some content...\"}"
+    2022-03-08T09:16:16.312Z [wsgw@1.8.6] info: WS[IN] >> "{\"notes\":\"Some text...\"}"
 ```
 
 __Important Note:__
@@ -97,10 +117,10 @@ In one terminal window start receiving messages at the NATS side with the consum
 
 Then send some message from the websocket with the producer in another terminal:
 ```bash
-    $ wsgw producer -u http://localhost:3007 -t "OUT" -m '{"notes":"Some content..."}'
+    $ wsgw producer -u http://localhost:3007 -t "OUT" -m '{"notes":"Some text..."}'
 
     2022-03-08T09:39:30.325Z [wsgw@1.8.6] info: App runs the jobs...
-    2022-03-08T09:39:30.334Z [wsgw@1.8.6] info: {"notes":"Some content..."} >> [OUT]
+    2022-03-08T09:39:30.334Z [wsgw@1.8.6] info: {"notes":"Some text..."} >> [OUT]
     2022-03-08T09:39:30.355Z [wsgw@1.8.6] info: Successfully completed.
     2022-03-08T09:39:30.356Z [wsgw@1.8.6] info: App starts the shutdown process...
     2022-03-08T09:39:30.357Z [wsgw@1.8.6] info: Shutdown process successfully finished
@@ -109,7 +129,7 @@ Then send some message from the websocket with the producer in another terminal:
 on the console, running the consumer, you should see something like this as a result:
 ```bash
     ...
-    2022-03-08T09:39:30.355Z [wsgw@1.8.6] info: NATS[OUT] >> "{\"notes\":\"Some content...\"}"
+    2022-03-08T09:39:30.355Z [wsgw@1.8.6] info: NATS[OUT] >> "{\"notes\":\"Some text...\"}"
 ```
 
 For further details on how the websocket-NATS gatway is working, and on the usage of the `wsgw` commands,
