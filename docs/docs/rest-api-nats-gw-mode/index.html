@@ -94,7 +94,7 @@ git <span class="hljs-built_in">clone</span> git@github.com:tombenke/person-serv
 
 {<span class="hljs-string">"error"</span>:<span class="hljs-string">"The endpoint is either not implemented or `operationId` is ignored"</span>}
 </code></pre>
-<p>We got <code>501</code> error in the response, and the body says that the enpoint is not implemented.
+<p>We got <code>501</code> error in the response, and the body says that the endpoint is not implemented.
 This is because the <code>easer</code> is responsible for the REST API at the edge, and not for the implementation of them, so the responses will be errors in all cases.</p>
 <p>In order to bind the incoming endpoint calls with the service functions, the <code>easer</code> uses a messaging middleware, and synchronous, topic based, RPC-like calls to the service functions. The requests are passed towards the service implementations in JSON format messages through a previously agreed topic.</p>
 <p>The service implementations are independently running, standalone applications.</p>

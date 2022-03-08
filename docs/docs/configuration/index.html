@@ -80,8 +80,8 @@ since there are many configuration parameters, it is not trivial to find out wha
       <span class="hljs-attr">"preRouting"</span>: [],
       <span class="hljs-attr">"postRouting"</span>: []
     },
-    <span class="hljs-attr">"restApiPath"</span>: <span class="hljs-string">"/home/tombenke/topics/easer/docs"</span>,
-    <span class="hljs-attr">"staticContentBasePath"</span>: <span class="hljs-string">"/home/tombenke/topics/easer/docs"</span>,
+    <span class="hljs-attr">"restApiPath"</span>: <span class="hljs-string">"/home/tombenke/topics/easer"</span>,
+    <span class="hljs-attr">"staticContentBasePath"</span>: <span class="hljs-string">"/home/tombenke/topics/easer"</span>,
     <span class="hljs-attr">"ignoreApiOperationIds"</span>: <span class="hljs-literal">true</span>,
     <span class="hljs-attr">"enableMocking"</span>: <span class="hljs-literal">false</span>,
     <span class="hljs-attr">"basePath"</span>: <span class="hljs-string">"/"</span>,
@@ -103,14 +103,10 @@ since there are many configuration parameters, it is not trivial to find out wha
     }
   },
   <span class="hljs-attr">"pdms"</span>: {
-    <span class="hljs-attr">"natsUri"</span>: <span class="hljs-string">"nats://demo.nats.io:4222"</span>,
+    <span class="hljs-attr">"natsUri"</span>: <span class="hljs-string">"nats://localhost:4222"</span>,
     <span class="hljs-attr">"timeout"</span>: <span class="hljs-number">2000</span>
   },
   <span class="hljs-attr">"wsServer"</span>: {
-    <span class="hljs-attr">"forwarderEvent"</span>: <span class="hljs-string">"message"</span>,
-    <span class="hljs-attr">"forwardTopics"</span>: <span class="hljs-literal">false</span>
-  },
-  <span class="hljs-attr">"wsPdmsGw"</span>: {
     <span class="hljs-attr">"topics"</span>: {
       <span class="hljs-attr">"inbound"</span>: [],
       <span class="hljs-attr">"outbound"</span>: []
@@ -118,7 +114,7 @@ since there are many configuration parameters, it is not trivial to find out wha
   },
   <span class="hljs-attr">"app"</span>: {
     <span class="hljs-attr">"name"</span>: <span class="hljs-string">"easer"</span>,
-    <span class="hljs-attr">"version"</span>: <span class="hljs-string">"4.0.0"</span>
+    <span class="hljs-attr">"version"</span>: <span class="hljs-string">"5.0.2"</span>
   },
   <span class="hljs-attr">"configFileName"</span>: <span class="hljs-string">"config.yml"</span>,
   <span class="hljs-attr">"useWebsocket"</span>: <span class="hljs-literal">false</span>,
@@ -130,7 +126,7 @@ since there are many configuration parameters, it is not trivial to find out wha
       }
     }
   },
-  <span class="hljs-attr">"installDir"</span>: <span class="hljs-string">"/home/tombenke/topics/easer/docs"</span>,
+  <span class="hljs-attr">"installDir"</span>: <span class="hljs-string">"/home/tombenke/topics/easer"</span>,
   <span class="hljs-attr">"dumpConfig"</span>: <span class="hljs-literal">true</span>
 }
 </code></pre>
@@ -276,21 +272,6 @@ since there are many configuration parameters, it is not trivial to find out wha
 <li>CLI parameter: <code>--useWebsocket [true]</code>, or <code>-w [true]</code>.</li>
 <li>Environment: <code>EASER_USE_WEBSOCKET</code>.</li>
 <li>Config object property: <code>useWebsocket</code>.</li>
-<li>Default value: <code>false</code>.</li>
-</ul>
-<p>Set the name of the event, the WebSocket server listens for and will forward towards NATS topics:</p>
-<ul>
-<li>CLI parameter: <code>--forwarderEvent &lt;event-name&gt;</code>, <code>-e &lt;event-name&gt;</code>.</li>
-<li>Environment: <code>WSSERVER_FORWARDER_EVENT</code>.</li>
-<li>Config object property: <code>wsServer.forwarderEvent</code>.</li>
-<li>Default value: <code>message</code>.</li>
-</ul>
-<p>Note: The messages should have a <code>topic</code> property, that holds the name of the WebSocket event in case of inbound messages, or the name of the NATS topic in case of the outbound messages.</p>
-<p>Enable the WebSocket server to forward the messages among inbound and outbound topics:</p>
-<ul>
-<li>CLI parameter: <code>--forward [true]</code>, or <code>-f [true]</code></li>
-<li>Environment: <code>WSSERVER_FORWARD_TOPICS</code>.</li>
-<li>Config object property: <code>wsServer.forwardTopics</code>.</li>
 <li>Default value: <code>false</code>.</li>
 </ul>
 <p>Define the inbound NATS topics as a comma-separated list that will be forwarded towards websocket:</p>

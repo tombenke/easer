@@ -14,6 +14,7 @@ tasks:
     cmds:
       - task: lint
       - task: test
+      - task: build
       - task: docs
 
   format:
@@ -81,7 +82,6 @@ tasks:
     desc: Clean temporary files and folders
     cmds:
       - rm dist/* -fr
-      - rm docs/* -fr
 
   dc-up:
     desc: Start docker containers

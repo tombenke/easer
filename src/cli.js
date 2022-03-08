@@ -101,18 +101,6 @@ const parse = (defaults, processArgv = process.argv) => {
             type: 'boolean',
             default: defaults.useWebsocket
         })
-        .option('forward', {
-            alias: 'f',
-            desc: 'Forwards messages among inbound and outbound topics',
-            type: 'boolean',
-            default: defaults.wsServer.forwardTopics
-        })
-        .option('forwarderEvent', {
-            alias: 'e',
-            desc: 'The name of the event the server is listen to forward the incoming messages',
-            type: 'string',
-            default: defaults.wsServer.forwarderEvent
-        })
         .option('inbound', {
             alias: 'i',
             desc: 'Comma separated list of inbound NATS topics to forward through websocket',
@@ -170,10 +158,6 @@ const parse = (defaults, processArgv = process.argv) => {
                 }
             },
             wsServer: {
-                forwardTopics: argv.forward,
-                forwarderEvent: argv.forwarderEvent
-            },
-            wsPdmsGw: {
                 topics: {
                     inbound: argv.inbound != '' ? _.map(argv.inbound.split(','), (t) => t.trim()) : [],
                     outbound: argv.outbound != '' ? _.map(argv.outbound.split(','), (t) => t.trim()) : []

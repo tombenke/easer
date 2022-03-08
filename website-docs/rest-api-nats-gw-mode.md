@@ -53,7 +53,7 @@ $ curl http://localhost:3007/persons -v
 {"error":"The endpoint is either not implemented or `operationId` is ignored"}
 ```
 
-We got `501` error in the response, and the body says that the enpoint is not implemented.
+We got `501` error in the response, and the body says that the endpoint is not implemented.
 This is because the `easer` is responsible for the REST API at the edge, and not for the implementation of them, so the responses will be errors in all cases.
 
 In order to bind the incoming endpoint calls with the service functions, the `easer` uses a messaging middleware, and synchronous, topic based, RPC-like calls to the service functions. The requests are passed towards the service implementations in JSON format messages through a previously agreed topic.

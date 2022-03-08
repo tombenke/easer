@@ -3,7 +3,7 @@ import _ from 'lodash'
 import { expect } from 'chai'
 import config from './config'
 import pdms from 'npac-pdms-hemera-adapter'
-import { wsServer, wsPdmsGw } from 'npac-wsgw-adapters'
+import wsServer from 'npac-wsgw-adapters'
 import webServer from 'npac-webserver-adapter'
 import cli from './cli'
 
@@ -28,7 +28,7 @@ describe('cli', () => {
             '/tmp/restApi',
             '-s'
         ]
-        const defaults = _.merge({}, config, webServer.defaults, pdms.defaults, wsServer.defaults, wsPdmsGw.defaults)
+        const defaults = _.merge({}, config, webServer.defaults, pdms.defaults, wsServer.defaults)
         const expected = {
             command: {
                 name: 'server',
@@ -63,10 +63,6 @@ describe('cli', () => {
                     }
                 },
                 wsServer: {
-                    forwardTopics: false,
-                    forwarderEvent: 'message'
-                },
-                wsPdmsGw: {
                     topics: {
                         inbound: [],
                         outbound: []
@@ -94,7 +90,7 @@ describe('cli', () => {
             '/tmp/restApi',
             '-u'
         ]
-        const defaults = _.merge({}, config, webServer.defaults, pdms.defaults, wsServer.defaults, wsPdmsGw.defaults)
+        const defaults = _.merge({}, config, webServer.defaults, pdms.defaults, wsServer.defaults)
         const expected = {
             command: {
                 name: 'server',
@@ -129,10 +125,6 @@ describe('cli', () => {
                     }
                 },
                 wsServer: {
-                    forwardTopics: false,
-                    forwarderEvent: 'message'
-                },
-                wsPdmsGw: {
                     topics: {
                         inbound: [],
                         outbound: []
@@ -164,7 +156,7 @@ describe('cli', () => {
             '-n',
             'nats://localhost:4222'
         ]
-        const defaults = _.merge({}, config, webServer.defaults, pdms.defaults, wsServer.defaults, wsPdmsGw.defaults)
+        const defaults = _.merge({}, config, webServer.defaults, pdms.defaults, wsServer.defaults)
         const expected = {
             command: {
                 name: 'server',
@@ -199,10 +191,6 @@ describe('cli', () => {
                     }
                 },
                 wsServer: {
-                    forwardTopics: false,
-                    forwarderEvent: 'message'
-                },
-                wsPdmsGw: {
                     topics: {
                         inbound: [],
                         outbound: []
@@ -235,7 +223,7 @@ describe('cli', () => {
             '--parseUrlencoded',
             true
         ]
-        const defaults = _.merge({}, config, webServer.defaults, pdms.defaults, wsServer.defaults, wsPdmsGw.defaults)
+        const defaults = _.merge({}, config, webServer.defaults, pdms.defaults, wsServer.defaults)
         const expected = {
             command: {
                 name: 'server',
@@ -270,10 +258,6 @@ describe('cli', () => {
                     }
                 },
                 wsServer: {
-                    forwardTopics: false,
-                    forwarderEvent: 'message'
-                },
-                wsPdmsGw: {
                     topics: {
                         inbound: [],
                         outbound: []

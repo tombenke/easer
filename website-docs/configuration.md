@@ -34,8 +34,8 @@ This is an example for the output:
       "preRouting": [],
       "postRouting": []
     },
-    "restApiPath": "/home/tombenke/topics/easer/docs",
-    "staticContentBasePath": "/home/tombenke/topics/easer/docs",
+    "restApiPath": "/home/tombenke/topics/easer",
+    "staticContentBasePath": "/home/tombenke/topics/easer",
     "ignoreApiOperationIds": true,
     "enableMocking": false,
     "basePath": "/",
@@ -57,14 +57,10 @@ This is an example for the output:
     }
   },
   "pdms": {
-    "natsUri": "nats://demo.nats.io:4222",
+    "natsUri": "nats://localhost:4222",
     "timeout": 2000
   },
   "wsServer": {
-    "forwarderEvent": "message",
-    "forwardTopics": false
-  },
-  "wsPdmsGw": {
     "topics": {
       "inbound": [],
       "outbound": []
@@ -72,7 +68,7 @@ This is an example for the output:
   },
   "app": {
     "name": "easer",
-    "version": "4.0.0"
+    "version": "5.0.2"
   },
   "configFileName": "config.yml",
   "useWebsocket": false,
@@ -84,7 +80,7 @@ This is an example for the output:
       }
     }
   },
-  "installDir": "/home/tombenke/topics/easer/docs",
+  "installDir": "/home/tombenke/topics/easer",
   "dumpConfig": true
 }
 ```
@@ -217,20 +213,6 @@ Use WebSocket server and message forwarding gateway:
 - CLI parameter: `--useWebsocket [true]`, or `-w [true]`.
 - Environment: `EASER_USE_WEBSOCKET`.
 - Config object property: `useWebsocket`.
-- Default value: `false`.
-
-Set the name of the event, the WebSocket server listens for and will forward towards NATS topics:
-- CLI parameter: `--forwarderEvent <event-name>`, `-e <event-name>`.
-- Environment: `WSSERVER_FORWARDER_EVENT`.
-- Config object property: `wsServer.forwarderEvent`.
-- Default value: `message`.
-
-Note: The messages should have a `topic` property, that holds the name of the WebSocket event in case of inbound messages, or the name of the NATS topic in case of the outbound messages.
-
-Enable the WebSocket server to forward the messages among inbound and outbound topics:
-- CLI parameter: `--forward [true]`, or `-f [true]`
-- Environment: `WSSERVER_FORWARD_TOPICS`.
-- Config object property: `wsServer.forwardTopics`.
 - Default value: `false`.
 
 Define the inbound NATS topics as a comma-separated list that will be forwarded towards websocket:

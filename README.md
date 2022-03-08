@@ -67,49 +67,45 @@ In global mode you can start the server with the `easer` command. To get help, e
     easer --help
 
     Options:
-      --version             Show version number                            [boolean]
-      --config, -c          The name of the configuration file
+          --version          Show version number                           [boolean]
+      -c, --config           The name of the configuration file
                                                              [default: "config.yml"]
-      --basePath, -b        The base-path URL prefix to each REST endpoints
+      -b, --basePath         The base-path URL prefix to each REST endpoints
                                                              [string] [default: "/"]
-      --dumpConfig, -d      Print the effective configuration object to the console
+      -d, --dumpConfig       Print the effective configuration object to the console
                                                           [boolean] [default: false]
-      --logLevel, -l        The log level                 [string] [default: "info"]
-      --logFormat, -t       The log (`plainText` or `json`)
+      -l, --logLevel         The log level                [string] [default: "info"]
+      -t, --logFormat        The log (`plainText` or `json`)
                                                      [string] [default: "plainText"]
-      --port, -p            The port the server will listen [string] [default: 3007]
-      --restApiPath, -r     The path to the REST API descriptors
+      -p, --port             The port the server will listen[string] [default: 3007]
+      -r, --restApiPath      The path to the REST API descriptors
                                    [string] [default: "/home/tombenke/topics/easer"]
-      --useCompression, -s  Use middleware to compress response bodies for all
-                            request                       [boolean] [default: false]
-      --usePdms, -u         Use Pattern Driven Micro-Service adapter to forward REST
-                            API calls                     [boolean] [default: false]
-      --pdmsTopic           The name of the NATS topic where the REST API calls will
-                            be forwarded                 [string] [default: "easer"]
-      --parseRaw            Enable the raw body parser for the web server.
+      -s, --useCompression   Use middleware to compress response bodies for all
+                             request                      [boolean] [default: false]
+      -u, --usePdms          Use Pattern Driven Micro-Service adapter to forward
+                             REST API calls               [boolean] [default: false]
+          --pdmsTopic        The name of the NATS topic where the REST API calls
+                             will be forwarded           [string] [default: "easer"]
+          --parseRaw         Enable the raw body parser for the web server.
                                                            [boolean] [default: true]
-      --parseJson           Enable the JSON body parser for the web server.
+          --parseJson        Enable the JSON body parser for the web server.
                                                           [boolean] [default: false]
-      --parseXml            Enable the XML body parser for the web server.
+          --parseXml         Enable the XML body parser for the web server.
                                                           [boolean] [default: false]
-      --parseUrlencoded     Enable the URL Encoded body parser for the web server.
+          --parseUrlencoded  Enable the URL Encoded body parser for the web server.
                                                           [boolean] [default: false]
-      --natsUri, -n         NATS server URI used by the pdms adapter.
-                                      [string] [default: "nats://demo.nats.io:4222"]
-      --useWebsocket, -w    Use WebSocket server and message forwarding gateway
+      -n, --natsUri          NATS server URI used by the pdms adapter.
+                                         [string] [default: "nats://localhost:4222"]
+      -w, --useWebsocket     Use WebSocket server and message forwarding gateway
                                                           [boolean] [default: false]
-      --forward, -f         Forwards messages among inbound and outbound topics
+      -i, --inbound          Comma separated list of inbound NATS topics to forward
+                             through websocket                [string] [default: ""]
+      -o, --outbound         Comma separated list of outbound NATS topics to forward
+                             towards from websocket           [string] [default: ""]
+      -m, --enableMocking    Enable the server to use examples data defined in
+                             swagger files as mock responses.
                                                           [boolean] [default: false]
-      --forwarderEvent, -e  The name of the event the server is listen to forward
-                            the incoming messages      [string] [default: "message"]
-      --inbound, -i         Comma separated list of inbound NATS topics to forward
-                            through websocket                 [string] [default: ""]
-      --outbound, -o        Comma separated list of outbound NATS topics to forward
-                            towards from websocket            [string] [default: ""]
-      --enableMocking, -m   Enable the server to use examples data defined in
-                            swagger files as mock responses.
-                                                          [boolean] [default: false]
-      --help                Show help                                      [boolean]
+          --help             Show help                                     [boolean]
 ```
 
 During development, execute the following command in the project folder:
