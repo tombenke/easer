@@ -55,12 +55,29 @@
               }
             });
         </script></nav></div><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 id="__docusaurus" class="postHeaderTitle">WebSocket / NATS Gateway</h1></header><article><div><span><h2><a class="anchor" aria-hidden="true" id="about-websocket-nats-gateway-feature-of-easer"></a><a href="#about-websocket-nats-gateway-feature-of-easer" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>About WebSocket-NATS-Gateway feature of easer</h2>
-<p>WebSocket Server and Gateway to NATS topics using Pattern Driven Micro Service calls and asynchronous data pipelines.</p>
+<p>WebSocket Server and Gateway to NATS topics using Pattern Driven Micro Service calls and asynchronous data pipelines.
+It makes possible the passing of messages among websocket clients and/or NATS clients.</p>
 <p><img src="/easer/img/websocket-nats-gw-architecture.png" alt="The WebSocket / NATS Gateway Mode Architecture"></p>
+<p>The WebSocket uses event handlers to manage the receiving and sending of messages.
+The websocket clients can subscribe to event names, that they observe, and act in case an incoming message arrives.</p>
+<p>The messaging middlewares typically use the topic to name the channels through which the messages are transferred.</p>
+<p>The messages can be forwarded back-and-forth between websocket event channels and messaging topics
+using their names to associate them.</p>
+<p><strong>Important Note:</strong>
+In the followings we will use the terms of inbound and outbound message channels.
+It refers to the grouping of event channels to which the messages will be send or received from by the websocket client.
+So They meant to be <strong>inbound and outbound from the viewpoint of the websocket client</strong> (or UI frontend application).</p>
+<p>The functioning of the websocket gateway is quite simple:</p>
+<ol>
+<li>We define the list of inbound and outbound event channel names.</li>
+<li>The gateway will forward the messages coming in the outbound event channels to the NATS topics with the same name.</li>
+<li>The gateway will also forward the messages coming in the NATS topics toward the inbound event channels.</li>
+</ol>
 <h2><a class="anchor" aria-hidden="true" id="configure-the-websocket-gateway"></a><a href="#configure-the-websocket-gateway" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configure the websocket gateway</h2>
 <p>In order to use the websocket-nats gateway, we need to enable the PDMS mode (<code>-u</code>, <code>--usePdms</code>) that switch on messaging in general,
 and the usage of websocket server (<code>-w</code>, <code>--useWebsocket</code>).</p>
-<p>We also need to define the inbound (<code>-i</code>, <code>--inbound</code>) and outbound (<code>-o</code>, <code>--outbound</code>) event channels</p>
+<p>We also need to define the inbound (<code>-i</code>, <code>--inbound</code>) and outbound (<code>-o</code>, <code>--outbound</code>) event channels.
+We can define zero to many inbound and outbound names, separated by comma, for example: <code>-i &quot;update,data,notification&quot;, or</code>-o &quot;feedback,accept&quot;`, etc..</p>
 <p>The following command makes easer to enable the usage of websocket gateway using the <code>IN</code> inbound and <code>OUT</code> outbound channels:</p>
 <pre><code class="hljs css language-bash">    $ easer -u -w -i <span class="hljs-string">"IN"</span> -o <span class="hljs-string">"OUT"</span>
 
@@ -88,13 +105,13 @@ and the <code>wsgw consumer</code> command to consume at the other side of the s
     2022-03-08T09:15:19.705Z [wsgw@1.8.6] info: Start listening to messages on WebSocket <span class="hljs-string">"IN"</span> topic
 </code></pre>
 <p>Then send some message from the NATS side with the producer in another terminal:</p>
-<pre><code class="hljs css language-bash">    $ wsgw producer -u nats://localhost:4222 -t <span class="hljs-string">"IN"</span> -m <span class="hljs-string">'{"notes":"Some content..."}'</span>
+<pre><code class="hljs css language-bash">    $ wsgw producer -u nats://localhost:4222 -t <span class="hljs-string">"IN"</span> -m <span class="hljs-string">'{"notes":"Some text..."}'</span>
 
     2022-03-08T09:16:16.292Z [wsgw@1.8.6] info: pdms: Start up
     2022-03-08T09:16:16.305Z [wsgw@1.8.6] info: hemera: [<span class="hljs-string">"Connected!"</span>]
     2022-03-08T09:16:16.306Z [wsgw@1.8.6] info: pdms: Connected to NATS
     2022-03-08T09:16:16.306Z [wsgw@1.8.6] info: App runs the <span class="hljs-built_in">jobs</span>...
-    2022-03-08T09:16:16.309Z [wsgw@1.8.6] info: {<span class="hljs-string">"notes"</span>:<span class="hljs-string">"Some content..."</span>} &gt;&gt; [IN]
+    2022-03-08T09:16:16.309Z [wsgw@1.8.6] info: {<span class="hljs-string">"notes"</span>:<span class="hljs-string">"Some text..."</span>} &gt;&gt; [IN]
     2022-03-08T09:16:16.310Z [wsgw@1.8.6] info: Successfully completed.
     2022-03-08T09:16:16.310Z [wsgw@1.8.6] info: App starts the shutdown process...
     2022-03-08T09:16:16.311Z [wsgw@1.8.6] info: pdms: Shutting down
@@ -102,7 +119,7 @@ and the <code>wsgw consumer</code> command to consume at the other side of the s
 </code></pre>
 <p>on the console, running the consumer, you should see something like this as a result:</p>
 <pre><code class="hljs css language-bash">    ...
-    2022-03-08T09:16:16.312Z [wsgw@1.8.6] info: WS[IN] &gt;&gt; <span class="hljs-string">"{\"notes\":\"Some content...\"}"</span>
+    2022-03-08T09:16:16.312Z [wsgw@1.8.6] info: WS[IN] &gt;&gt; <span class="hljs-string">"{\"notes\":\"Some text...\"}"</span>
 </code></pre>
 <p><strong>Important Note:</strong>
 Be careful, and pay attention on the URLs used within the commands!
@@ -125,18 +142,18 @@ to determine which side the client will communicate with:</p>
     2022-03-08T09:38:30.382Z [wsgw@1.8.6] info: Start listening to messages on NATS <span class="hljs-string">"OUT"</span> topic
 </code></pre>
 <p>Then send some message from the websocket with the producer in another terminal:</p>
-<pre><code class="hljs css language-bash">    $ wsgw producer -u http://localhost:3007 -t <span class="hljs-string">"OUT"</span> -m <span class="hljs-string">'{"notes":"Some content..."}'</span>
+<pre><code class="hljs css language-bash">    $ wsgw producer -u http://localhost:3007 -t <span class="hljs-string">"OUT"</span> -m <span class="hljs-string">'{"notes":"Some text..."}'</span>
 
     2022-03-08T09:39:30.325Z [wsgw@1.8.6] info: App runs the <span class="hljs-built_in">jobs</span>...
-    2022-03-08T09:39:30.334Z [wsgw@1.8.6] info: {<span class="hljs-string">"notes"</span>:<span class="hljs-string">"Some content..."</span>} &gt;&gt; [OUT]
+    2022-03-08T09:39:30.334Z [wsgw@1.8.6] info: {<span class="hljs-string">"notes"</span>:<span class="hljs-string">"Some text..."</span>} &gt;&gt; [OUT]
     2022-03-08T09:39:30.355Z [wsgw@1.8.6] info: Successfully completed.
     2022-03-08T09:39:30.356Z [wsgw@1.8.6] info: App starts the shutdown process...
     2022-03-08T09:39:30.357Z [wsgw@1.8.6] info: Shutdown process successfully finished
 </code></pre>
 <p>on the console, running the consumer, you should see something like this as a result:</p>
 <pre><code class="hljs css language-bash">    ...
-    2022-03-08T09:39:30.355Z [wsgw@1.8.6] info: NATS[OUT] &gt;&gt; <span class="hljs-string">"{\"notes\":\"Some content...\"}"</span>
+    2022-03-08T09:39:30.355Z [wsgw@1.8.6] info: NATS[OUT] &gt;&gt; <span class="hljs-string">"{\"notes\":\"Some text...\"}"</span>
 </code></pre>
 <p>For further details on how the websocket-NATS gatway is working, and on the usage of the <code>wsgw</code> commands,
 read the documentation of the <a href="https://github.com/tombenke/wsgw"><code>wsgw</code> tool</a>.</p>
-</span></div></article></div><div class="docLastUpdate"><em>Last updated on 8/4/2019</em></div><div class="docs-prevnext"><a class="docs-prev button" href="/easer/docs/mock-server-mode"><span class="arrow-prev">← </span><span>Mock Server</span></a><a class="docs-next button" href="/easer/docs/easer-internals"><span>easer internals</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#about-websocket-nats-gateway-feature-of-easer">About WebSocket-NATS-Gateway feature of easer</a></li><li><a href="#configure-the-websocket-gateway">Configure the websocket gateway</a></li><li><a href="#send-messages-from-nats-clients-to-websocket-client">Send messages from NATS clients to websocket client</a></li><li><a href="#send-messages-from-websocket-client-to-nats-clients">Send messages from websocket client to NATS clients</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/easer/" class="nav-home"><img src="/easer/img/favicon.ico" alt="easer" width="66" height="58"/></a><div><h5>Docs</h5><a href="/easer/docs/en/overview.html">Getting Started</a><a href="/easer/docs/en/configuration.html">Guides</a><a href="/easer/docs/en/refcard.html">Reference Card</a></div><div><h5>Community</h5><a href="/easer/en/users.html">User Showcase</a></div><div><h5>More</h5><a href="/easer/blog">Blog</a><a href="https://github.com/tombenke/easer">GitHub</a><a class="github-button" href="https://github.com/tombenke/easer" data-icon="octicon-star" data-count-href="/tombenke/easer/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2022 Tamás Benke</section></footer></div></body></html>
+</span></div></article></div><div class="docLastUpdate"><em>Last updated on 3/8/2022</em></div><div class="docs-prevnext"><a class="docs-prev button" href="/easer/docs/mock-server-mode"><span class="arrow-prev">← </span><span>Mock Server</span></a><a class="docs-next button" href="/easer/docs/easer-internals"><span>easer internals</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#about-websocket-nats-gateway-feature-of-easer">About WebSocket-NATS-Gateway feature of easer</a></li><li><a href="#configure-the-websocket-gateway">Configure the websocket gateway</a></li><li><a href="#send-messages-from-nats-clients-to-websocket-client">Send messages from NATS clients to websocket client</a></li><li><a href="#send-messages-from-websocket-client-to-nats-clients">Send messages from websocket client to NATS clients</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/easer/" class="nav-home"><img src="/easer/img/favicon.ico" alt="easer" width="66" height="58"/></a><div><h5>Docs</h5><a href="/easer/docs/en/overview.html">Getting Started</a><a href="/easer/docs/en/configuration.html">Guides</a><a href="/easer/docs/en/refcard.html">Reference Card</a></div><div><h5>Community</h5><a href="/easer/en/users.html">User Showcase</a></div><div><h5>More</h5><a href="/easer/blog">Blog</a><a href="https://github.com/tombenke/easer">GitHub</a><a class="github-button" href="https://github.com/tombenke/easer" data-icon="octicon-star" data-count-href="/tombenke/easer/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2022 Tamás Benke</section></footer></div></body></html>

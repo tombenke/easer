@@ -34,7 +34,9 @@ The functioning of the websocket gateway is quite simple:
 In order to use the websocket-nats gateway, we need to enable the PDMS mode (`-u`, `--usePdms`) that switch on messaging in general,
 and the usage of websocket server (`-w`, `--useWebsocket`).
 
-We also need to define the inbound (`-i`, `--inbound`) and outbound (`-o`, `--outbound`) event channels 
+We also need to define the inbound (`-i`, `--inbound`) and outbound (`-o`, `--outbound`) event channels.
+We can define zero to many inbound and outbound names, separated by comma, for example: `-i "update,data,notification",
+or `-o "feedback,accept"`, etc..
 
 The following command makes easer to enable the usage of websocket gateway using the `IN` inbound and `OUT` outbound channels:
 
