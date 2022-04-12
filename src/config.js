@@ -1,5 +1,6 @@
 import path from 'path'
 import thisPackage from '../package.json'
+import { getBoolEnv } from './env'
 /**
  * The default configuration:
  *
@@ -17,14 +18,14 @@ module.exports = {
         version: thisPackage.version
     },
     configFileName: 'config.yml',
-    useWebsocket: process.env.EASER_USE_WEBSOCKET || false,
+    useWebsocket: getBoolEnv('EASER_USE_WEBSOCKET', false),
     webServer: {
         ignoreApiOperationIds: true, // Ignore operationIds by default
         bodyParser: {
-            raw: process.env.WEBSERVER_PARSE_RAW_BODY || true,
-            json: process.env.WEBSERVER_PARSE_JSON_BODY || false,
-            xml: process.env.WEBSERVER_PARSE_XML_BODY || false,
-            urlencoded: process.env.WEBSERVER_PARSE_URL_ENCODED_BODY || false
+            raw: getBoolEnv('WEBSERVER_PARSE_RAW_BODY', true),
+            json: getBoolEnv('WEBSERVER_PARSE_JSON_BODY', false),
+            xml: getBoolEnv('WEBSERVER_PARSE_XML_BODY', false),
+            urlencoded: getBoolEnv('WEBSERVER_PARSE_URL_ENCODED_BODY', false)
         }
     },
     logger: {
