@@ -20,6 +20,7 @@ describe('config', () => {
             configFileName: 'config.yml',
             useWebsocket: false,
             webServer: {
+                /*
                 ignoreApiOperationIds: true, // Ignore operationIds by default
                 bodyParser: {
                     raw: true,
@@ -27,6 +28,7 @@ describe('config', () => {
                     xml: false,
                     urlencoded: false
                 }
+                */
             },
             logger: {
                 level: 'info',

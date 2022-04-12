@@ -19,15 +19,7 @@ module.exports = {
     },
     configFileName: 'config.yml',
     useWebsocket: getBoolEnv('EASER_USE_WEBSOCKET', false),
-    webServer: {
-        ignoreApiOperationIds: true, // Ignore operationIds by default
-        bodyParser: {
-            raw: getBoolEnv('WEBSERVER_PARSE_RAW_BODY', true),
-            json: getBoolEnv('WEBSERVER_PARSE_JSON_BODY', false),
-            xml: getBoolEnv('WEBSERVER_PARSE_XML_BODY', false),
-            urlencoded: getBoolEnv('WEBSERVER_PARSE_URL_ENCODED_BODY', false)
-        }
-    },
+    webServer: {},
     logger: {
         level: process.env.EASER_LOG_LEVEL || 'info',
         transports: {
