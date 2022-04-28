@@ -13,6 +13,7 @@ tasks:
     desc: Executes all the tests then build the binary.
     cmds:
       - task: lint
+      - task: dockerfile-lint
       - task: test
       - task: build
       - task: docs
@@ -41,6 +42,11 @@ tasks:
     desc: Run linter
     cmds:
       - npm run lint
+
+  dockerfile-lint:
+    desc: Run the dockerfile linter
+    cmds:
+      - docker run --rm -i hadolint/hadolint < Dockerfile
 
   build:
     desc: Build
