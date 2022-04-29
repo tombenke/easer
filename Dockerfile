@@ -8,9 +8,8 @@ RUN npm install
 
 COPY . .
 
-RUN npm run build
-
-RUN npm pack
+RUN npm run build && \
+    npm pack
 
 FROM node:14.17.5-alpine
 
