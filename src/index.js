@@ -30,21 +30,21 @@ export const startApp = (argv = process.argv, cb = null) => {
     let appAdapters = []
     let appTerminators = []
 
-    if (config.webServer.usePdms) {
-        if (config.useWebsocket) {
-            // Use both PDMS and websocket server and message forwarding gateway
-            appAdapters = [mergeConfig(config), addLogger, pdms.startup, webServer.startup, wsServer.startup]
+    if (config.useWebsocket) {
+        // Use websocket server and message forwarding gateway with PDMS
+        appAdapters = [mergeConfig(config), addLogger, pdms.startup, webServer.startup, wsServer.startup]
 
-            appTerminators = [wsServer.shutdown, webServer.shutdown, pdms.shutdown]
-        } else {
+        appTerminators = [wsServer.shutdown, webServer.shutdown, pdms.shutdown]
+    } else {
+        if (config.webServer.usePdms) {
             // Use PDMS without websocket
             appAdapters = [mergeConfig(config), addLogger, pdms.startup, webServer.startup]
             appTerminators = [webServer.shutdown, pdms.shutdown]
+        } else {
+            // No Websocket no PDMS
+            appAdapters = [mergeConfig(config), addLogger, webServer.startup]
+            appTerminators = [webServer.shutdown]
         }
-    } else {
-        // Websocket can not be used without PDMS
-        appAdapters = [mergeConfig(config), addLogger, webServer.startup]
-        appTerminators = [webServer.shutdown]
     }
 
     // Define the jobs to execute: hand over the command got by the CLI.

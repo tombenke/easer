@@ -1,6 +1,6 @@
 FROM node:14.17.5 as build
 
-WORKDIR /usr/src/app
+WORKDIR /
 
 COPY package*.json ./
 
@@ -8,18 +8,18 @@ RUN npm install
 
 COPY . .
 
-RUN npm run all
+RUN npm run build
 
 RUN npm pack
 
 FROM node:14.17.5-alpine
 
-WORKDIR /usr/src/app
+WORKDIR /
 
 ENV NODE_ENV=production
 
-COPY --from=build /usr/src/app/easer-*.tgz .
-COPY --from=build /usr/src/app/default-rest-api /usr/src/app/default-rest-api
+COPY --from=build /easer-*.tgz .
+COPY --from=build /default-rest-api /default-rest-api
 
 RUN npm i -g --omit easer-*.tgz
 

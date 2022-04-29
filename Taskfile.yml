@@ -3,10 +3,23 @@
 version: 3
 
 vars:
+  APPNAME: easer
+  DOCKER_REG_PREFIX: ghcr.io
+  OWNER: tombenke
+  DOCKER_REG_USER: tombenke
+  VERSION:
+    sh: git describe  --abbrev=0 | sed -e 's,.*/\(.*\),\1,'  | sed -e 's/^v//' || "latest"
+    #sh: git describe --tags --always --match v* ${GITHUB_REF} || echo "latest"
+  IMAGE_TAG: "{{.VERSION}}"
+  DOCKER_IMAGE_NAME: "{{.DOCKER_REG_PREFIX}}/{{.OWNER}}/{{.APPNAME}}:{{.IMAGE_TAG}}"
   GIT_HOOKS_DIR:
     sh: sh -c 'echo "$(pwd)/.git/hooks"'
 
 env:
+
+dotenv:
+  # Source the Container Registry credentials
+  - .env.local
 
 tasks:
   default:
@@ -53,6 +66,26 @@ tasks:
     cmds:
       - task: clean
       - npm run build
+
+  build-docker:
+    desc: Build docker image
+    cmds:
+      - echo {{.VERSION}}
+      - echo {{.IMAGE_TAG}}
+      - echo {{.DOCKER_IMAGE_NAME}}
+      - docker build -t {{.DOCKER_IMAGE_NAME}} .
+
+  login-cr:
+    desc: Login to the GitHub packages registry
+    cmds:
+      - echo {{.GITHUB_PAT}} | docker --config=./.docker login {{.GITHUB_PACKAGES}} --username={{.GITHUB_USERNAME}} --password-stdin
+
+  push-docker:
+    desc: Push docker image
+    cmds:
+      - echo {{.DOCKER_IMAGE_NAME}}
+      - task: login-cr
+      - docker push {{.DOCKER_IMAGE_NAME}}
 
   publish:
     desc: Publish the package

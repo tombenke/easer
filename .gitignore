@@ -13,3 +13,6 @@
 /.local
 
 npm-debug.log*
+
+.env*
+.docker
