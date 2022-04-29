@@ -75,7 +75,7 @@ tasks:
       - echo {{.DOCKER_IMAGE_NAME}}
       - docker build -t {{.DOCKER_IMAGE_NAME}} .
 
-  login-cr:
+  login-cr-local:
     desc: Login to the GitHub packages registry
     cmds:
       - echo {{.GITHUB_PAT}} | docker --config=./.docker login {{.GITHUB_PACKAGES}} --username={{.GITHUB_USERNAME}} --password-stdin
@@ -84,8 +84,14 @@ tasks:
     desc: Push docker image
     cmds:
       - echo {{.DOCKER_IMAGE_NAME}}
-      - task: login-cr
       - docker push {{.DOCKER_IMAGE_NAME}}
+
+  push-docker-local:
+    desc: Push docker image
+    cmds:
+      - echo {{.DOCKER_IMAGE_NAME}}
+      - task: login-cr-local
+      - docker --config=.docker push {{.DOCKER_IMAGE_NAME}}
 
   publish:
     desc: Publish the package

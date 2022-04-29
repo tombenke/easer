@@ -1,0 +1,44 @@
+name: Release
+
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  build-docker:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+    steps:
+      - name: Set up task tool
+        uses: arduino/setup-task@v1
+
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup test environment
+        run: task install
+
+      - name: Validate the source files
+        run: task lint
+
+      - name: Run the dockerfile linter
+        run: task dockerfile-lint
+
+      - name: Run tests
+        run: task test
+
+      - name: Run Docker build task
+        run: task build-docker
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push docker images
+        run: task push-docker
