@@ -8,7 +8,7 @@ vars:
   OWNER: tombenke
   DOCKER_REG_USER: tombenke
   VERSION:
-    sh: git describe  --abbrev=0 | sed -e 's,.*/\(.*\),\1,'  | sed -e 's/^v//' || "latest"
+    sh: git describe --tags --always  --abbrev=0 --match v* ${GITHUB_REF} | sed -e 's,.*/\(.*\),\1,'  | sed -e 's/^v//' || "latest"
     #sh: git describe --tags --always --match v* ${GITHUB_REF} || echo "latest"
   IMAGE_TAG: "{{.VERSION}}"
   DOCKER_IMAGE_NAME: "{{.DOCKER_REG_PREFIX}}/{{.OWNER}}/{{.APPNAME}}:{{.IMAGE_TAG}}"
@@ -30,6 +30,13 @@ tasks:
       - task: test
       - task: build
       - task: docs
+
+  echo-vars:
+    desc:
+    cmds:
+      - echo {{.VERSION}}
+      - echo {{.IMAGE_TAG}}
+      - echo {{.DOCKER_IMAGE_NAME}}
 
   format:
     desc: Autoformat the source files
