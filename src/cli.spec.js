@@ -2,7 +2,7 @@ import path from 'path'
 import _ from 'lodash'
 import { expect } from 'chai'
 import config from './config'
-import pdms from 'npac-pdms-hemera-adapter'
+import nats from 'npac-nats-adapter'
 import wsServer from 'npac-wsgw-adapters'
 import webServer from 'npac-webserver-adapter'
 import cli from './cli'
@@ -28,7 +28,7 @@ describe('cli', () => {
             '/tmp/restApi',
             '-s'
         ]
-        const defaults = _.merge({}, config, webServer.defaults, pdms.defaults, wsServer.defaults)
+        const defaults = _.merge({}, config, webServer.defaults, nats.defaults, wsServer.defaults)
         const expected = {
             command: {
                 name: 'server',
@@ -53,7 +53,6 @@ describe('cli', () => {
                     staticContentBasePath: path.resolve(),
                     enableMocking: false,
                     usePdms: false,
-                    pdmsTopic: 'easer',
                     useCompression: true,
                     bodyParser: {
                         raw: true,
@@ -68,8 +67,8 @@ describe('cli', () => {
                         outbound: []
                     }
                 },
-                pdms: {
-                    natsUri: 'nats://localhost:4222'
+                nats: {
+                    servers: ['nats://localhost:4222']
                 }
             }
         }
@@ -90,7 +89,7 @@ describe('cli', () => {
             '/tmp/restApi',
             '-u'
         ]
-        const defaults = _.merge({}, config, webServer.defaults, pdms.defaults, wsServer.defaults)
+        const defaults = _.merge({}, config, webServer.defaults, nats.defaults, wsServer.defaults)
         const expected = {
             command: {
                 name: 'server',
@@ -115,7 +114,6 @@ describe('cli', () => {
                     staticContentBasePath: path.resolve(),
                     enableMocking: false,
                     usePdms: true,
-                    pdmsTopic: 'easer',
                     useCompression: false,
                     bodyParser: {
                         raw: true,
@@ -130,8 +128,8 @@ describe('cli', () => {
                         outbound: []
                     }
                 },
-                pdms: {
-                    natsUri: 'nats://localhost:4222'
+                nats: {
+                    servers: ['nats://localhost:4222']
                 }
             }
         }
@@ -151,12 +149,10 @@ describe('cli', () => {
             '-r',
             '/tmp/restApi',
             '-u',
-            '--pdmsTopic',
-            'web',
             '-n',
             'nats://localhost:4222'
         ]
-        const defaults = _.merge({}, config, webServer.defaults, pdms.defaults, wsServer.defaults)
+        const defaults = _.merge({}, config, webServer.defaults, nats.defaults, wsServer.defaults)
         const expected = {
             command: {
                 name: 'server',
@@ -181,7 +177,6 @@ describe('cli', () => {
                     staticContentBasePath: path.resolve(),
                     enableMocking: false,
                     usePdms: true,
-                    pdmsTopic: 'web',
                     useCompression: false,
                     bodyParser: {
                         raw: true,
@@ -196,8 +191,8 @@ describe('cli', () => {
                         outbound: []
                     }
                 },
-                pdms: {
-                    natsUri: 'nats://localhost:4222'
+                nats: {
+                    servers: 'nats://localhost:4222'
                 }
             }
         }
@@ -223,7 +218,7 @@ describe('cli', () => {
             '--parseUrlencoded',
             true
         ]
-        const defaults = _.merge({}, config, webServer.defaults, pdms.defaults, wsServer.defaults)
+        const defaults = _.merge({}, config, webServer.defaults, nats.defaults, wsServer.defaults)
         const expected = {
             command: {
                 name: 'server',
@@ -248,7 +243,6 @@ describe('cli', () => {
                     staticContentBasePath: path.resolve(),
                     enableMocking: false,
                     usePdms: false,
-                    pdmsTopic: 'easer',
                     useCompression: false,
                     bodyParser: {
                         raw: false,
@@ -263,8 +257,8 @@ describe('cli', () => {
                         outbound: []
                     }
                 },
-                pdms: {
-                    natsUri: 'nats://localhost:4222'
+                nats: {
+                    servers: ['nats://localhost:4222']
                 }
             }
         }

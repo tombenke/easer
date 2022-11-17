@@ -1,5 +1,5 @@
 import cli from './cli'
-import pdms from 'npac-pdms-hemera-adapter'
+import nats from 'npac-nats-adapter'
 import wsServer from 'npac-wsgw-adapters'
 import webServer from 'npac-webserver-adapter/'
 import { addLogger, makeConfig, mergeConfig, start as npacStart } from 'npac'
@@ -8,7 +8,7 @@ import appDefaults from './config'
 import { defaultApi } from './defaultApi'
 
 export const startApp = (argv = process.argv, cb = null) => {
-    const defaults = _.merge({}, pdms.defaults, wsServer.defaults, webServer.defaults, appDefaults)
+    const defaults = _.merge({}, nats.defaults, wsServer.defaults, webServer.defaults, appDefaults)
 
     // Use CLI to gain additional parameters, and command to execute
     const { cliConfig /*, command*/ } = cli.parse(defaults, argv)
@@ -32,14 +32,14 @@ export const startApp = (argv = process.argv, cb = null) => {
 
     if (config.useWebsocket) {
         // Use websocket server and message forwarding gateway with PDMS
-        appAdapters = [mergeConfig(config), addLogger, pdms.startup, webServer.startup, wsServer.startup]
+        appAdapters = [mergeConfig(config), addLogger, nats.startup, webServer.startup, wsServer.startup]
 
-        appTerminators = [wsServer.shutdown, webServer.shutdown, pdms.shutdown]
+        appTerminators = [wsServer.shutdown, webServer.shutdown, nats.shutdown]
     } else {
         if (config.webServer.usePdms) {
             // Use PDMS without websocket
-            appAdapters = [mergeConfig(config), addLogger, pdms.startup, webServer.startup]
-            appTerminators = [webServer.shutdown, pdms.shutdown]
+            appAdapters = [mergeConfig(config), addLogger, nats.startup, webServer.startup]
+            appTerminators = [webServer.shutdown, nats.shutdown]
         } else {
             // No Websocket no PDMS
             appAdapters = [mergeConfig(config), addLogger, webServer.startup]

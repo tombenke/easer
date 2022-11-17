@@ -29,7 +29,6 @@ This is an example for the output:
     "useCompression": false,
     "useResponseTime": false,
     "usePdms": false,
-    "pdmsTopic": "easer",
     "middlewares": {
       "preRouting": [],
       "postRouting": []
@@ -56,8 +55,8 @@ This is an example for the output:
       "urlencoded": false
     }
   },
-  "pdms": {
-    "natsUri": "nats://localhost:4222",
+  "nats": {
+    "servers": ["nats://localhost:4222"],
     "timeout": 2000
   },
   "wsServer": {
@@ -195,14 +194,14 @@ Define the name of the NATS topic where the REST API calls will be forwarded:
 
 Define the URI of the NATS server used by the pdms adapter:
 - CLI parameter: `-n <nats-uri>`, or `--natsUri <nats-uri>`.
-- Environment: `PDMS_NATS_URI`.
-- Config object parameter: `pdms.natsUri`.
+- Environment: `NATS_SERVER`.
+- Config object parameter: `nats.servers`.
 - Default value: `"nats://demo.nats.io:4222"`.
 
 Define the NATS timeout value:
 - CLI parameter: TODO.
-- Environment: `PDMS_TIMEOUT`.
-- Config object property: `pdms.timeout`.
+- Environment: `NATS_TIMEOUT`.
+- Config object property: `nats.timeout`.
 - Default value: `2000`.
 
 See [npac-pdms-hemera-adapter](https://www.npmjs.com/package/npac-pdms-hemera-adapter) for further details.
@@ -217,14 +216,14 @@ Use WebSocket server and message forwarding gateway:
 
 Define the inbound NATS topics as a comma-separated list that will be forwarded towards websocket:
 - CLI parameter: `--inbound <list-of-topics>`, `-i <list-of-topics>`.
-- Environment: `WSPDMSGW_INBOUND_TOPICS`.
-- Config object property: `wsPdmsGw.topics.bound`.
+- Environment: `WSGW_INBOUND_TOPICS`.
+- Config object property: `wsServer.topics.bound`.
 - Default value: `""`.
 
 Define the outbound NATS topics as a comma separated list that will be forwarded from websocket towards NATS topics:
 - CLI parameter: `--outbound <list-of-topics>`, `-o <list-of-topics>`.
-- Environment: `WSPDMSGW_OUTBOUND_TOPICS`.
-- Config object property: `wsPdmsGw.topics.outbound`.
+- Environment: `WSGW_OUTBOUND_TOPICS`.
+- Config object property: `wsServer.topics.outbound`.
 - Default value: `""`.
 
 

@@ -84,8 +84,6 @@ In global mode you can start the server with the `easer` command. To get help, e
                              request                      [boolean] [default: false]
       -u, --usePdms          Use Pattern Driven Micro-Service adapter to forward
                              REST API calls               [boolean] [default: false]
-          --pdmsTopic        The name of the NATS topic where the REST API calls
-                             will be forwarded           [string] [default: "easer"]
           --parseRaw         Enable the raw body parser for the web server.
                                                            [boolean] [default: true]
           --parseJson        Enable the JSON body parser for the web server.

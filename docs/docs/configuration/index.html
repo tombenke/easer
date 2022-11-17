@@ -75,7 +75,6 @@ since there are many configuration parameters, it is not trivial to find out wha
     <span class="hljs-attr">"useCompression"</span>: <span class="hljs-literal">false</span>,
     <span class="hljs-attr">"useResponseTime"</span>: <span class="hljs-literal">false</span>,
     <span class="hljs-attr">"usePdms"</span>: <span class="hljs-literal">false</span>,
-    <span class="hljs-attr">"pdmsTopic"</span>: <span class="hljs-string">"easer"</span>,
     <span class="hljs-attr">"middlewares"</span>: {
       <span class="hljs-attr">"preRouting"</span>: [],
       <span class="hljs-attr">"postRouting"</span>: []
@@ -102,8 +101,8 @@ since there are many configuration parameters, it is not trivial to find out wha
       <span class="hljs-attr">"urlencoded"</span>: <span class="hljs-literal">false</span>
     }
   },
-  <span class="hljs-attr">"pdms"</span>: {
-    <span class="hljs-attr">"natsUri"</span>: <span class="hljs-string">"nats://localhost:4222"</span>,
+  <span class="hljs-attr">"nats"</span>: {
+    <span class="hljs-attr">"servers"</span>: [<span class="hljs-string">"nats://localhost:4222"</span>],
     <span class="hljs-attr">"timeout"</span>: <span class="hljs-number">2000</span>
   },
   <span class="hljs-attr">"wsServer"</span>: {
@@ -254,15 +253,15 @@ since there are many configuration parameters, it is not trivial to find out wha
 <p>Define the URI of the NATS server used by the pdms adapter:</p>
 <ul>
 <li>CLI parameter: <code>-n &lt;nats-uri&gt;</code>, or <code>--natsUri &lt;nats-uri&gt;</code>.</li>
-<li>Environment: <code>PDMS_NATS_URI</code>.</li>
-<li>Config object parameter: <code>pdms.natsUri</code>.</li>
+<li>Environment: <code>NATS_SERVER</code>.</li>
+<li>Config object parameter: <code>nats.servers</code>.</li>
 <li>Default value: <code>&quot;nats://demo.nats.io:4222&quot;</code>.</li>
 </ul>
 <p>Define the NATS timeout value:</p>
 <ul>
 <li>CLI parameter: TODO.</li>
-<li>Environment: <code>PDMS_TIMEOUT</code>.</li>
-<li>Config object property: <code>pdms.timeout</code>.</li>
+<li>Environment: <code>NATS_TIMEOUT</code>.</li>
+<li>Config object property: <code>nats.timeout</code>.</li>
 <li>Default value: <code>2000</code>.</li>
 </ul>
 <p>See <a href="https://www.npmjs.com/package/npac-pdms-hemera-adapter">npac-pdms-hemera-adapter</a> for further details.</p>
@@ -277,15 +276,15 @@ since there are many configuration parameters, it is not trivial to find out wha
 <p>Define the inbound NATS topics as a comma-separated list that will be forwarded towards websocket:</p>
 <ul>
 <li>CLI parameter: <code>--inbound &lt;list-of-topics&gt;</code>, <code>-i &lt;list-of-topics&gt;</code>.</li>
-<li>Environment: <code>WSPDMSGW_INBOUND_TOPICS</code>.</li>
-<li>Config object property: <code>wsPdmsGw.topics.bound</code>.</li>
+<li>Environment: <code>WSGW_INBOUND_TOPICS</code>.</li>
+<li>Config object property: <code>wsServer.topics.bound</code>.</li>
 <li>Default value: <code>&quot;&quot;</code>.</li>
 </ul>
 <p>Define the outbound NATS topics as a comma separated list that will be forwarded from websocket towards NATS topics:</p>
 <ul>
 <li>CLI parameter: <code>--outbound &lt;list-of-topics&gt;</code>, <code>-o &lt;list-of-topics&gt;</code>.</li>
-<li>Environment: <code>WSPDMSGW_OUTBOUND_TOPICS</code>.</li>
-<li>Config object property: <code>wsPdmsGw.topics.outbound</code>.</li>
+<li>Environment: <code>WSGW_OUTBOUND_TOPICS</code>.</li>
+<li>Config object property: <code>wsServer.topics.outbound</code>.</li>
 <li>Default value: <code>&quot;&quot;</code>.</li>
 </ul>
 </span></div></article></div><div class="docLastUpdate"><em>Last updated on 3/8/2022</em></div><div class="docs-prevnext"><a class="docs-prev button" href="/easer/docs/basic-operations"><span class="arrow-prev">← </span><span>Basic Operations</span></a><a class="docs-next button" href="/easer/docs/rest-api-specification"><span>REST API Specification</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#overview">Overview</a></li><li><a href="#overview-of-the-config-parameters">Overview of the config parameters</a><ul class="toc-headings"><li><a href="#general-server-parameters">General server parameters</a></li><li><a href="#logging">Logging</a></li><li><a href="#pdms-nats-gateway">PDMS (NATS) Gateway</a></li><li><a href="#websocket-gateway">WebSocket Gateway</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/easer/" class="nav-home"><img src="/easer/img/favicon.ico" alt="easer" width="66" height="58"/></a><div><h5>Docs</h5><a href="/easer/docs/en/overview.html">Getting Started</a><a href="/easer/docs/en/configuration.html">Guides</a><a href="/easer/docs/en/refcard.html">Reference Card</a></div><div><h5>Community</h5><a href="/easer/en/users.html">User Showcase</a></div><div><h5>More</h5><a href="/easer/blog">Blog</a><a href="https://github.com/tombenke/easer">GitHub</a><a class="github-button" href="https://github.com/tombenke/easer" data-icon="octicon-star" data-count-href="/tombenke/easer/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2022 Tamás Benke</section></footer></div></body></html>

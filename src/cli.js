@@ -62,11 +62,6 @@ const parse = (defaults, processArgv = process.argv) => {
             type: 'boolean',
             default: defaults.webServer.usePdms
         })
-        .option('pdmsTopic', {
-            desc: 'The name of the NATS topic where the REST API calls will be forwarded',
-            type: 'string',
-            default: defaults.webServer.pdmsTopic
-        })
         // body parser config
         .option('parseRaw', {
             desc: 'Enable the raw body parser for the web server.',
@@ -90,9 +85,9 @@ const parse = (defaults, processArgv = process.argv) => {
         })
         .option('natsUri', {
             alias: 'n',
-            desc: 'NATS server URI used by the pdms adapter.',
+            desc: 'NATS server URI used by the nats adapter.',
             type: 'string',
-            default: defaults.pdms.natsUri
+            default: defaults.nats.servers
         })
         // WebSocket related parameters
         .option('useWebsocket', {
@@ -146,7 +141,6 @@ const parse = (defaults, processArgv = process.argv) => {
                 restApiPath: argv.restApiPath,
                 basePath: argv.basePath,
                 usePdms: argv.usePdms,
-                pdmsTopic: argv.pdmsTopic,
                 useCompression: argv.useCompression,
                 staticContentBasePath: path.resolve('./'),
                 enableMocking: argv.enableMocking,
@@ -163,8 +157,8 @@ const parse = (defaults, processArgv = process.argv) => {
                     outbound: argv.outbound != '' ? _.map(argv.outbound.split(','), (t) => t.trim()) : []
                 }
             },
-            pdms: {
-                natsUri: argv.natsUri
+            nats: {
+                servers: argv.natsUri
             }
         }
     }
