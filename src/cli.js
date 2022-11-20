@@ -55,12 +55,17 @@ const parse = (defaults, processArgv = process.argv) => {
             type: 'boolean',
             default: defaults.webServer.useCompression
         })
-        // PDMS related parameters
-        .option('usePdms', {
+        // MESSAGING related parameters
+        .option('useMessaging', {
             alias: 'u',
-            desc: 'Use Pattern Driven Micro-Service adapter to forward REST API calls',
+            desc: 'Use messaging middleware to forward REST API calls',
             type: 'boolean',
-            default: defaults.webServer.usePdms
+            default: defaults.webServer.useMessaging
+        })
+        .option('topicPrefix', {
+            desc: 'The topic prefix for messaging based forwarding of REST API calls',
+            type: 'string',
+            default: defaults.webServer.topicPrefix
         })
         // body parser config
         .option('parseRaw', {
@@ -140,7 +145,8 @@ const parse = (defaults, processArgv = process.argv) => {
                 port: argv.port,
                 restApiPath: argv.restApiPath,
                 basePath: argv.basePath,
-                usePdms: argv.usePdms,
+                useMessaging: argv.useMessaging,
+                topicPrefix: argv.topicPrefix,
                 useCompression: argv.useCompression,
                 staticContentBasePath: path.resolve('./'),
                 enableMocking: argv.enableMocking,

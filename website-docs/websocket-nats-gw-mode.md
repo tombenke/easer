@@ -31,7 +31,7 @@ The functioning of the websocket gateway is quite simple:
 
 ## Configure the websocket gateway
 
-In order to use the websocket-nats gateway, we need to enable the PDMS mode (`-u`, `--usePdms`) that switch on messaging in general,
+In order to use the websocket-nats gateway, we need to enable the MESSAGING mode (`-u`, `--useMessaging`) that switch on messaging in general,
 and the usage of websocket server (`-w`, `--useWebsocket`).
 
 We also need to define the inbound (`-i`, `--inbound`) and outbound (`-o`, `--outbound`) event channels.
@@ -43,9 +43,8 @@ The following command makes easer to enable the usage of websocket gateway using
 ```bash
     $ easer -u -w -i "IN" -o "OUT"
 
-    2022-03-08T09:16:06.373Z [easer@5.0.2] info: pdms: Start up
-    2022-03-08T09:16:06.383Z [easer@5.0.2] info: hemera: ["Connected!"]
-    2022-03-08T09:16:06.384Z [easer@5.0.2] info: pdms: Connected to NATS
+    2022-03-08T09:16:06.373Z [easer@5.0.2] info: nats: Start up
+    2022-03-08T09:16:06.384Z [easer@5.0.2] info: nats: Connected to NATS
     2022-03-08T09:16:06.395Z [easer@5.0.2] info: Start up webServer
     2022-03-08T09:16:06.400Z [easer@5.0.2] info: Express server listening on port 3007
     2022-03-08T09:16:06.401Z [easer@5.0.2] info: wsServer: Start up wsServer adapter
@@ -77,14 +76,13 @@ Then send some message from the NATS side with the producer in another terminal:
 ```bash
     $ wsgw producer -u nats://localhost:4222 -t "IN" -m '{"notes":"Some text..."}'
 
-    2022-03-08T09:16:16.292Z [wsgw@1.8.6] info: pdms: Start up
-    2022-03-08T09:16:16.305Z [wsgw@1.8.6] info: hemera: ["Connected!"]
-    2022-03-08T09:16:16.306Z [wsgw@1.8.6] info: pdms: Connected to NATS
+    2022-03-08T09:16:16.292Z [wsgw@1.8.6] info: nats: Start up
+    2022-03-08T09:16:16.306Z [wsgw@1.8.6] info: nats: Connected to NATS
     2022-03-08T09:16:16.306Z [wsgw@1.8.6] info: App runs the jobs...
     2022-03-08T09:16:16.309Z [wsgw@1.8.6] info: {"notes":"Some text..."} >> [IN]
     2022-03-08T09:16:16.310Z [wsgw@1.8.6] info: Successfully completed.
     2022-03-08T09:16:16.310Z [wsgw@1.8.6] info: App starts the shutdown process...
-    2022-03-08T09:16:16.311Z [wsgw@1.8.6] info: pdms: Shutting down
+    2022-03-08T09:16:16.311Z [wsgw@1.8.6] info: nats: Shutting down
     2022-03-08T09:16:16.311Z [wsgw@1.8.6] info: Shutdown process successfully finished
 ```
 
@@ -109,9 +107,8 @@ In one terminal window start receiving messages at the NATS side with the consum
 ```bash
     wsgw consumer -u nats://localhost:4222 -t "OUT"
 
-    2022-03-08T09:38:30.367Z [wsgw@1.8.6] info: pdms: Start up
-    2022-03-08T09:38:30.380Z [wsgw@1.8.6] info: hemera: ["Connected!"]
-    2022-03-08T09:38:30.381Z [wsgw@1.8.6] info: pdms: Connected to NATS
+    2022-03-08T09:38:30.367Z [wsgw@1.8.6] info: nats: Start up
+    2022-03-08T09:38:30.381Z [wsgw@1.8.6] info: nats: Connected to NATS
     2022-03-08T09:38:30.382Z [wsgw@1.8.6] info: App runs the jobs...
     2022-03-08T09:38:30.382Z [wsgw@1.8.6] info: wsgw client {"channelType":"NATS","uri":"nats://localhost:4222","topic":"OUT"}
     2022-03-08T09:38:30.382Z [wsgw@1.8.6] info: Start listening to messages on NATS "OUT" topic

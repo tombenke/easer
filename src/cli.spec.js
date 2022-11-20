@@ -16,7 +16,7 @@ after((done) => {
 })
 
 describe('cli', () => {
-    it('app without pdms', (done) => {
+    it('app without messaging', (done) => {
         const processArgv = [
             'node',
             'src/index.js', // 'server',
@@ -52,7 +52,8 @@ describe('cli', () => {
                     basePath: '/',
                     staticContentBasePath: path.resolve(),
                     enableMocking: false,
-                    usePdms: false,
+                    useMessaging: false,
+                    topicPrefix: 'easer',
                     useCompression: true,
                     bodyParser: {
                         raw: true,
@@ -77,7 +78,7 @@ describe('cli', () => {
         done()
     })
 
-    it('app with pdms, default NATS server', (done) => {
+    it('app with messaging, default NATS server', (done) => {
         const processArgv = [
             'node',
             'src/index.js', // 'server',
@@ -113,7 +114,8 @@ describe('cli', () => {
                     basePath: '/',
                     staticContentBasePath: path.resolve(),
                     enableMocking: false,
-                    usePdms: true,
+                    useMessaging: true,
+                    topicPrefix: 'easer',
                     useCompression: false,
                     bodyParser: {
                         raw: true,
@@ -138,7 +140,7 @@ describe('cli', () => {
         done()
     })
 
-    it('app with pdms, NATS server on localhost', (done) => {
+    it('app with messaging, NATS server on localhost', (done) => {
         const processArgv = [
             'node',
             'src/index.js', // 'server',
@@ -176,7 +178,8 @@ describe('cli', () => {
                     basePath: '/',
                     staticContentBasePath: path.resolve(),
                     enableMocking: false,
-                    usePdms: true,
+                    useMessaging: true,
+                    topicPrefix: 'easer',
                     useCompression: false,
                     bodyParser: {
                         raw: true,
@@ -242,7 +245,8 @@ describe('cli', () => {
                     basePath: '/',
                     staticContentBasePath: path.resolve(),
                     enableMocking: false,
-                    usePdms: false,
+                    useMessaging: false,
+                    topicPrefix: 'easer',
                     useCompression: false,
                     bodyParser: {
                         raw: false,

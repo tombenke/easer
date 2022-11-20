@@ -74,13 +74,14 @@ since there are many configuration parameters, it is not trivial to find out wha
     <span class="hljs-attr">"port"</span>: <span class="hljs-number">3007</span>,
     <span class="hljs-attr">"useCompression"</span>: <span class="hljs-literal">false</span>,
     <span class="hljs-attr">"useResponseTime"</span>: <span class="hljs-literal">false</span>,
-    <span class="hljs-attr">"usePdms"</span>: <span class="hljs-literal">false</span>,
+    <span class="hljs-attr">"useMessaging"</span>: <span class="hljs-literal">false</span>,
     <span class="hljs-attr">"middlewares"</span>: {
       <span class="hljs-attr">"preRouting"</span>: [],
       <span class="hljs-attr">"postRouting"</span>: []
     },
     <span class="hljs-attr">"restApiPath"</span>: <span class="hljs-string">"/home/tombenke/topics/easer"</span>,
     <span class="hljs-attr">"staticContentBasePath"</span>: <span class="hljs-string">"/home/tombenke/topics/easer"</span>,
+    <span class="hljs-attr">"topicPrefix"</span>: <span class="hljs-string">"easer"</span>,
     <span class="hljs-attr">"ignoreApiOperationIds"</span>: <span class="hljs-literal">true</span>,
     <span class="hljs-attr">"enableMocking"</span>: <span class="hljs-literal">false</span>,
     <span class="hljs-attr">"basePath"</span>: <span class="hljs-string">"/"</span>,
@@ -236,35 +237,35 @@ since there are many configuration parameters, it is not trivial to find out wha
 <li>Possible values: <code>plainText</code>, <code>json</code>.</li>
 <li>Default value: <code>plainText</code>.</li>
 </ul>
-<h3><a class="anchor" aria-hidden="true" id="pdms-nats-gateway"></a><a href="#pdms-nats-gateway" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>PDMS (NATS) Gateway</h3>
-<p>Use Pattern Driven Micro-Service adapter and enable the NATS forwarding of incoming API calls:</p>
+<h3><a class="anchor" aria-hidden="true" id="messaging-nats-gateway"></a><a href="#messaging-nats-gateway" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>MESSAGING (NATS) Gateway</h3>
+<p>Use messaging middleware to forward REST API calls:</p>
 <ul>
-<li>CLI parameter: <code>-u [true]</code>, or <code>--usePdms [true]</code>.</li>
-<li>Environment: <code>WEBSERVER_USE_PDMS</code></li>
-<li>Config object property: <code>webServer.usePdms</code>.</li>
+<li>CLI parameter: <code>-u [true]</code>, or <code>--useMessaging [true]</code>.</li>
+<li>Environment: <code>WEBSERVER_USE_MESSAGING</code></li>
+<li>Config object property: <code>webServer.useMessaging</code>.</li>
 <li>Default value: <code>false</code>.</li>
 </ul>
-<p>Define the name of the NATS topic where the REST API calls will be forwarded:</p>
+<p>The topic prefix for messaging based forwarding of REST API calls</p>
 <ul>
-<li>CLI parameter: <code>--pdmsTopic &lt;topic-name&gt;</code>.</li>
-<li>Config object property: <code>webServer.pdmsTopic</code>.</li>
+<li>CLI parameter: <code>--topicPrefix &lt;prefix-string&gt;</code>.</li>
+<li>Config object property: <code>webServer.topicPrefix</code>.</li>
 <li>Default value: &quot;easer&quot;.</li>
 </ul>
-<p>Define the URI of the NATS server used by the pdms adapter:</p>
+<p>Define the URI of the NATS server used by the nats adapter:</p>
 <ul>
 <li>CLI parameter: <code>-n &lt;nats-uri&gt;</code>, or <code>--natsUri &lt;nats-uri&gt;</code>.</li>
-<li>Environment: <code>NATS_SERVER</code>.</li>
+<li>Environment: <code>NATS_SERVERS</code>.</li>
 <li>Config object parameter: <code>nats.servers</code>.</li>
-<li>Default value: <code>&quot;nats://demo.nats.io:4222&quot;</code>.</li>
+<li>Default value: <code>[&quot;nats://demo.nats.io:4222&quot;]</code>.</li>
 </ul>
 <p>Define the NATS timeout value:</p>
 <ul>
-<li>CLI parameter: TODO.</li>
-<li>Environment: <code>NATS_TIMEOUT</code>.</li>
-<li>Config object property: <code>nats.timeout</code>.</li>
+<li>CLI parameter: N.A.</li>
+<li>Environment: <code>WEBSERVER_MESSAGING_REQUEST_TIMEOUT</code>.</li>
+<li>Config object property: <code>webServer.messagingRequestTimeout</code>.</li>
 <li>Default value: <code>2000</code>.</li>
 </ul>
-<p>See <a href="https://www.npmjs.com/package/npac-pdms-hemera-adapter">npac-pdms-hemera-adapter</a> for further details.</p>
+<p>See <a href="https://www.npmjs.com/package/npac-nats-adapter">npac-nats-adapter</a> for further details.</p>
 <h3><a class="anchor" aria-hidden="true" id="websocket-gateway"></a><a href="#websocket-gateway" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>WebSocket Gateway</h3>
 <p>Use WebSocket server and message forwarding gateway:</p>
 <ul>
@@ -287,4 +288,4 @@ since there are many configuration parameters, it is not trivial to find out wha
 <li>Config object property: <code>wsServer.topics.outbound</code>.</li>
 <li>Default value: <code>&quot;&quot;</code>.</li>
 </ul>
-</span></div></article></div><div class="docLastUpdate"><em>Last updated on 3/8/2022</em></div><div class="docs-prevnext"><a class="docs-prev button" href="/easer/docs/basic-operations"><span class="arrow-prev">← </span><span>Basic Operations</span></a><a class="docs-next button" href="/easer/docs/rest-api-specification"><span>REST API Specification</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#overview">Overview</a></li><li><a href="#overview-of-the-config-parameters">Overview of the config parameters</a><ul class="toc-headings"><li><a href="#general-server-parameters">General server parameters</a></li><li><a href="#logging">Logging</a></li><li><a href="#pdms-nats-gateway">PDMS (NATS) Gateway</a></li><li><a href="#websocket-gateway">WebSocket Gateway</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/easer/" class="nav-home"><img src="/easer/img/favicon.ico" alt="easer" width="66" height="58"/></a><div><h5>Docs</h5><a href="/easer/docs/en/overview.html">Getting Started</a><a href="/easer/docs/en/configuration.html">Guides</a><a href="/easer/docs/en/refcard.html">Reference Card</a></div><div><h5>Community</h5><a href="/easer/en/users.html">User Showcase</a></div><div><h5>More</h5><a href="/easer/blog">Blog</a><a href="https://github.com/tombenke/easer">GitHub</a><a class="github-button" href="https://github.com/tombenke/easer" data-icon="octicon-star" data-count-href="/tombenke/easer/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2022 Tamás Benke</section></footer></div></body></html>
+</span></div></article></div><div class="docLastUpdate"><em>Last updated on 11/17/2022</em></div><div class="docs-prevnext"><a class="docs-prev button" href="/easer/docs/basic-operations"><span class="arrow-prev">← </span><span>Basic Operations</span></a><a class="docs-next button" href="/easer/docs/rest-api-specification"><span>REST API Specification</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#overview">Overview</a></li><li><a href="#overview-of-the-config-parameters">Overview of the config parameters</a><ul class="toc-headings"><li><a href="#general-server-parameters">General server parameters</a></li><li><a href="#logging">Logging</a></li><li><a href="#messaging-nats-gateway">MESSAGING (NATS) Gateway</a></li><li><a href="#websocket-gateway">WebSocket Gateway</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/easer/" class="nav-home"><img src="/easer/img/favicon.ico" alt="easer" width="66" height="58"/></a><div><h5>Docs</h5><a href="/easer/docs/en/overview.html">Getting Started</a><a href="/easer/docs/en/configuration.html">Guides</a><a href="/easer/docs/en/refcard.html">Reference Card</a></div><div><h5>Community</h5><a href="/easer/en/users.html">User Showcase</a></div><div><h5>More</h5><a href="/easer/blog">Blog</a><a href="https://github.com/tombenke/easer">GitHub</a><a class="github-button" href="https://github.com/tombenke/easer" data-icon="octicon-star" data-count-href="/tombenke/easer/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2022 Tamás Benke</section></footer></div></body></html>

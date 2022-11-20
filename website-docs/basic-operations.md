@@ -33,8 +33,10 @@ $ easer --version
                                    [string] [default: "/home/tombenke/topics/easer"]
       -s, --useCompression   Use middleware to compress response bodies for all
                              request                      [boolean] [default: false]
-      -u, --usePdms          Use Pattern Driven Micro-Service adapter to forward
-                             REST API calls               [boolean] [default: false]
+      -u, --useMessaging     Use messaging middleware to forward REST API calls
+                                                          [boolean] [default: false]
+          --topicPrefix      The topic prefix for messaging based forwarding of REST
+                             API calls                   [string] [default: "easer"]
           --parseRaw         Enable the raw body parser for the web server.
                                                            [boolean] [default: true]
           --parseJson        Enable the JSON body parser for the web server.
@@ -43,8 +45,8 @@ $ easer --version
                                                           [boolean] [default: false]
           --parseUrlencoded  Enable the URL Encoded body parser for the web server.
                                                           [boolean] [default: false]
-      -n, --natsUri          NATS server URI used by the pdms adapter.
-                                         [string] [default: "nats://localhost:4222"]
+      -n, --natsUri          NATS server URI used by the nats adapter.
+                                       [string] [default: ["nats://localhost:4222"]]
       -w, --useWebsocket     Use WebSocket server and message forwarding gateway
                                                           [boolean] [default: false]
       -i, --inbound          Comma separated list of inbound NATS topics to forward
@@ -112,7 +114,7 @@ And the debug level in `plainText`:
 ```bash
 $ easer -l debug
 
-2019-08-04T12:46:27.703Z [easer@4.0.0] debug: webServer config:{"app":{"name":"easer","version":"4.0.0"},"NODE_ENV":"development","webServer":{"logBlackList":[],"port":3007,"useCompression":false,"useResponseTime":false,"usePdms":false,"pdmsTopic":"easer","middlewares":{"preRouting":[],"postRouting":[]},"restApiPath":{"swagger":"2.0","info":{"title":"An API that provides the current directory as static content","version":"1.0"},"paths":{"/":{"get":{"x-static":{"contentPath":"/home/tombenke/topics/easer-tutorial","config":{"dotfiles":"allow","index":true}},"responses":{"200":{"description":"OK"}}}}}},"staticContentBasePath":"/home/tombenke/topics/easer-tutorial","ignoreApiOperationIds":true,"enableMocking":false,"basePath":"/","oasConfig":{"parse":{"yaml":{"allowEmpty":false},"resolve":{"file":true}}}},"pdms":{"natsUri":"nats://demo.nats.io:4222","timeout":2000},"wsServer":{"forwarderEvent":"message","forwardTopics":false},"wsPdmsGw":{"topics":{"inbound":[],"outbound":[]}},"configFileName":"config.yml","useWebsocket":false,"logger":{"level":"debug","transports":{"console":{"format":"plainText"}}},"installDir":"/home/tombenke/topics/easer-tutorial","dumpConfig":false}
+2019-08-04T12:46:27.703Z [easer@4.0.0] debug: webServer config:{"app":{"name":"easer","version":"4.0.0"},"NODE_ENV":"development","webServer":{"logBlackList":[],"port":3007,"useCompression":false,"useResponseTime":false,"useMessaging":false,"topicPrefix":"easer","middlewares":{"preRouting":[],"postRouting":[]},"restApiPath":{"swagger":"2.0","info":{"title":"An API that provides the current directory as static content","version":"1.0"},"paths":{"/":{"get":{"x-static":{"contentPath":"/home/tombenke/topics/easer-tutorial","config":{"dotfiles":"allow","index":true}},"responses":{"200":{"description":"OK"}}}}}},"staticContentBasePath":"/home/tombenke/topics/easer-tutorial","ignoreApiOperationIds":true,"enableMocking":false,"basePath":"/","oasConfig":{"parse":{"yaml":{"allowEmpty":false},"resolve":{"file":true}}}},"nats":{"servers":"nats://demo.nats.io:4222","timeout":2000},"wsServer":{"forwarderEvent":"message","forwardTopics":false},"wsServer":{"topics":{"inbound":[],"outbound":[]}},"configFileName":"config.yml","useWebsocket":false,"logger":{"level":"debug","transports":{"console":{"format":"plainText"}}},"installDir":"/home/tombenke/topics/easer-tutorial","dumpConfig":false}
 2019-08-04T12:46:27.705Z [easer@4.0.0] info: Start up webServer
 2019-08-04T12:46:27.712Z [easer@4.0.0] debug: Bind /home/tombenke/topics/easer-tutorial to / as static content service
 2019-08-04T12:46:27.713Z [easer@4.0.0] debug: restapi.setEndpoints/endpointMap []

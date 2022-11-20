@@ -31,17 +31,17 @@ export const startApp = (argv = process.argv, cb = null) => {
     let appTerminators = []
 
     if (config.useWebsocket) {
-        // Use websocket server and message forwarding gateway with PDMS
+        // Use websocket server and message forwarding gateway with MESSAGING
         appAdapters = [mergeConfig(config), addLogger, nats.startup, webServer.startup, wsServer.startup]
 
         appTerminators = [wsServer.shutdown, webServer.shutdown, nats.shutdown]
     } else {
-        if (config.webServer.usePdms) {
-            // Use PDMS without websocket
+        if (config.webServer.useMessaging) {
+            // Use MESSAGING without websocket
             appAdapters = [mergeConfig(config), addLogger, nats.startup, webServer.startup]
             appTerminators = [webServer.shutdown, nats.shutdown]
         } else {
-            // No Websocket no PDMS
+            // No Websocket no MESSAGING
             appAdapters = [mergeConfig(config), addLogger, webServer.startup]
             appTerminators = [webServer.shutdown]
         }

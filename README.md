@@ -25,7 +25,7 @@ These are the typical usage scenarios:
 
 1. Static web server.
 2. Mock server.
-3. Edge server / NATS Gateway: Exposes Pattern Driven Micro Services (PDMS) through the REST API via NATS topics.
+3. Edge server / NATS Gateway: Exposes Micro Services through the REST API via NATS topics.
 4. WS/NATS Gateway: WebSocket Server and Gateway to NATS topics using Pattern Driven Micro Service calls and asynchronous data pipelines. 
 
 Visit the [easer project website](https://tombenke.github.io/easer) to read the detailed documentation.
@@ -82,8 +82,10 @@ In global mode you can start the server with the `easer` command. To get help, e
                                    [string] [default: "/home/tombenke/topics/easer"]
       -s, --useCompression   Use middleware to compress response bodies for all
                              request                      [boolean] [default: false]
-      -u, --usePdms          Use Pattern Driven Micro-Service adapter to forward
-                             REST API calls               [boolean] [default: false]
+      -u, --useMessaging     Use messaging middleware to forward REST API calls
+                                                          [boolean] [default: false]
+          --topicPrefix      The topic prefix for messaging based forwarding of REST
+                             API calls                   [string] [default: "easer"]
           --parseRaw         Enable the raw body parser for the web server.
                                                            [boolean] [default: true]
           --parseJson        Enable the JSON body parser for the web server.
@@ -92,8 +94,8 @@ In global mode you can start the server with the `easer` command. To get help, e
                                                           [boolean] [default: false]
           --parseUrlencoded  Enable the URL Encoded body parser for the web server.
                                                           [boolean] [default: false]
-      -n, --natsUri          NATS server URI used by the pdms adapter.
-                                         [string] [default: "nats://localhost:4222"]
+      -n, --natsUri          NATS server URI used by the nats adapter.
+                                       [string] [default: ["nats://localhost:4222"]]
       -w, --useWebsocket     Use WebSocket server and message forwarding gateway
                                                           [boolean] [default: false]
       -i, --inbound          Comma separated list of inbound NATS topics to forward

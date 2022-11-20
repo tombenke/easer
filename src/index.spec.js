@@ -28,7 +28,7 @@ describe('app', () => {
         })
     })
 
-    it('#start - with PDMS', (done) => {
+    it('#start - with MESSAGING', (done) => {
         catchExitSignals(sandbox, done)
 
         const port = 8080

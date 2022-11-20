@@ -33,7 +33,7 @@ These are the typical usage scenarios:
 1. [__Static Web Server__](static-webserver-mode);
 2. [__Mock Server__](mock-server-mode);
 3. [__REST API / NATS Gateway__](rest-api-nats-gw-mode): \
-    Exposes Pattern Driven Micro Services (PDMS) through the REST API via NATS topics;
+    Exposes Micro Services through the REST API via NATS topics;
 4. [__WebSocket / NATS Gateway__](websocket-nats-gw-mode): \
     WebSocket Server and Gateway to NATS topics using Pattern Driven Micro Service calls and asynchronous data pipelines. 
 

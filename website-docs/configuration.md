@@ -28,13 +28,14 @@ This is an example for the output:
     "port": 3007,
     "useCompression": false,
     "useResponseTime": false,
-    "usePdms": false,
+    "useMessaging": false,
     "middlewares": {
       "preRouting": [],
       "postRouting": []
     },
     "restApiPath": "/home/tombenke/topics/easer",
     "staticContentBasePath": "/home/tombenke/topics/easer",
+    "topicPrefix": "easer",
     "ignoreApiOperationIds": true,
     "enableMocking": false,
     "basePath": "/",
@@ -179,32 +180,32 @@ Set the log format of the server and its internal components:
 - Possible values: `plainText`, `json`.
 - Default value: `plainText`.
 
-### PDMS (NATS) Gateway
+### MESSAGING (NATS) Gateway
 
-Use Pattern Driven Micro-Service adapter and enable the NATS forwarding of incoming API calls:
-- CLI parameter: `-u [true]`, or `--usePdms [true]`.
-- Environment: `WEBSERVER_USE_PDMS`
-- Config object property: `webServer.usePdms`.
+Use messaging middleware to forward REST API calls:
+- CLI parameter: `-u [true]`, or `--useMessaging [true]`.
+- Environment: `WEBSERVER_USE_MESSAGING`
+- Config object property: `webServer.useMessaging`.
 - Default value: `false`.
 
-Define the name of the NATS topic where the REST API calls will be forwarded:
-- CLI parameter: `--pdmsTopic <topic-name>`.
-- Config object property: `webServer.pdmsTopic`.
+The topic prefix for messaging based forwarding of REST API calls
+- CLI parameter: `--topicPrefix <prefix-string>`.
+- Config object property: `webServer.topicPrefix`.
 - Default value: "easer".
 
-Define the URI of the NATS server used by the pdms adapter:
+Define the URI of the NATS server used by the nats adapter:
 - CLI parameter: `-n <nats-uri>`, or `--natsUri <nats-uri>`.
-- Environment: `NATS_SERVER`.
+- Environment: `NATS_SERVERS`.
 - Config object parameter: `nats.servers`.
-- Default value: `"nats://demo.nats.io:4222"`.
+- Default value: `["nats://demo.nats.io:4222"]`.
 
 Define the NATS timeout value:
-- CLI parameter: TODO.
-- Environment: `NATS_TIMEOUT`.
-- Config object property: `nats.timeout`.
+- CLI parameter: N.A.
+- Environment: `WEBSERVER_MESSAGING_REQUEST_TIMEOUT`.
+- Config object property: `webServer.messagingRequestTimeout`.
 - Default value: `2000`.
 
-See [npac-pdms-hemera-adapter](https://www.npmjs.com/package/npac-pdms-hemera-adapter) for further details.
+See [npac-nats-adapter](https://www.npmjs.com/package/npac-nats-adapter) for further details.
 
 ### WebSocket Gateway
 
