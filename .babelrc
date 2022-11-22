@@ -1,4 +1,15 @@
 {
-    "plugins": ["transform-object-rest-spread"],
-    "presets": ["latest", "es2015"]
+  "presets": [
+    ["@babel/env", {
+      "targets": {
+        "node": "current"
+      },
+      "useBuiltIns": "usage",
+      "corejs": "3.26"
+    }]
+  ],
+  "plugins": [
+    "@babel/plugin-proposal-class-properties",
+    "@babel/plugin-proposal-object-rest-spread"
+  ]
 }
