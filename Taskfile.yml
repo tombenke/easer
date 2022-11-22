@@ -127,6 +127,8 @@ tasks:
   docs:
     desc: Generate the documentation
     cmds:
+      - cd website-docs && ./pdfgen.sh
+      - mv website-docs/easer_users_manual.pdf docs/
       - cd website && npm run build
       - cp -r website/build/easer/* docs/
 

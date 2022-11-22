@@ -32,7 +32,9 @@ Let's suppose we want to make the `swagger.json` file available via the server, 
 get:
   tags:
     - 'swagger'
-  summary: Responses the files from the directory defined by the contentPath property
+  summary: |
+    Responses the files from the directory
+    defined by the contentPath property
   x-static:
     contentPath: ./docs/
     config:

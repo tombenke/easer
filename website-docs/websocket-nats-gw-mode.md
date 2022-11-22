@@ -24,6 +24,7 @@ It refers to the grouping of event channels to which the messages will be send o
 So They meant to be __inbound and outbound from the viewpoint of the websocket client__ (or UI frontend application).
 
 The functioning of the websocket gateway is quite simple:
+
 1. We define the list of inbound and outbound event channel names.
 2. The gateway will forward the messages coming in the outbound event channels to the NATS topics with the same name.
 3. The gateway will also forward the messages coming in the NATS topics toward the inbound event channels.
@@ -96,6 +97,7 @@ __Important Note:__
 Be careful, and pay attention on the URLs used within the commands!
 We use the same command to consume, and/or publish messages to the gateway, only the URL makes difference 
 to determine which side the client will communicate with:
+
 - When we want to connect to the websocket side, we use the `-u http://localhost:3007 ` argument,
 - when we want to connect to the NATS side, we use the  `-u nats://localhost:4222 ` argument.
 

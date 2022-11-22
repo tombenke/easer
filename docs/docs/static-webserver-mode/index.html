@@ -58,29 +58,29 @@
 <p><img src="/easer/img/default-static-webserver-architecture.png" alt="Default Static Webserver Architecture"></p>
 <p>However, in case we do not create endpoint descriptors, neither give it to easer, then the server uses its built-in descriptor, that looks like this:</p>
 <pre><code class="hljs css language-JSON">{
-    <span class="hljs-attr">"info"</span>: {
-        <span class="hljs-attr">"title"</span>: <span class="hljs-string">"An API that provides the current directory as static content"</span>,
-        <span class="hljs-attr">"version"</span>: <span class="hljs-string">"1.0"</span>
-    },
-    <span class="hljs-attr">"paths"</span>: {
-        <span class="hljs-attr">"/"</span>: {
-            <span class="hljs-attr">"get"</span>: {
-                <span class="hljs-attr">"responses"</span>: {
-                    <span class="hljs-attr">"200"</span>: {
-                        <span class="hljs-attr">"description"</span>: <span class="hljs-string">"OK"</span>
-                    }
-                },
-                <span class="hljs-attr">"x-static"</span>: {
-                    <span class="hljs-attr">"config"</span>: {
-                        <span class="hljs-attr">"dotfiles"</span>: <span class="hljs-string">"allow"</span>,
-                        <span class="hljs-attr">"index"</span>: <span class="hljs-literal">true</span>
-                    },
-                    <span class="hljs-attr">"contentPath"</span>: <span class="hljs-string">"&lt;the-current-working-directory&gt;"</span>
-                }
-            }
+  <span class="hljs-attr">"info"</span>: {
+    <span class="hljs-attr">"title"</span>: <span class="hljs-string">"An API that provides the current directory as static content"</span>,
+    <span class="hljs-attr">"version"</span>: <span class="hljs-string">"1.0"</span>
+  },
+  <span class="hljs-attr">"paths"</span>: {
+    <span class="hljs-attr">"/"</span>: {
+      <span class="hljs-attr">"get"</span>: {
+        <span class="hljs-attr">"responses"</span>: {
+          <span class="hljs-attr">"200"</span>: {
+            <span class="hljs-attr">"description"</span>: <span class="hljs-string">"OK"</span>
+          }
+        },
+        <span class="hljs-attr">"x-static"</span>: {
+          <span class="hljs-attr">"config"</span>: {
+            <span class="hljs-attr">"dotfiles"</span>: <span class="hljs-string">"allow"</span>,
+            <span class="hljs-attr">"index"</span>: <span class="hljs-literal">true</span>
+          },
+          <span class="hljs-attr">"contentPath"</span>: <span class="hljs-string">"&lt;the-current-working-directory&gt;"</span>
         }
-    },
-    <span class="hljs-attr">"swagger"</span>: <span class="hljs-string">"2.0"</span>
+      }
+    }
+  },
+  <span class="hljs-attr">"swagger"</span>: <span class="hljs-string">"2.0"</span>
 }
 </code></pre>
 <p>It defines one path that is <code>/</code>, and uses the <code>x-static</code> extensional property to tell the server that this path has to be forwarded to the static-middleware. This property also holds the configuration parameters of this middleware.</p>

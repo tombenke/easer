@@ -15,48 +15,48 @@ $ easer --version
 ## Get help
 
 ```bash
-    $ easer --help
+$ easer --help
 
-    Options:
-          --version          Show version number                           [boolean]
-      -c, --config           The name of the configuration file
-                                                             [default: "config.yml"]
-      -b, --basePath         The base-path URL prefix to each REST endpoints
-                                                             [string] [default: "/"]
-      -d, --dumpConfig       Print the effective configuration object to the console
-                                                          [boolean] [default: false]
-      -l, --logLevel         The log level                [string] [default: "info"]
-      -t, --logFormat        The log (`plainText` or `json`)
-                                                     [string] [default: "plainText"]
-      -p, --port             The port the server will listen[string] [default: 3007]
-      -r, --restApiPath      The path to the REST API descriptors
-                                   [string] [default: "/home/tombenke/topics/easer"]
-      -s, --useCompression   Use middleware to compress response bodies for all
-                             request                      [boolean] [default: false]
-      -u, --useMessaging     Use messaging middleware to forward REST API calls
-                                                          [boolean] [default: false]
-          --topicPrefix      The topic prefix for messaging based forwarding of REST
-                             API calls                   [string] [default: "easer"]
-          --parseRaw         Enable the raw body parser for the web server.
-                                                           [boolean] [default: true]
-          --parseJson        Enable the JSON body parser for the web server.
-                                                          [boolean] [default: false]
-          --parseXml         Enable the XML body parser for the web server.
-                                                          [boolean] [default: false]
-          --parseUrlencoded  Enable the URL Encoded body parser for the web server.
-                                                          [boolean] [default: false]
-      -n, --natsUri          NATS server URI used by the nats adapter.
-                                       [string] [default: ["nats://localhost:4222"]]
-      -w, --useWebsocket     Use WebSocket server and message forwarding gateway
-                                                          [boolean] [default: false]
-      -i, --inbound          Comma separated list of inbound NATS topics to forward
-                             through websocket                [string] [default: ""]
-      -o, --outbound         Comma separated list of outbound NATS topics to forward
-                             towards from websocket           [string] [default: ""]
-      -m, --enableMocking    Enable the server to use examples data defined in
-                             swagger files as mock responses.
-                                                          [boolean] [default: false]
-          --help             Show help                                     [boolean]
+Options:
+      --version          Show version number                           [boolean]
+  -c, --config           The name of the configuration file
+                                                         [default: "config.yml"]
+  -b, --basePath         The base-path URL prefix to each REST endpoints
+                                                         [string] [default: "/"]
+  -d, --dumpConfig       Print the effective configuration object to the console
+                                                      [boolean] [default: false]
+  -l, --logLevel         The log level                [string] [default: "info"]
+  -t, --logFormat        The log (`plainText` or `json`)
+                                                 [string] [default: "plainText"]
+  -p, --port             The port the server will listen[string] [default: 3007]
+  -r, --restApiPath      The path to the REST API descriptors
+                               [string] [default: "/home/tombenke/topics/easer"]
+  -s, --useCompression   Use middleware to compress response bodies for all
+                         request                      [boolean] [default: false]
+  -u, --useMessaging     Use messaging middleware to forward REST API calls
+                                                      [boolean] [default: false]
+      --topicPrefix      The topic prefix for messaging based forwarding of REST
+                         API calls                   [string] [default: "easer"]
+      --parseRaw         Enable the raw body parser for the web server.
+                                                       [boolean] [default: true]
+      --parseJson        Enable the JSON body parser for the web server.
+                                                      [boolean] [default: false]
+      --parseXml         Enable the XML body parser for the web server.
+                                                      [boolean] [default: false]
+      --parseUrlencoded  Enable the URL Encoded body parser for the web server.
+                                                      [boolean] [default: false]
+  -n, --natsUri          NATS server URI used by the nats adapter.
+                                   [string] [default: ["nats://localhost:4222"]]
+  -w, --useWebsocket     Use WebSocket server and message forwarding gateway
+                                                      [boolean] [default: false]
+  -i, --inbound          Comma separated list of inbound NATS topics to forward
+                         through websocket                [string] [default: ""]
+  -o, --outbound         Comma separated list of outbound NATS topics to forward
+                         towards from websocket           [string] [default: ""]
+  -m, --enableMocking    Enable the server to use examples data defined in
+                         swagger files as mock responses.
+                                                      [boolean] [default: false]
+      --help             Show help                                     [boolean]
 ```
 
 ## Set the port
@@ -70,16 +70,17 @@ easer -p 8081
 Use the following parameters:
 
 ```bash
-    easer -logLevel <log-level> -logFormat <log-format>
+easer -logLevel <log-level> -logFormat <log-format>
 ```
 
 or
 
 ```bash
-    easer -l <log-level> -t <log-format>
+easer -l <log-level> -t <log-format>
 ```
 
 The valid log-level values are:
+
 - `error`: 0,
 - `warn`: 1,
 - `info`: 2 (default),

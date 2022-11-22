@@ -11,29 +11,29 @@ However, in case we do not create endpoint descriptors, neither give it to easer
 
 ```JSON
 {
-    "info": {
-        "title": "An API that provides the current directory as static content",
-        "version": "1.0"
-    },
-    "paths": {
-        "/": {
-            "get": {
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                },
-                "x-static": {
-                    "config": {
-                        "dotfiles": "allow",
-                        "index": true
-                    },
-                    "contentPath": "<the-current-working-directory>"
-                }
-            }
+  "info": {
+    "title": "An API that provides the current directory as static content",
+    "version": "1.0"
+  },
+  "paths": {
+    "/": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "x-static": {
+          "config": {
+            "dotfiles": "allow",
+            "index": true
+          },
+          "contentPath": "<the-current-working-directory>"
         }
-    },
-    "swagger": "2.0"
+      }
+    }
+  },
+  "swagger": "2.0"
 }
 ```
 
