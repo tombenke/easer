@@ -28,7 +28,7 @@ These are the typical usage scenarios:
 3. Edge server / NATS Gateway: Exposes Micro Services through the REST API via NATS topics.
 4. WS/NATS Gateway: WebSocket Server and Gateway to NATS topics using Pattern Driven Micro Service calls and asynchronous data pipelines. 
 
-Visit the [easer project website](https://tombenke.github.io/easer) to read the detailed documentation.
+Visit the [easer project website](https://tombenke.github.io/easer) or download the [PDF version](docs/easer_users_manual.pdf) to read the detailed documentation.
 
 
 ## Prerequisites
