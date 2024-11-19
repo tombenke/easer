@@ -29,7 +29,7 @@ tasks:
       - task: dockerfile-lint
       - task: test
       - task: build
-      - task: docs
+      #- task: docs
 
   echo-vars:
     desc:
