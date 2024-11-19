@@ -1,4 +1,4 @@
-import { expect } from 'chai'
+import expect from 'expect'
 import config from './config'
 import path from 'path'
 import thisPackage from '../package.json'
@@ -42,7 +42,7 @@ describe('config', () => {
         }
 
         const defaults = config
-        expect(defaults).to.eql(expected)
+        expect(defaults).toEqual(expected)
         done()
     })
 })

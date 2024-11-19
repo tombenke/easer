@@ -1,6 +1,6 @@
 import path from 'path'
 import _ from 'lodash'
-import { expect } from 'chai'
+import expect from 'expect'
 import config from './config'
 import nats from 'npac-nats-adapter'
 import wsServer from 'npac-wsgw-adapters'
@@ -74,7 +74,7 @@ describe('cli', () => {
             }
         }
 
-        expect(cli.parse(defaults, processArgv)).to.eql(expected)
+        expect(cli.parse(defaults, processArgv)).toEqual(expected)
         done()
     })
 
@@ -136,7 +136,7 @@ describe('cli', () => {
             }
         }
 
-        expect(cli.parse(defaults, processArgv)).to.eql(expected)
+        expect(cli.parse(defaults, processArgv)).toEqual(expected)
         done()
     })
 
@@ -200,7 +200,7 @@ describe('cli', () => {
             }
         }
 
-        expect(cli.parse(defaults, processArgv)).to.eql(expected)
+        expect(cli.parse(defaults, processArgv)).toEqual(expected)
         done()
     })
 
@@ -267,7 +267,7 @@ describe('cli', () => {
             }
         }
 
-        expect(cli.parse(defaults, processArgv)).to.eql(expected)
+        expect(cli.parse(defaults, processArgv)).toEqual(expected)
         done()
     })
 })
