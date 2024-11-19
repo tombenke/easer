@@ -74,6 +74,7 @@ describe('cli', () => {
             }
         }
 
+        console.log(JSON.stringify(defaults, null, '  '))
         expect(cli.parse(defaults, processArgv)).toEqual(expected)
         done()
     })

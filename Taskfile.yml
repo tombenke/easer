@@ -29,7 +29,7 @@ tasks:
       - task: dockerfile-lint
       - task: test
       - task: build
-      #- task: docs
+      - task: docs
 
   echo-vars:
     desc:
@@ -140,29 +140,29 @@ tasks:
   dc-up:
     desc: Start docker containers
     cmds:
-      - docker-compose -f docker-compose.test.yml up
+      - docker compose -f docker-compose.test.yml up
 
   dc-upd:
     desc: Start docker containers in the background
     cmds:
-      - docker-compose -f docker-compose.test.yml up -d
+      - docker compose -f docker-compose.test.yml up -d
 
   dc-stop:
     desc: Stop docker containers
     cmds:
-      - docker-compose stop
+      - docker compose stop
 
   dc-logs:
     desc: Get all docker container logs
     cmds:
-      - docker-compose -f docker-compose.test.yml logs
+      - docker compose -f docker-compose.test.yml logs
 
   dc-logsf:
     desc: Get all docker container logs and follow
     cmds:
-      - docker-compose -f docker-compose.test.yml logs -f
+      - docker compose -f docker-compose.test.yml logs -f
 
   dc-down:
     desc: Clean up docker containers
     cmds:
-      - docker-compose -f docker-compose.test.yml down --volumes --remove-orphans
+      - docker compose -f docker-compose.test.yml down --volumes --remove-orphans
