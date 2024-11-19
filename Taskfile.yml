@@ -121,7 +121,7 @@ tasks:
     desc: Install the package and its dependencies
     cmds:
       - npm install
-      - npm audit fix --force || echo "Install complete"
+      #- npm audit fix --force || echo "Install complete"
       - task: install-git-hooks
 
   docs:
